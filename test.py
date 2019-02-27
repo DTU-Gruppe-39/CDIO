@@ -13,7 +13,10 @@ tank_drive = MoveTank(OUTPUT_B, OUTPUT_C)
 ultra = UltrasonicSensor()
 ultra.mode = 'US-DIST-CM'
 
-while (ultra.value()/10) > 10:
-    tank_drive.on(50,50)
+while (True) :
+    while (ultra.value()/10) > 30:
+        tank_drive.on(50,50)
 
-tank_drive.off()
+    tank_drive.off()
+    tank_drive.on_for_rotations(0, 20, 1)
+
