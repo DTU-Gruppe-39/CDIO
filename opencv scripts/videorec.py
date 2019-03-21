@@ -1,18 +1,18 @@
 import numpy as np
-import cv2
+import cv2  
 
-cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_FPS, 80)
+#cap = cv2.VideoCapture(0)
+#cap.set(cv2.CAP_PROP_FPS, 80)
 while(True):
     # Capture frame-by-frame
-    ret, frame = cap.read()
+    #ret, frame = cap.read()
 
     # Our operations on the frame come here
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-    gray = cv2.medianBlur(gray, 3)
+  #  gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray = cv2.imread("opencv_frame_350.png", cv2.IMREAD_GRAYSCALE)
+    gray = cv2.medianBlur(gray, 1)
     rows = gray.shape[1]
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows / 10, param1=200, param2=40, minRadius=5, maxRadius=120)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows / 10, param1=200, param2=20, minRadius=1, maxRadius=120)
 
     if circles is not None:
         circles = np.uint16(np.around(circles))
@@ -23,6 +23,8 @@ while(True):
             # circle outline
             radius = i[2]
             cv2.circle(gray, center, radius, (255, 0, 255), 3)
+            print("XPos, YPos", center)
+            print("Radius:", radius)
 
     # Display the resulting frame
     cv2.imshow('frame', gray)

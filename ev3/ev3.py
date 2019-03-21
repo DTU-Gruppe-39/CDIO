@@ -80,16 +80,12 @@ def main():
         while True:
             try:
                 data = conn.recv(1024)
-                if data.decode() == "bye":
-                    print("Client disconnected")
-                    break
-                else:
-                    msg = json.loads(data)
-                    conn.send(b'OK')
-                    queueAction(msg)
-                    for i in actionslist:
-                        print("cmdId:", i['id'], "cmdtype:", i['cmdtype'], "cmdname:", i['cmdname'], "cmdstate:", i['cmdstate'])
-                    if not data: break
+                msg = json.loads(data)
+                #conn.send(b'OK')
+                queueAction(msg)
+                for i in actionslist:
+                    print("cmdId:", i['id'], "cmdtype:", i['cmdtype'], "cmdname:", i['cmdname'], "cmdstate:", i['cmdstate'])
+                if not data: break
             except:
                 print("Client disconnected")
                 break
