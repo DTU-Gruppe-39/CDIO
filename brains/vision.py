@@ -3,6 +3,7 @@ import cv2
 import threading
 import time
 import random
+import globals
 
 
 #der skal sandsynligvis laves et ballfactory og balldestroyer til at tjekke om det er en ny bold
@@ -60,6 +61,7 @@ def imageCapture(ballarr):
 
 
     #Display the resulting frame
-    cv2.imshow('frame', gray)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    if globals.MODE == "gfx" or globals.MODE == "gfxdebug":
+        cv2.imshow('frame', gray)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()

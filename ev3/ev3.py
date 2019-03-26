@@ -15,6 +15,15 @@ import sys
 import json
 import socket
 
+
+#Sætter default mode til noev3
+#Andre modes: 
+#noev3debug - uden ev3 men med debugging
+#ev3 - når ev3.py kører på ev3
+#ev3debug - når koden kører på ev3 og vi vil have output til debugging
+#          
+MODE = "noev3"
+
 HOST = None
 PORT = 6000
 
@@ -57,19 +66,42 @@ def tcpServer(PORT, s):
 def queueAction(msg):
     actionslist.append(msg)
 
+def checkMode(arg):
+    if arg == "noev3":
+        globals.MODE = "noev3"
+    elif arg == "noev3debug":
+        globals.MODE = "noev3debug"
+    elif arg == "ev3":
+        globals.MODE = "ev3"
+    elif arg == "ev3debug":
+        globals.MODE = "ev3debug"
+    elif arg == "help":
+        print(sys.argv[0], "instructions")
 
 
 
 
 def main():
+
+    if len(sys.argv) == 2:
+        checkMode(sys.argv[1])
+
+    #lokal ip   
+    #localip = socket.gethostbyname(socket.getfqdn())
+
+    print("Starting", sys.argv[0])
+    print("Using mode:", MODE)
+    #print("Connect to", localip, "on port", PORT)
+
+
     s = None
 
     sockettcp = tcpServer(PORT, s)
     if sockettcp == None:
-        print("Could not open socket on port: ", PORT)
+        print("Could not open socket on port:", PORT)
         sys.exit(1)
     else:
-        print(sockettcp)
+       pass #print(sockettcp)
 
     while True:
     #    laver socket der er klar til at modtage forbindelse

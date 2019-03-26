@@ -10,21 +10,59 @@ import os
 import threading
 import vision
 import networking
+import re
+import globals
 
 
 #Hvis server og klient skal køre på samme maskine
 HOST = "127.0.0.1"
 PORT = 6000
-
+MODE = "gfx"
 ballarray = []
 
+def instructions():
+    print("\nUsage:")
+    print("python3 brains.py [mode] [ev3 ip]\n")
+    print("Possible modes:")
+    print("nogfx - no opencv frame")
+    print("gfx - opencv frame shows imagecapture")
+    print("nogfxdebug  - NOT YET")
+    print("gfxdebug - NOT YET")
+    print("\nExample:\n")
+    print("Testscenario running ev3.py and brains.py on same machine:")
+    print("python3 brains.py nogfx 127.0.0.1")
 
 
-#print('Received', repr(data))
+def checkMode(arg1, arg2):
+    global HOST
+    global MODE
+    #mode der kun viser tekst og ikke opencv capt
+    if arg1 == "nogfx":
+        globals.MODE = "nogfx"
+    elif arg1 == "nogfxdebug":
+        globals.MODE = "nogfxdebug"
+    elif arg1 == "gfx":
+        globals.MODE = "gfx"
+    elif arg1 == "gfxdebug":
+        globals.MODE = "gfxdebug"
+    
 
+    ipregex = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",arg2)
 
+    #ved valid ip-addresse
+    if ipregex:
+        HOST = arg2
+    else:
+        print("Invalid ip")
+        instructions()
+        sys.exit(1)
 
 def main():
+    if len(sys.argv) >= 2:
+        checkMode(sys.argv[1], sys.argv[2])
+    else:
+        instructions()
+        sys.exit(1)
 
     try:
         tcpclient = networking.tcpClient(HOST, PORT)
