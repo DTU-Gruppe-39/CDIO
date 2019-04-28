@@ -31,13 +31,17 @@ actionslist = []
 
 
 def cmdHandler(cmd):
+    """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
+
     #hvis det er en sensorvalue der skal læses
     if cmd["cmdtype"] == "get":
         #her skal være kode til handle
         pass
+
     #hvis det er en motor der skal sættes i gang
     elif cmd['cmdtype'] == "set":
         pass
+
     #custom commands - hvis vi har en bestemt
     #handling der bare skal hardcodes.
     elif cmd['cmdtype'] == "custom":
@@ -53,17 +57,20 @@ def tcpServer(PORT, s):
             s = socket.socket(af, socktype, proto)
         except OSError as msg:
             s = None
+            print(msg)
             continue
         try:
             s.bind(sa)
             s.listen(1)
         except OSError as msg:
+            print(msg)
             s.close()
             continue
         break
     return(s)
 
 def queueAction(msg):
+    """Tilføjer action send fra 'brains'"""
     actionslist.append(msg)
 
 def checkMode(arg):
@@ -76,7 +83,7 @@ def checkMode(arg):
     elif arg == "ev3debug":
         globals.MODE = "ev3debug"
     elif arg == "help":
-        print(sys.argv[0], "instructions")
+        print(sys.argv[0], "instructions here")
 
 
 

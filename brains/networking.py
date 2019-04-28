@@ -1,3 +1,5 @@
+"""Alt netvaerks- og kommunikationsrelateret"""
+
 import threading
 import socket
 import time
@@ -51,12 +53,16 @@ def tcpClient(dstHOST, dstPORT):
             s = socket.socket(af, socktype, proto)
         except OSError as msg:
             s = None
+            print("Error: ")
+            print(msg)
+            print("Problem creating TCP socket")
             continue
         try:
             s.connect(sa)
         except OSError as msg:
             s.close()
             s = None
+            print(msg)
             continue
         break
     return s

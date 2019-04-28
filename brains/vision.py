@@ -1,3 +1,5 @@
+"""Funktioner og klasser relateret til billed-genkendelse"""
+
 import numpy as np
 import cv2
 import threading
@@ -6,9 +8,9 @@ import random
 import globals
 
 
-#der skal sandsynligvis laves et ballfactory og balldestroyer til at tjekke om det er en ny bold
-#og fjerne den hvis den bliver samlet op. ballCheck er en simpel udgave af det
+
 class Ball():
+    """Ball der er blevet genkendt"""
     def __init__(self, xpos, ypos, radius):
         self.ballid = random.randint(10000, 99999) #5-cifret ballid - lad os håbe de ikke bliver ens
         self.xpos = xpos
@@ -17,8 +19,8 @@ class Ball():
 
 
 def ballCheck(ballarr, xpos, ypos, radius):
-
-    #tjekker om bolden er gemt i forvejen
+    """Tjekker om bolden er blevet genkendt før - returnere et Ball-objekt hvis den er ny"""
+    #TODO: Threshold for positionen
     for i in ballarr:
         if i.xpos == xpos and i.ypos == ypos:
             return None
@@ -26,7 +28,9 @@ def ballCheck(ballarr, xpos, ypos, radius):
     ball = Ball(xpos, ypos, radius)
     return ball
 
-def imageCapture(ballarr):
+
+def imageCaptureBalls(ballarr):
+    """Funktion der bruger OpenCV til at lokalisere bolde på banen"""
     time.sleep(1)
     cap = cv2.imread('image.png')
     # Capture frame-by-frame

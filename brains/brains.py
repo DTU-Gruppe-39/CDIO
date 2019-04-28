@@ -34,6 +34,7 @@ def instructions():
 
 
 def checkMode(arg1, arg2):
+    """Tjekker mode og argumenter. """
     global HOST
     global MODE
     #mode der kun viser tekst og ikke opencv capt
@@ -47,9 +48,9 @@ def checkMode(arg1, arg2):
         globals.MODE = "gfxdebug"
     
 
+    #tjek for valid ip
     ipregex = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",arg2)
 
-    #ved valid ip-addresse
     if ipregex:
         HOST = arg2
     else:
@@ -71,17 +72,14 @@ def main():
             sys.exit(1)
         else:
             tcpthread = networking.networkThread(1, "tcp socket", tcpclient)
-            #visionthread = vision.visionThread(1, "vision")
             tcpthread.start()
-            vision.imageCapture(ballarray)
-        #    visionthread.start()
-        #    visionthread.start()
+            vision.imageCaptureBalls(ballarray)
+
             while True:
-                vision.imageCapture(ballarray)
+                vision.imageCaptureBalls(ballarray)
                 #get key
     except KeyboardInterrupt:
         print("Exiting..")
-        #tcpclient.sendall("bye".encode()
         tcpclient.close()
         time.sleep(1)
         sys.exit(0)
