@@ -5,7 +5,7 @@ import cv2
 import threading
 import time
 import random
-import brains.globals as globals
+import globals
 
 
 

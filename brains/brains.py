@@ -8,10 +8,10 @@ import time
 import json
 import os
 import threading
-import brains.vision as vision
-import brains.networking as networking
+import vision
+import networking
 import re
-import brains.globals as globals
+import globals
 
 
 #Hvis server og klient skal køre på samme maskine
