@@ -5,6 +5,10 @@ import socket
 import time
 import json
 
+#msg1 = createCmd("motor1", "set", 30)
+#msg2 = createCmd("motor2", "set", 40)
+#msg3 = createCmd("motor2", "set", 40)
+#messages = 
 msgid = 0
 #tcp threading
 class networkThread(threading.Thread):
@@ -16,10 +20,11 @@ class networkThread(threading.Thread):
     def run(self):
       with self.s:
           while True:
+              
+              msg1 = createCmd("motor1", "set", 2)
               #msg = input(":")
               time.sleep(2)
               #test af afsending af kommandoer
-              msg1 = createCmd("driveleft", "set", "motor")
               jsonmsg = json.JSONEncoder().encode(msg1)
               self.s.sendall(jsonmsg.encode())
               data = self.s.recv(1024)

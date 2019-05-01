@@ -14,7 +14,7 @@
 import sys
 import json
 import socket
-
+from ev3dev2.motor import LargeMotor, OUTPUT_C, OUTPUT_B, SpeedPercent, MoveTank
 
 #Sætter default mode til noev3
 #Andre modes: 
@@ -29,6 +29,8 @@ PORT = 6000
 
 actionslist = []
 
+tank_drive = MoveTank(OUTPUT_B, OUTPUT_C)
+
 
 def cmdHandler(cmd):
     """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
@@ -40,7 +42,15 @@ def cmdHandler(cmd):
 
     #hvis det er en motor der skal sættes i gang
     elif cmd['cmdtype'] == "set":
-        pass
+        print(cmd)
+        if cmd['cmdname'] == "motor1":
+            tank_drive.on_for_rotations(50, 0, cmd['cmdvalue'])
+            tank_drive.off()
+            cmd['cmdstate'] = "done"
+        if cmd['cmdname'] == "motor2":
+            tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
+            tank_drive.off()
+            cmd['cmdstate'] = "done"
 
     #custom commands - hvis vi har en bestemt
     #handling der bare skal hardcodes.
@@ -119,13 +129,16 @@ def main():
         while True:
             try:
                 data = conn.recv(1024)
-                msg = json.loads(data)
+                msg = json.loads(data.decode('utf-8'))
                 #conn.send(b'OK')
                 queueAction(msg)
                 for i in actionslist:
-                    print("cmdId:", i['id'], "cmdtype:", i['cmdtype'], "cmdname:", i['cmdname'], "cmdstate:", i['cmdstate'])
+                    print("cmdId:", i['id'], "cmdtype:", i['cmdtype'], "cmdvalue:", i["cmdvalue"], "cmdname:",  i['cmdname'], "cmdstate:", i['cmdstate'])
+                    if i['cmdstate'] == "init":
+                        cmdHandler(i)
                 if not data: break
-            except:
+            except Exception as e:
+                print(e)
                 print("Client disconnected")
                 break
 
