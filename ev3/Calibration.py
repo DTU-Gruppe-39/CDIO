@@ -38,10 +38,12 @@ for j in range(5):
         tank_drive.on_for_degrees(-speed, speed, degrees)
         tank_drive.wait_until_not_moving()
         time.sleep(1)
-    arm.stop()
+    
+    arm.on(-20)
     lift.on_for_degrees(10, 90)
-    time.sleep(1)
+    time.sleep(4)
     lift.on_for_degrees(-10, 90)
+    time.sleep(1)
   
     # System.out.println("CW: "+(j+1)+"/5")
     # brick.getAudio().systemSound(0)
