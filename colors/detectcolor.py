@@ -2,8 +2,6 @@
 # https://www.pyimagesearch.com/2014/08/04/opencv-python-color-detection/
 # Laant/inspireret fra ovenstaaende link
 
-# Gul og Blaa er de 2 farver vi vil forsoege os med
-
 import numpy as np
 import argparse
 import cv2
@@ -16,12 +14,11 @@ args = vars(ap.parse_args())
 # load the image
 image = cv2.imread(args["image"])
 
-
 # define the list of boundaries
-# hhv. blaa og gul i BGR (RGB)
+# Groen i BGR (RGB)
 
 boundaries = [
-	([7, 71, 207], [96, 99, 255]),
+	([119, 182, 143], [136, 199, 169]),
 	# ([86, 0, 0], [255, 0, 0])
 	
 	]
