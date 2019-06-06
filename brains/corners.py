@@ -6,6 +6,7 @@ img = cv2.imread("/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/ImageO
 img = cv2.resize(img, (960, 540))
 
 #
+points = []
 
 boundaries = [
     ([36, 30, 30], [86, 255,255]),
@@ -56,12 +57,24 @@ for c in cnts:
                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
     # show the image
-    ##cv2.waitKey(0)
+    # cv2.waitKey(0)
     print("X: " + str(cX))
     print("Y: " + str(cY))
 
+    p = (cX, cY)
+    points.append(p)
+
+
+
+cv2.line(img, points[0], points[1], (0, 255, 0), thickness=3, lineType=8)
+cv2.line(img, points[0], points[3], (0, 255, 0), thickness=3, lineType=8)
+cv2.line(img, points[1], points[2], (0, 255, 0), thickness=3, lineType=8)
+cv2.line(img, points[2], points[3], (0, 255, 0), thickness=3, lineType=8)
+
+# Punkters lokation i points [nederst venstre, nederst højre, øverst højre, øverst venstre]
+print(points)
 cv2.imshow("Image", img)
 
-#cv2.imshow("img", img)
+# cv2.imshow("img", img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
