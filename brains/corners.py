@@ -65,13 +65,16 @@ for c in cnts:
     points.append(p)
 
 
-
+# Draw bottom line, 180 cm
 cv2.line(img, points[0], points[1], (0, 255, 0), thickness=3, lineType=8)
+# Draw left line, 120 cm
 cv2.line(img, points[0], points[3], (0, 255, 0), thickness=3, lineType=8)
+# Draw right line, 120 cm
 cv2.line(img, points[1], points[2], (0, 255, 0), thickness=3, lineType=8)
+# Draw top line, 180 cm
 cv2.line(img, points[2], points[3], (0, 255, 0), thickness=3, lineType=8)
 
-# Punkters lokation i points [nederst venstre, nederst højre, øverst højre, øverst venstre]
+# Punkters lokation i points array [nederst venstre, nederst højre, øverst højre, øverst venstre]
 print(points)
 cv2.imshow("Image", img)
 
