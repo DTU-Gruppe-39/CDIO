@@ -1,4 +1,5 @@
 import cv2
+import imutils
 import numpy as np
 
 img = cv2.imread("/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/ImageOfBane2.jpg")
@@ -31,10 +32,35 @@ for (lower, upper) in boundaries:
 
 cv2.imshow("gray-image",mask)
 
+#Get coordinates that are in mask
 coord = cv2.findNonZero(mask)
 
-print(coord)
+# find contours in the thresholded image
+cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+	cv2.CHAIN_APPROX_SIMPLE)
+cnts = imutils.grab_contours(cnts)
 
+#print(coord)
+
+# loop over the contours
+for c in cnts:
+    # compute the center of the contour
+    M = cv2.moments(c)
+    cX = int(M["m10"] / M["m00"])
+    cY = int(M["m01"] / M["m00"])
+
+    # draw the contour and center of the shape on the image
+    cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
+    cv2.circle(img, (cX, cY), 3, (255, 255, 255), -1)
+    cv2.putText(img, "center", (cX - 20, cY - 20),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+
+    # show the image
+    ##cv2.waitKey(0)
+    print("X: " + str(cX))
+    print("Y: " + str(cY))
+
+cv2.imshow("Image", img)
 
 #cv2.imshow("img", img)
 cv2.waitKey(0)
