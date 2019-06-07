@@ -15,13 +15,21 @@ squareSize = 100
 wheelCircunference = 3 * math.pi
 wheelBase = 12.5
 speed = 25
+degrees = 0
+
+
+def dist_to_degree(dist):
+    new = math.floor((dist / wheelCircunference) * 360.0)
+
+    return new
 
 
 for j in range(5):
     arm.on(20)
     for i in range(4): 
         # Move straight the squareSize centimetres
-        degrees = math.floor((squareSize / wheelCircunference) * 360.0)
+        # degrees = math.floor((squareSize / wheelCircunference) * 360.0)
+        degrees = dist_to_degree(squareSize)
         print("Degrees" + str(degrees))
         # left.on_for_degrees(speed, degrees)
         # right.on_for_degrees(speed, degrees)
@@ -44,7 +52,7 @@ for j in range(5):
     time.sleep(4)
     lift.on_for_degrees(-10, 90)
     time.sleep(1)
-  
+
     # System.out.println("CW: "+(j+1)+"/5")
     # brick.getAudio().systemSound(0)
     # Button.waitForAnyPress()

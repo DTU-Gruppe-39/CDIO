@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #Kode der skal køre på maskine med webcam forbundet
 #TODO:
 #OpenCV kode

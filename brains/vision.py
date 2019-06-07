@@ -1,5 +1,7 @@
+#coding=utf-8
 """Funktioner og klasser relateret til billed-genkendelse"""
-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import numpy as np
 import cv2
 import threading
@@ -12,7 +14,7 @@ import globals
 class Ball():
     """Ball der er blevet genkendt"""
     def __init__(self, xpos, ypos, radius):
-        self.ballid = random.randint(10000, 99999) #5-cifret ballid - lad os håbe de ikke bliver ens
+        self.ballid = random.randint(10000, 99999)
         self.xpos = xpos
         self.ypos = ypos
         self.radius = radius
