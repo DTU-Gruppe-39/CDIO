@@ -2,13 +2,14 @@ import numpy as np
 import imutils
 import cv2
 
-cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_FPS, 24)
+#cap = cv2.VideoCapture(1)
+#cap = cv2.VideoCapture("..\\Test_images/Film den 06-06-2019 kl. 16.27 #2.mov")
+#cap.set(cv2.CAP_PROP_FPS, 24)
 cv2.namedWindow("test")
 while(True):
     # Capture frame-by-frame
-    ret, frame = cap.read()
-
+    #ret, frame = cap.read()
+    frame = cv2.imread("..\\Test_images/ImageOfRobot8.jpg")
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     # cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     gray = cv2.medianBlur(gray, 3)
