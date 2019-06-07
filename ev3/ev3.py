@@ -36,18 +36,26 @@ def cmdHandler(cmd):
     """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
 
     #hvis det er en sensorvalue der skal læses
-    if cmd["cmdtype"] == "get":
+    if cmd["cmdtype"] == "sensor":
         #her skal være kode til handle
         pass
 
     #hvis det er en motor der skal sættes i gang
-    elif cmd['cmdtype'] == "set":
+    elif cmd['cmdtype'] == "motor":
         print(cmd)
-        if cmd['cmdname'] == "motor1":
+        if cmd['cmdname'] == "right":
             tank_drive.on_for_rotations(50, 0, cmd['cmdvalue'])
             tank_drive.off()
             cmd['cmdstate'] = "done"
-        if cmd['cmdname'] == "motor2":
+        if cmd['cmdname'] == "left":
+            tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
+            tank_drive.off()
+            cmd['cmdstate'] = "done"
+        if cmd['cmdname'] == "front":
+            tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
+            tank_drive.off()
+            cmd['cmdstate'] = "done"
+        if cmd['cmdname'] == "back":
             tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
             tank_drive.off()
             cmd['cmdstate'] = "done"
@@ -133,9 +141,9 @@ def main():
                 #conn.send(b'OK')
                 queueAction(msg)
                 for i in actionslist:
-                    print("cmdId:", i['id'], "cmdtype:", i['cmdtype'], "cmdvalue:", i["cmdvalue"], "cmdname:",  i['cmdname'], "cmdstate:", i['cmdstate'])
                     if i['cmdstate'] == "init":
                         cmdHandler(i)
+                        #Husk fjern udført kommand fra listen
                 if not data: break
             except Exception as e:
                 print(e)
