@@ -44,19 +44,19 @@ def cmdHandler(cmd):
     elif cmd['cmdtype'] == "motor":
         print(cmd)
         if cmd['cmdname'] == "right":
-            tank_drive.on_for_rotations(50, 0, cmd['cmdvalue'])
+            tank_drive.on_for_rotations(50, 0, cmd['cmddistance'])
             tank_drive.off()
             cmd['cmdstate'] = "done"
         if cmd['cmdname'] == "left":
-            tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
+            tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
             tank_drive.off()
             cmd['cmdstate'] = "done"
         if cmd['cmdname'] == "front":
-            tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
+            tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
             tank_drive.off()
             cmd['cmdstate'] = "done"
         if cmd['cmdname'] == "back":
-            tank_drive.on_for_rotations(0, 50, cmd['cmdvalue'])
+            tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
             tank_drive.off()
             cmd['cmdstate'] = "done"
 
