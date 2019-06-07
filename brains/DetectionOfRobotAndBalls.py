@@ -2,9 +2,30 @@ import numpy as np
 import imutils
 import cv2
 
-cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_FPS, 24)
+cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mp4')
+cap.set(cv2.CAP_PROP_FPS, 30)
 cv2.namedWindow("test")
+
+
+def sort(points):
+
+    arr = points
+
+    arr.sort()
+
+    if arr[0][1] > arr[1][1]:
+        temp = arr[0]
+        arr[0] = arr[1]
+        arr[1] = temp
+
+    if arr[2][1] > arr[3][1]:
+        temp = arr[2]
+        arr[2] = arr[3]
+        arr[3] = temp
+
+    return arr
+
 while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
@@ -122,26 +143,29 @@ while(True):
 
                 # Add points to array of points
                 # points.append([cX, cY])
+        if len(points) == 4:
+            points = sort(points)
+            print(points)
 
         if len(points) == 4:
             # Draw bottom line, 180 cm
-            cv2.line(frame, tuple(points[3]), tuple(points[0]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(points[1]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw left line, 120 cm
-            cv2.line(frame, tuple(points[3]), tuple(points[1]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(points[0]), tuple(points[1]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw right line, 120 cm
-            cv2.line(frame, tuple(points[2]), tuple(points[0]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(points[2]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw top line, 180 cm
-            cv2.line(frame, tuple(points[1]), tuple(points[2]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(points[0]), tuple(points[2]), (0, 255, 0), thickness=3, lineType=8)
 
             ####Draw on output image
             # Draw bottom line, 180 cm
-            cv2.line(output, tuple(points[3]), tuple(points[0]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(points[1]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw left line, 120 cm
-            cv2.line(output, tuple(points[3]), tuple(points[1]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(points[0]), tuple(points[1]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw right line, 120 cm
-            cv2.line(output, tuple(points[2]), tuple(points[0]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(points[2]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw top line, 180 cm
-            cv2.line(output, tuple(points[1]), tuple(points[2]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(points[0]), tuple(points[2]), (0, 255, 0), thickness=3, lineType=8)
 
         ##########################################
 
@@ -161,6 +185,7 @@ while(True):
     # show the images
     cv2.imshow("images", np.hstack([frame, output]))
 
+
     # Display the resulting frame
     #cv2.imshow('frame', gray)
 
@@ -170,12 +195,6 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-
-
-
-
-
-
 
 
 
