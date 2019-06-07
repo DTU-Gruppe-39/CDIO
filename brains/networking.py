@@ -21,7 +21,7 @@ class networkThread(threading.Thread):
       with self.s:
           while True:
               
-              msg1 = createCmd("motor1", "set", 2)
+              msg1 = createCmd("right", "motor", 2)
               #msg = input(":")
               time.sleep(2)
               #test af afsending af kommandoer
@@ -33,7 +33,7 @@ class networkThread(threading.Thread):
 
 
 #funktion der returnere kommando
-def createCmd(cmdname, cmdtype, cmdvalue=None, cmdstate="init"):
+def createCmd(cmdname, cmdtype, cmdturndegrees,cmddistance=0, cmdstate="init"):
     #global
     global msgid
     msgid +=1
@@ -41,7 +41,8 @@ def createCmd(cmdname, cmdtype, cmdvalue=None, cmdstate="init"):
         "id": msgid,
     "cmdname": cmdname,
     "cmdtype": cmdtype,
-    "cmdvalue": cmdvalue,
+    "cmdturndegrees":cmdturndegrees,
+    "cmddistance": cmddistance,
     "cmdstate": cmdstate
     }
 
