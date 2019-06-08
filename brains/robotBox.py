@@ -2,8 +2,8 @@ import numpy as np
 import imutils
 import cv2
 
-#cap = cv2.VideoCapture(1)
-cap = cv2.VideoCapture("../Test_images/MovieWithMovingRobotAndBalls.mov")
+cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture("../Test_images/MovieWithMovingRobotAndBalls.mov")
 cap.set(cv2.CAP_PROP_FPS, 24)
 cv2.namedWindow("test")
 while(True):

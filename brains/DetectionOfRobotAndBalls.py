@@ -124,24 +124,24 @@ while(True):
                 # print("X: " + str(cX))
                 # print("Y: " + str(cY))
 
-                # Top right corner
-                if cX > 800 & cY > 500:
-                    points.insert(2, [cX, cY])
-
-                # Bottom left corner
-                elif cX < 800 & cY > 500:
-                    points.insert(3, [cX, cY])
-
-                # Bottom right corner
-                elif cX < 800 & cY < 500:
-                    points.insert(0, [cX, cY])
-
-                # Top left corner
-                elif cX > 800 & cY < 500:
-                    points.insert(1, [cX, cY])
+                # # Top right corner
+                # if cX > 800 & cY > 500:
+                #     points.insert(2, [cX, cY])
+                #
+                # # Bottom left corner
+                # elif cX < 800 & cY > 500:
+                #     points.insert(3, [cX, cY])
+                #
+                # # Bottom right corner
+                # elif cX < 800 & cY < 500:
+                #     points.insert(0, [cX, cY])
+                #
+                # # Top left corner
+                # elif cX > 800 & cY < 500:
+                #     points.insert(1, [cX, cY])
 
                 # Add points to array of points
-                # points.append([cX, cY])
+                points.append([cX, cY])
         if len(points) == 4:
             sortedPoints = sort(points)
             # print(sortedPoints)
