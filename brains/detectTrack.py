@@ -30,10 +30,10 @@ def sort(points):
 
 def calculateGoals(corner1, corner2):
 
-    goalMidpoint = Point
+    goalMidpoint = Point.Point((corner1.x + corner2.x)/2, (corner1.y + corner2.y)/2)
 
-    goalMidpoint.x = (corner1.x + corner2.x)/2
-    goalMidpoint.y = (corner1.y + corner2.y)/2
+    # goalMidpoint.x = (corner1.x + corner2.x)/2
+    # goalMidpoint.y = (corner1.y + corner2.y)/2
 
     return goalMidpoint
 
@@ -108,11 +108,11 @@ def getTrack(frame):
         tempTrack.topRightCorner = corner.Corner(sortedPoints[2][0], sortedPoints[2][1])
         tempTrack.bottomRightCorner = corner.Corner(sortedPoints[3][0], sortedPoints[3][1])
 
-        tempTrack.bigGoal.x = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner).Point.x
-        tempTrack.bigGoal.y = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner).Point.y
+        tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
+        tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
 
-        tempTrack.smallGoal.x = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner).x
-        tempTrack.smallGoal.y = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner).y
+        tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
+        tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
 
 
     return tempTrack
