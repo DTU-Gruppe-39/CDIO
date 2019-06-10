@@ -75,14 +75,14 @@ back = MediumMotor(OUTPUT_D)
 def cmdHandler2(cmd):
     #hvis det er en motor der skal sættes i gang
         if cmd['type'] == "tank_drive":
-            tank_drive.on_for_rotations(cmd['left'], cmd['right'], cmd['degrees'])
+            tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['degrees'])
             tank_drive.off()
         if cmd['type'] == "front":
             front.on_for_degrees(cmd['speed'], cmd['degrees'])
         if cmd['type'] == "back":
             back.on_for_degrees(cmd['speed'], cmd['degrees'])
         if cmd['type'] == "attack":
-            tank_drive.on_for_rotations(cmd['left'], cmd['right'], cmd['tank_degrees'])
+            tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['tank_degrees'])
             front.on(cmd['front_degrees'])
             tank_drive.off()
         if cmd['type'] == "deliver":
@@ -166,9 +166,13 @@ def main():
         testing = False
         while True:
             try:
+                # print("Before recv..")
                 data = conn.recv(1024)
-                msg = json.loads(data.decode('utf-8'))
+                # print("Before load..")
+                # print("Data: " + str(data))
+                msg = json.loads(data.decode())
                 if testing == False:
+                    # print("Before handler..")
                     cmdHandler2(msg)
                     testing = True
                         #Husk fjern udført kommand fra listen

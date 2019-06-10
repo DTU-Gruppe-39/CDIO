@@ -10,7 +10,7 @@ import time
 import json
 import os
 import threading
-import vision
+#import vision
 import networking
 import re
 import globals
@@ -63,7 +63,7 @@ def checkMode(arg1, arg2):
 
 def createCommandTank (left, right, degrees):
     message = {
-        "type": "tank",
+        "type": "tank_drive",
         "left": left,
         "right": right,
         "degrees": degrees
@@ -97,6 +97,12 @@ def createCommandAttack (left, right, tank_degrees, front_degrees):
     }
     return message
 
+def createCommandDeliver ():
+    message = {
+        "type": "deliver"
+    }
+    return message
+
 
 def main():
     if len(sys.argv) >= 2:
@@ -112,11 +118,13 @@ def main():
         while True:
             #Run vision
             if testing == False:
-                testMs1 = createCommandTank(50, 50, 100)
-                tcpclient.send(json.JSONEncoder().encode(testMs1))
+                testMs1 = createCommandTank(50, 50, 360*4)
+                #testMs1 = createCommandDeliver()
+                print(json.JSONEncoder().encode(testMs1))
+                dataToSend = json.JSONEncoder().encode(testMs1)
+                tcpclient.sendall(dataToSend.encode())
                 print("Data sended")
                 print(testMs1)
-                print(json.JSONEncoder().encode(testMs1))
                 testing = True
 
         # tcpclient = networking.tcpClient(HOST, PORT)
