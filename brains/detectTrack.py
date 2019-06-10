@@ -1,8 +1,9 @@
 import cv2
 import imutils
 import numpy as np
-from model import track
+from model import Track
 from model import corner
+from model import Point
 
 
 def sort(points):
@@ -27,16 +28,22 @@ def sort(points):
     return arr
 
 
-def calculateGoals(track):
-    print("not implemented")
+def calculateGoals(corner1, corner2):
+
+    goalMidpoint = Point
+
+    goalMidpoint.x = (corner1.x + corner2.x)/2
+    goalMidpoint.y = (corner1.y + corner2.y)/2
+
+    return goalMidpoint
 
 
 def getTrack(frame):
 
-    tempTrack = track.Track
+    tempTrack = Track.Track
 
     corner_boundaries = [
-        ([60, 40, 40], [86, 255, 255]),
+        ([43, 40, 40], [97, 255, 255])
         # ([86, 0, 0], [255, 0, 0])
     ]
 
@@ -97,8 +104,16 @@ def getTrack(frame):
 
         tempTrack.topLeftCorner = corner.Corner(sortedPoints[0][0], sortedPoints[0][1])
         tempTrack.bottomLeftCorner = corner.Corner(sortedPoints[1][0], sortedPoints[1][1])
+
         tempTrack.topRightCorner = corner.Corner(sortedPoints[2][0], sortedPoints[2][1])
         tempTrack.bottomRightCorner = corner.Corner(sortedPoints[3][0], sortedPoints[3][1])
+
+        tempTrack.bigGoal.x = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner).Point.x
+        tempTrack.bigGoal.y = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner).Point.y
+
+        tempTrack.smallGoal.x = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner).x
+        tempTrack.smallGoal.y = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner).y
+
 
     return tempTrack
 

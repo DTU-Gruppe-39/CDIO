@@ -3,7 +3,7 @@ import cv2
 
 from brains.detectTrack import getTrack
 from model import ball
-from model import track
+from model import Track
 from model import obstacle
 from view import visionOutputView
 
@@ -19,7 +19,7 @@ def captureVideo():
 
 
 class VisionController:
-    track = track.Track
+    track = Track.Track
     obstacle = obstacle.Obstacle
     balls = [ball.Ball]
     robot = None
@@ -33,8 +33,18 @@ class VisionController:
 
         track = getTrack(img)
 
-        print("Test: " + str(track.bottomRightCorner.x))
-        print("Test: " + str(track.bottomRightCorner.y))
+        # test print
+        print("BottomRight: " + str(track.bottomRightCorner.x) + " " + str(track.bottomRightCorner.y))
+        print("BottomLeft: " + str(track.bottomLeftCorner.x) + " " + str(track.bottomLeftCorner.y))
+        print("TopRight: " + str(track.topRightCorner.x) + " " + str(track.topRightCorner.y))
+        print("TopLeft: " + str(track.topLeftCorner.x) + " " + str(track.topLeftCorner.y))
+
+        print("Lille mål x: " + str(track.smallGoal.x))
+        print("Lille mål y: " + str(track.smallGoal.y))
+
+        print("Stort mål x: " + str(track.bigGoal.x))
+        print("Stort mål y: " + str(track.bigGoal.y))
+
 
         # obstacle = getObstacle(img)
 
