@@ -2,7 +2,8 @@ import cv2
 import imutils
 import numpy as np
 
-cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/bane_video.mp4')
+cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/bane_video.mov')
 cap.set(cv2.CAP_PROP_FPS, 24)
 
 

@@ -2,10 +2,9 @@ import numpy as np
 import imutils
 import cv2
 
-cap = cv2.VideoCapture(0)
-# cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mp4')
-cap.set(cv2.CAP_PROP_FPS, 30)
-cv2.namedWindow("test")
+cap = cv2.VideoCapture(1)
+# cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mov')
+cap.set(cv2.CAP_PROP_FPS, 24)
 
 
 def sort(points):
@@ -125,47 +124,31 @@ while(True):
                 # print("X: " + str(cX))
                 # print("Y: " + str(cY))
 
-                # Top right corner
-                if cX > 800 & cY > 500:
-                    points.insert(2, [cX, cY])
-
-                # Bottom left corner
-                elif cX < 800 & cY > 500:
-                    points.insert(3, [cX, cY])
-
-                # Bottom right corner
-                elif cX < 800 & cY < 500:
-                    points.insert(0, [cX, cY])
-
-                # Top left corner
-                elif cX > 800 & cY < 500:
-                    points.insert(1, [cX, cY])
-
                 # Add points to array of points
-                # points.append([cX, cY])
+                points.append([cX, cY])
         if len(points) == 4:
-            points = sort(points)
-            print(points)
+            sortedPoints = sort(points)
+            # print(sortedPoints)
 
         if len(points) == 4:
             # Draw bottom line, 180 cm
-            cv2.line(frame, tuple(points[1]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(sortedPoints[1]), tuple(sortedPoints[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw left line, 120 cm
-            cv2.line(frame, tuple(points[0]), tuple(points[1]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(sortedPoints[0]), tuple(sortedPoints[1]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw right line, 120 cm
-            cv2.line(frame, tuple(points[2]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(sortedPoints[2]), tuple(sortedPoints[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw top line, 180 cm
-            cv2.line(frame, tuple(points[0]), tuple(points[2]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(frame, tuple(sortedPoints[0]), tuple(sortedPoints[2]), (0, 255, 0), thickness=3, lineType=8)
 
             ####Draw on output image
             # Draw bottom line, 180 cm
-            cv2.line(output, tuple(points[1]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(sortedPoints[1]), tuple(sortedPoints[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw left line, 120 cm
-            cv2.line(output, tuple(points[0]), tuple(points[1]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(sortedPoints[0]), tuple(sortedPoints[1]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw right line, 120 cm
-            cv2.line(output, tuple(points[2]), tuple(points[3]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(sortedPoints[2]), tuple(sortedPoints[3]), (0, 255, 0), thickness=3, lineType=8)
             # # Draw top line, 180 cm
-            cv2.line(output, tuple(points[0]), tuple(points[2]), (0, 255, 0), thickness=3, lineType=8)
+            cv2.line(output, tuple(sortedPoints[0]), tuple(sortedPoints[2]), (0, 255, 0), thickness=3, lineType=8)
 
         ##########################################
 
