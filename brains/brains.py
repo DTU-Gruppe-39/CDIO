@@ -61,48 +61,6 @@ def checkMode(arg1, arg2):
         instructions()
         sys.exit(1)
 
-def createCommandTank (left, right, degrees):
-    message = {
-        "type": "tank_drive",
-        "left": left,
-        "right": right,
-        "degrees": degrees
-    }
-    return message
-
-def createCommandFront (speed, degrees):
-    message = {
-        "type": "front",
-        "speed": speed,
-        "degrees": degrees
-    }
-    return message
-
-def createCommandBack (speed, degrees):
-    message = {
-        "type": "back",
-        "speed": speed,
-        "degrees": degrees
-    }
-    return message
-
-
-def createCommandAttack (left, right, tank_degrees, front_degrees):
-    message = {
-        "type": "attack",
-        "left": left,
-        "right": right,
-        "tank_degrees": tank_degrees,
-        "front_degrees": front_degrees
-    }
-    return message
-
-def createCommandDeliver ():
-    message = {
-        "type": "deliver"
-    }
-    return message
-
 
 def main():
     if len(sys.argv) >= 2:
@@ -145,6 +103,7 @@ def main():
         tcpclient.close()
         time.sleep(1)
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
