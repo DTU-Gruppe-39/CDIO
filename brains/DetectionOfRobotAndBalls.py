@@ -3,7 +3,7 @@ import imutils
 import cv2
 
 cap = cv2.VideoCapture(1)
-# cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mov')
+# cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/MovieWithMovingRobotAndBalls.mov')
 cap.set(cv2.CAP_PROP_FPS, 24)
 
 
@@ -35,10 +35,10 @@ while(True):
     rows = gray.shape[1]
     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=500, param2=26, minRadius=1, maxRadius=20)
 
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    # hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     cornerboundaries = [
-        ([60, 40, 40], [86, 255, 255]),
+        ([43, 40, 40], [97, 255, 255])
         # ([86, 0, 0], [255, 0, 0])
     ]
 
@@ -46,7 +46,7 @@ while(True):
         # ([119, 182, 143], [136, 199, 169]),
         # ([0, 230, 230], [130, 255, 255])  # Robot yellow
         # ([0, 150, 0], [150, 255, 150]) #Bander red
-        ([150, 0, 0], [255, 165, 100])  # Robot blue
+        ([90, 31, 0], [255, 100, 30])  # Robot blue
         # ([86, 0, 0], [255, 0, 0])
 
     ]
@@ -80,6 +80,7 @@ while(True):
         ##########################################
 
         blurred_frame = cv2.GaussianBlur(frame, (5, 5), 0)
+        #blurred_frame2 = cv2.medianBlur(frame, 3)
 
         hsv = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
 
