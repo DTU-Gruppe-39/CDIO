@@ -32,3 +32,8 @@ def attack():
     # Send attack to NetworkCon
     return
 
+
+def dump_balls():
+    # Send deliver to NetwordCon
+    return
+
