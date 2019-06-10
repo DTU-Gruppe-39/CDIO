@@ -19,6 +19,7 @@ class VisionController:
     corners = [corner.Corner]
     obstacle = obstacle.Obstacle
     balls = [ball.Ball]
+    robot = None
 
     while True:
         img = captureVideo()
@@ -28,6 +29,8 @@ class VisionController:
         # corners = getCorners(img):
 
         # obstacle = getObstacle(img):
+
+        # robot = getRobot(img)
 
         cv2.imshow('frame', img)
 
