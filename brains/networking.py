@@ -1,59 +1,89 @@
-"""Alt netvaerks- og kommunikationsrelateret"""
+# -*- coding: utf-8 -*-
 
-import threading
-import socket
+import sys
 import time
 import json
-
-class networkThread(threading.Thread):
-    def __init__(self, threadID, name, s):
-        threading.Thread.__init__(self)
-        self.threadID = threadID
-        self.name = name
-        self.s = s
-    def run(self):
-        with self.s:
-            while True:
-                msg1 = createCmd("right", "motor", 2)
-                #msg = input(":")
-                time.sleep(2)
-                #test af afsending af kommandoer
-                jsonmsg = json.JSONEncoder().encode(msg1)
-                self.s.sendall(jsonmsg.encode())
-                data = self.s.recv(1024)
-                print(data)
-
-#funktion der returnere kommando
-def createCmd(cmdtype, cmddistance,cmdturndegrees=0):
-    message = {
-        "type": cmdtype,
-        "cmdturndegrees":cmdturndegrees,
-        "cmddistance": cmddistance
-    }
-
-    return message
+import os
+import networking
+import re
+import globals
+import socket
 
 
-def tcpClient(dstHOST, dstPORT):
-    HOST = dstHOST    # The remote host
-    PORT = dstPORT    # The same port as used by the server
-    s = None
-    for res in socket.getaddrinfo(HOST, PORT, socket.AF_UNSPEC, socket.SOCK_STREAM):
-        af, socktype, proto, canonname, sa = res
-        try:
-            s = socket.socket(af, socktype, proto)
-        except OSError as msg:
-            s = None
-            print("Error: ")
-            print(msg)
-            print("Problem creating TCP socket")
-            continue
-        try:
-            s.connect(sa)
-        except OSError as msg:
-            s.close()
-            s = None
-            print(msg)
-            continue
-        break
-    return s
+#Hvis server og klient skal køre på samme maskine
+HOST = "127.0.0.1"
+PORT = 6000
+MODE = "gfx"
+
+def instructions():
+    print("\nUsage:")
+    print("python3 brains.py [mode] [ev3 ip]\n")
+    print("Possible modes:")
+    print("nogfx - no opencv frame")
+    print("gfx - opencv frame shows imagecapture")
+    print("nogfxdebug  - NOT YET")
+    print("gfxdebug - NOT YET")
+    print("\nExample:\n")
+    print("Testscenario running ev3.py and brains.py on same machine:")
+    print("python3 brains.py nogfx 127.0.0.1")
+
+
+def checkMode(arg1, arg2):
+    """Tjekker mode og argumenter. """
+    global HOST
+    global MODE
+    #mode der kun viser tekst og ikke opencv capt
+    if arg1 == "nogfx":
+        globals.MODE = "nogfx"
+    elif arg1 == "nogfxdebug":
+        globals.MODE = "nogfxdebug"
+    elif arg1 == "gfx":
+        globals.MODE = "gfx"
+    elif arg1 == "gfxdebug":
+        globals.MODE = "gfxdebug"
+
+
+    #tjek for valid ip
+    ipregex = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",arg2)
+
+    if ipregex:
+        HOST = arg2
+    else:
+        print("Invalid ip")
+        instructions()
+        sys.exit(1)
+
+
+def main():
+    if len(sys.argv) >= 2:
+        checkMode(sys.argv[1], sys.argv[2])
+    else:
+        instructions()
+        sys.exit(1)
+
+    try:
+        tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        tcpclient.connect((HOST,PORT))
+        testing = False
+        while True:
+            #Run vision
+            if testing == False:
+                testMs1 = createCommandTank(50, 50, 360*4)
+                #testMs1 = createCommandDeliver()
+                print(json.JSONEncoder().encode(testMs1))
+                dataToSend = json.JSONEncoder().encode(testMs1)
+                tcpclient.sendall(dataToSend.encode())
+                print("Data sended")
+                print(testMs1)
+                testing = True
+                
+        print("disconnected")
+    except KeyboardInterrupt:
+        print("Exiting..")
+        tcpclient.close()
+        time.sleep(1)
+        sys.exit(0)
+
+if __name__ == "__main__":
+    main()
+
