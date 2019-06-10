@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #Kode der skal køre på ev3
 #Fungere som en server hvor "brains" kan forbinde til
 #Klienten "brains" sender kommandoer til serveren(ev3) og
@@ -14,7 +15,8 @@
 import sys
 import json
 import socket
-from ev3dev2.motor import LargeMotor, OUTPUT_C, OUTPUT_B, SpeedPercent, MoveTank
+import time
+from ev3dev2.motor import LargeMotor, OUTPUT_C, OUTPUT_B, SpeedPercent, MoveTank, MediumMotor, OUTPUT_A, OUTPUT_D
 
 #Sætter default mode til noev3
 #Andre modes: 
@@ -29,41 +31,68 @@ PORT = 6000
 
 actionslist = []
 
-tank_drive = MoveTank(OUTPUT_B, OUTPUT_C)
+tank_drive = MoveTank(OUTPUT_C, OUTPUT_B)
+left = LargeMotor(OUTPUT_C)
+right = LargeMotor(OUTPUT_B)
+front = MediumMotor(OUTPUT_A)
+back = MediumMotor(OUTPUT_D)
 
 
-def cmdHandler(cmd):
-    """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
+# def cmdHandler(cmd):
+#     """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
 
-    #hvis det er en sensorvalue der skal læses
-    if cmd["cmdtype"] == "sensor":
-        #her skal være kode til handle
-        pass
+#     #hvis det er en sensorvalue der skal læses
+#     if cmd["cmdtype"] == "sensor":
+#         #her skal være kode til handle
+#         pass
 
+#     #hvis det er en motor der skal sættes i gang
+#     elif cmd['cmdtype'] == "motor":
+#         print(cmd)
+#         if cmd['cmdname'] == "right":
+#             tank_drive.on_for_rotations(50, 0, cmd['cmddistance'])
+#             tank_drive.off()
+#             cmd['cmdstate'] = "done"
+#         if cmd['cmdname'] == "left":
+#             tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
+#             tank_drive.off()
+#             cmd['cmdstate'] = "done"
+#         if cmd['cmdname'] == "front":
+#             tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
+#             tank_drive.off()
+#             cmd['cmdstate'] = "done"
+#         if cmd['cmdname'] == "back":
+#             tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
+#             tank_drive.off()
+#             cmd['cmdstate'] = "done"
+
+#     #custom commands - hvis vi har en bestemt
+#     #handling der bare skal hardcodes.
+#     elif cmd['cmdtype'] == "custom":
+#         pass
+
+
+def cmdHandler2(cmd):
     #hvis det er en motor der skal sættes i gang
-    elif cmd['cmdtype'] == "motor":
-        print(cmd)
-        if cmd['cmdname'] == "right":
-            tank_drive.on_for_rotations(50, 0, cmd['cmddistance'])
+        if cmd['type'] == "tank_drive":
+            tank_drive.on_for_rotations(cmd['left'], cmd['right'], cmd['degrees'])
             tank_drive.off()
-            cmd['cmdstate'] = "done"
-        if cmd['cmdname'] == "left":
-            tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
+        if cmd['type'] == "front":
+            front.on_for_degrees(cmd['speed'], cmd['degrees'])
+        if cmd['type'] == "back":
+            back.on_for_degrees(cmd['speed'], cmd['degrees'])
+        if cmd['type'] == "attack":
+            tank_drive.on_for_rotations(cmd['left'], cmd['right'], cmd['tank_degrees'])
+            front.on(cmd['front_degrees'])
             tank_drive.off()
-            cmd['cmdstate'] = "done"
-        if cmd['cmdname'] == "front":
-            tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
-            tank_drive.off()
-            cmd['cmdstate'] = "done"
-        if cmd['cmdname'] == "back":
-            tank_drive.on_for_rotations(0, 50, cmd['cmddistance'])
-            tank_drive.off()
-            cmd['cmdstate'] = "done"
+        if cmd['type'] == "deliver":
+            front.on(-20)
+            back.on_for_degrees(10, 90)
+            time.sleep(4)
+            back.on_for_degrees(-10, 90)
+            time.sleep(1)
+            front.off()
 
-    #custom commands - hvis vi har en bestemt
-    #handling der bare skal hardcodes.
-    elif cmd['cmdtype'] == "custom":
-        pass
 
 
 def tcpServer(PORT, s):
@@ -134,15 +163,14 @@ def main():
         conn, addr = sockettcp.accept()
         #with conn:
         print(addr, "connected")
+        testing = False
         while True:
             try:
                 data = conn.recv(1024)
                 msg = json.loads(data.decode('utf-8'))
-                #conn.send(b'OK')
-                queueAction(msg)
-                for i in actionslist:
-                    if i['cmdstate'] == "init":
-                        cmdHandler(i)
+                if testing == False:
+                    cmdHandler2(msg)
+                    testing = True
                         #Husk fjern udført kommand fra listen
                 if not data: break
             except Exception as e:

@@ -11,7 +11,7 @@ right = LargeMotor(OUTPUT_B)
 arm = MediumMotor(OUTPUT_A)
 lift = MediumMotor(OUTPUT_D)
 
-squareSize = 100
+squareSize = 50
 wheelCircunference = 3 * math.pi
 wheelBase = 12.5
 speed = 25
