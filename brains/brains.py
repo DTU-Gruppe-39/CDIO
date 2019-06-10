@@ -14,6 +14,7 @@ import vision
 import networking
 import re
 import globals
+import socket
 
 
 #Hvis server og klient skal køre på samme maskine
@@ -48,7 +49,7 @@ def checkMode(arg1, arg2):
         globals.MODE = "gfx"
     elif arg1 == "gfxdebug":
         globals.MODE = "gfxdebug"
-    
+
 
     #tjek for valid ip
     ipregex = re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",arg2)
@@ -60,6 +61,43 @@ def checkMode(arg1, arg2):
         instructions()
         sys.exit(1)
 
+def createCommandTank (left, right, degrees):
+    message = {
+        "type": "tank",
+        "left": left,
+        "right": right,
+        "degrees": degrees
+    }
+    return message
+
+def createCommandFront (speed, degrees):
+    message = {
+        "type": "front",
+        "speed": speed,
+        "degrees": degrees
+    }
+    return message
+
+def createCommandBack (speed, degrees):
+    message = {
+        "type": "back",
+        "speed": speed,
+        "degrees": degrees
+    }
+    return message
+
+
+def createCommandAttack (left, right, tank_degrees, front_degrees):
+    message = {
+        "type": "attack",
+        "left": left,
+        "right": right,
+        "tank_degrees": tank_degrees,
+        "front_degrees": front_degrees
+    }
+    return message
+
+
 def main():
     if len(sys.argv) >= 2:
         checkMode(sys.argv[1], sys.argv[2])
@@ -68,27 +106,38 @@ def main():
         sys.exit(1)
 
     try:
-        tcpclient = networking.tcpClient(HOST, PORT)
-        if tcpclient == None:
-            print("Could not connect")
-            sys.exit(1)
-        else:
-            tcpthread = networking.networkThread(1, "tcp socket", tcpclient)
-            tcpthread.start()
-            vision.imageCaptureBalls(ballarray)
+        tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        tcpclient.connect((HOST,PORT))
+        testing = False
+        while True:
+            #Run vision
+            if testing == False:
+                testMs1 = createCommandTank(50, 50, 100)
+                tcpclient.send(json.JSONEncoder().encode(testMs1))
+                print("Data sended")
+                print(testMs1)
+                print(json.JSONEncoder().encode(testMs1))
+                testing = True
 
-            while True:
-                vision.imageCaptureBalls(ballarray)
-                #get key
+        # tcpclient = networking.tcpClient(HOST, PORT)
+        # if tcpclient == None:
+        #     print("Could not connect")
+        #     sys.exit(1)
+        # else:
+        #     tcpthread = networking.networkThread(1, "tcp socket", tcpclient)
+        #     tcpthread.start()
+        #     #vision.imageCaptureBalls(ballarray)
+        #
+        #     #while True:
+        #         #vision.imageCaptureBalls(ballarray)
+        #         #get key
+        print("disconnected")
     except KeyboardInterrupt:
         print("Exiting..")
         tcpclient.close()
         time.sleep(1)
         sys.exit(0)
 
-
-
-
 if __name__ == "__main__":
-
     main()
+

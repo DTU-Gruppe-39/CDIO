@@ -5,45 +5,30 @@ import socket
 import time
 import json
 
-#msg1 = createCmd("motor1", "set", 30)
-#msg2 = createCmd("motor2", "set", 40)
-#msg3 = createCmd("motor2", "set", 40)
-#messages = 
-msgid = 0
-#tcp threading
 class networkThread(threading.Thread):
     def __init__(self, threadID, name, s):
-      threading.Thread.__init__(self)
-      self.threadID = threadID
-      self.name = name
-      self.s = s
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.s = s
     def run(self):
-      with self.s:
-          while True:
-              
-              msg1 = createCmd("right", "motor", 2)
-              #msg = input(":")
-              time.sleep(2)
-              #test af afsending af kommandoer
-              jsonmsg = json.JSONEncoder().encode(msg1)
-              self.s.sendall(jsonmsg.encode())
-              data = self.s.recv(1024)
-              print(data)
-
-
+        with self.s:
+            while True:
+                msg1 = createCmd("right", "motor", 2)
+                #msg = input(":")
+                time.sleep(2)
+                #test af afsending af kommandoer
+                jsonmsg = json.JSONEncoder().encode(msg1)
+                self.s.sendall(jsonmsg.encode())
+                data = self.s.recv(1024)
+                print(data)
 
 #funktion der returnere kommando
-def createCmd(cmdname, cmdtype, cmdturndegrees,cmddistance=0, cmdstate="init"):
-    #global
-    global msgid
-    msgid +=1
+def createCmd(cmdtype, cmddistance,cmdturndegrees=0):
     message = {
-        "id": msgid,
-    "cmdname": cmdname,
-    "cmdtype": cmdtype,
-    "cmdturndegrees":cmdturndegrees,
-    "cmddistance": cmddistance,
-    "cmdstate": cmdstate
+        "type": cmdtype,
+        "cmdturndegrees":cmdturndegrees,
+        "cmddistance": cmddistance
     }
 
     return message
