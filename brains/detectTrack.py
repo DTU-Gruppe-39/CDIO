@@ -2,6 +2,7 @@ import cv2
 import imutils
 import numpy as np
 from model import track
+from model import corner
 
 
 def sort(points):
@@ -87,18 +88,17 @@ def getTrack(frame):
             # Add points to array of points
             points.append([cX, cY])
 
+
+
     if len(points) == 4:
 
         # Set corners on track object
-        sortedPoints= sort(points)
+        sortedPoints = sort(points)
 
-        tempTrack.topLeftCorner = sortedPoints[0]
-        tempTrack.bottomLeftCorner = sortedPoints[1]
-        tempTrack.topRightCorner = sortedPoints[2]
-        tempTrack.bottomRightCorner = sortedPoints[3]
-
-
-        print(sortedPoints)
+        tempTrack.topLeftCorner = corner.Corner(sortedPoints[0][0], sortedPoints[0][1])
+        tempTrack.bottomLeftCorner = corner.Corner(sortedPoints[1][0], sortedPoints[1][1])
+        tempTrack.topRightCorner = corner.Corner(sortedPoints[2][0], sortedPoints[2][1])
+        tempTrack.bottomRightCorner = corner.Corner(sortedPoints[3][0], sortedPoints[3][1])
 
     return tempTrack
 

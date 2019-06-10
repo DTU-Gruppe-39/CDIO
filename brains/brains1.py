@@ -24,15 +24,15 @@ ballarray = []
 
 def instructions():
     print("\nUsage:")
-    print("python3 brains.py [mode] [ev3 ip]\n")
+    print("python3 brains1.py [mode] [ev3 ip]\n")
     print("Possible modes:")
     print("nogfx - no opencv frame")
     print("gfx - opencv frame shows imagecapture")
     print("nogfxdebug  - NOT YET")
     print("gfxdebug - NOT YET")
     print("\nExample:\n")
-    print("Testscenario running ev3.py and brains.py on same machine:")
-    print("python3 brains.py nogfx 127.0.0.1")
+    print("Testscenario running ev3.py and brains1.py on same machine:")
+    print("python3 brains1.py nogfx 127.0.0.1")
 
 
 def checkMode(arg1, arg2):

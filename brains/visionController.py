@@ -1,14 +1,14 @@
 import numpy as np
 import cv2
 
-import brains.corners.getTrack
+from brains.detectTrack import getTrack
 from model import ball
 from model import track
 from model import obstacle
 from view import visionOutputView
 
 cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_FPS, 24)
+cap.set(cv2.CAP_PROP_FPS, 30)
 
 
 def captureVideo():
@@ -27,22 +27,25 @@ class VisionController:
     while True:
         img = captureVideo()
 
-        visionOutputView.showImage(img)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
 
         # balls = getBalls(img)
 
-        track = brains.corners.getTrack(img)
+        track = getTrack(img)
 
-        print(str("Test: " + track.bottomRightCorner))
+        print("Test: " + str(track.bottomRightCorner.x))
+        print("Test: " + str(track.bottomRightCorner.y))
 
         # obstacle = getObstacle(img)
 
         # robot = getRobot(img)
 
+        cv2.imshow("images", np.hstack([img]))
 
+        # visionOutputView.showImage(img)
+
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
 
 cap.release()
