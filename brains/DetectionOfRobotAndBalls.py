@@ -2,7 +2,7 @@ import numpy as np
 import imutils
 import cv2
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 # cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mov')
 cap.set(cv2.CAP_PROP_FPS, 24)
 
@@ -123,22 +123,6 @@ while(True):
 
                 # print("X: " + str(cX))
                 # print("Y: " + str(cY))
-
-                # # Top right corner
-                # if cX > 800 & cY > 500:
-                #     points.insert(2, [cX, cY])
-                #
-                # # Bottom left corner
-                # elif cX < 800 & cY > 500:
-                #     points.insert(3, [cX, cY])
-                #
-                # # Bottom right corner
-                # elif cX < 800 & cY < 500:
-                #     points.insert(0, [cX, cY])
-                #
-                # # Top left corner
-                # elif cX > 800 & cY < 500:
-                #     points.insert(1, [cX, cY])
 
                 # Add points to array of points
                 points.append([cX, cY])
