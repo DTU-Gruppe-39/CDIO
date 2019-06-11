@@ -30,7 +30,7 @@ def sort(points):
 
 def calculateGoals(corner1, corner2):
 
-    goalMidpoint = Point.Point((corner1.x + corner2.x)/2, (corner1.y + corner2.y)/2)
+    goalMidpoint = Point.Point(int((corner1.x + corner2.x)/2), int((corner1.y + corner2.y)/2))
 
     # goalMidpoint.x = (corner1.x + corner2.x)/2
     # goalMidpoint.y = (corner1.y + corner2.y)/2
@@ -54,18 +54,18 @@ def getTrack(frame):
     points = []
 
     # loop over the boundaries
-    for (clower, cupper) in corner_boundaries:
+    for (lower, upper) in corner_boundaries:
         # create NumPy arrays from the boundaries
-        clower = np.array(clower, dtype="uint8")
-        cupper = np.array(cupper, dtype="uint8")
+        lower = np.array(lower, dtype="uint8")
+        upper = np.array(upper, dtype="uint8")
 
         # find the colors within the specified boundaries and apply
         # the mask
-        cmask = cv2.inRange(hsv, clower, cupper)
-        # coutput = cv2.bitwise_and(hsv, hsv, mask=cmask)
+        mask = cv2.inRange(hsv, lower, upper)
+        # coutput = cv2.bitwise_and(hsv, hsv, mask=mask)
 
     # find contours in the thresholded image
-    cnts = cv2.findContours(cmask.copy(), cv2.RETR_EXTERNAL,
+    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
                             cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
 
@@ -95,8 +95,6 @@ def getTrack(frame):
             # Add points to array of points
             points.append([cX, cY])
 
-
-
     if len(points) == 4:
 
         # Set corners on track object
@@ -108,12 +106,10 @@ def getTrack(frame):
         tempTrack.topRightCorner = corner.Corner(sortedPoints[2][0], sortedPoints[2][1])
         tempTrack.bottomRightCorner = corner.Corner(sortedPoints[3][0], sortedPoints[3][1])
 
-        tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
+        # Calculate goals
         tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
 
         tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
-        tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
-
 
     return tempTrack
 
