@@ -14,7 +14,6 @@ from view import visionOutputView
 class VisionController:
 
     s = singleton.Singleton.getInstance()
-singleton.Singleton.
 
 
     track = track.Track
