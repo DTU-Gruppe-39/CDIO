@@ -63,6 +63,7 @@ def drive_degrees(pix_dist, pix_pr_cm):
 
 
 def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
+    # Speed can be changed to hardcoded values corresponding to the scenario
     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
     degrees = drive_degrees(pix_dist, pix_pr_cm)
     msg = createCommandTank(speed, speed, degrees)
@@ -71,6 +72,7 @@ def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
 
 
 def turn(angle, rotation, speed):
+    # Turn_speed can be changed to hardcoded values corresponding to the scenario
     degrees = math.floor((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
     if rotation == "clockwise" :
         msg = createCommandTank(speed, -speed, degrees)
@@ -82,6 +84,7 @@ def turn(angle, rotation, speed):
 
 
 def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
+    # Speed and turn_speed can be changed to hardcoded values corresponding to the scenario
     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
     tank_degrees = drive_degrees(pix_dist, pix_pr_cm)
     turn(angle, rotation, turn_speed)
