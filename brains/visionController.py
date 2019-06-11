@@ -27,6 +27,11 @@ class VisionController:
 
         track = getTrack(img)
 
+        # obstacle = getObstacle(img)
+
+        # robot = getRobot(img)
+
+
         # if len(balls) is not 0:
         #     print(str(balls[0].x))
         # test print
@@ -42,9 +47,6 @@ class VisionController:
         # print("Stort mål y: " + str(track.bigGoal.y))
 
 
-        # obstacle = getObstacle(img)
-
-        # robot = getRobot(img)
 
         # cv2.imshow("images", np.hstack([img]))
 
