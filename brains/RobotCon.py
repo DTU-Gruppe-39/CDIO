@@ -1,4 +1,7 @@
 import math
+import sys
+import networking
+import time
 wheelCircunference = 3 * math.pi
 wheelBase = 12.5
 
@@ -98,3 +101,14 @@ def dump_balls():
     # Send msg to NetworkCon
     return
 
+
+
+def main():
+    while True:
+        networking.sendCommand(createCommandTank(30, 30, 360))
+        time.sleep(3)
+        networking.sendCommand(createCommandTank(-30, -30, 720))
+        time.sleep(10)
+
+if __name__ == "__main__":
+    main()

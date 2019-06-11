@@ -163,7 +163,6 @@ def main():
         conn, addr = sockettcp.accept()
         #with conn:
         print(addr, "connected")
-        testing = False
         while True:
             try:
                 # print("Before recv..")
@@ -171,12 +170,10 @@ def main():
                 # print("Before load..")
                 # print("Data: " + str(data))
                 msg = json.loads(data.decode())
-                if testing == False:
                     # print("Before handler..")
-                    cmdHandler2(msg)
-                    testing = True
+                cmdHandler2(msg)
                         #Husk fjern udført kommand fra listen
-                if not data: break
+                # if not data: break
             except Exception as e:
                 print(e)
                 print("Client disconnected")
