@@ -2,8 +2,9 @@ import numpy as np
 import cv2
 
 from brains.detectTrack import getTrack
+from brains.detectBalls import getBalls
 from model import ball
-from model import Track
+from model import track
 from model import obstacle
 from view import visionOutputView
 
@@ -18,17 +19,23 @@ from view import visionOutputView
 
 
 class VisionController:
-    track = Track.Track
+    track = track.Track
     obstacle = obstacle.Obstacle
-    balls = [ball.Ball]
+    ball = ball.Ball
+    balls = []
     robot = None
 
-    cap = cv2.VideoCapture(1)
+    # cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mov')
+
     cap.set(cv2.CAP_PROP_FPS, 30)
     while True:
         ret, img = cap.read()
 
-        # balls = getBalls(img)
+        balls = getBalls(img)
+
+        if len(balls) is not 0:
+            print(str(balls[0].x))
 
         track = getTrack(img)
 
@@ -51,7 +58,7 @@ class VisionController:
 
         # cv2.imshow("images", np.hstack([img]))
 
-        visionOutputView.showImage(img, track)
+        visionOutputView.showImage(img, track, balls)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

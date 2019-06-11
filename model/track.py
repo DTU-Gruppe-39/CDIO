@@ -1,5 +1,5 @@
 from model import corner
-from model import Point
+from model import point
 from model import boundary
 
 
@@ -8,8 +8,8 @@ class Track:
     topLeftCorner = corner.Corner
     bottomRightCorner = corner.Corner
     bottomLeftCorner = corner.Corner
-    bigGoal = Point.Point
-    smallGoal = Point.Point
+    bigGoal = point.Point
+    smallGoal = point.Point
     boundary = boundary.Boundary
 
     def __init__(self, topRightCorner, topLeftCorner, bottomRightCorner, bottomLeftCorner, bigGoal, smallGoal, boundary):

@@ -1,9 +1,9 @@
 import cv2
 import imutils
 import numpy as np
-from model import Track
+from model import track
 from model import corner
-from model import Point
+from model import point
 
 
 def sort(points):
@@ -30,7 +30,7 @@ def sort(points):
 
 def calculateGoals(corner1, corner2):
 
-    goalMidpoint = Point.Point(int((corner1.x + corner2.x)/2), int((corner1.y + corner2.y)/2))
+    goalMidpoint = point.Point(int((corner1.x + corner2.x) / 2), int((corner1.y + corner2.y) / 2))
 
     # goalMidpoint.x = (corner1.x + corner2.x)/2
     # goalMidpoint.y = (corner1.y + corner2.y)/2
@@ -40,7 +40,7 @@ def calculateGoals(corner1, corner2):
 
 def getTrack(frame):
 
-    tempTrack = Track.Track
+    tempTrack = track.Track
 
     corner_boundaries = [
         ([43, 40, 40], [97, 255, 255])

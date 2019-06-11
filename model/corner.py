@@ -1,4 +1,3 @@
-
 class Corner:
     x = None
     y = None
