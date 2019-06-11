@@ -83,15 +83,25 @@ def cmdHandler2(cmd):
             back.on_for_degrees(cmd['speed'], cmd['degrees'])
         if cmd['type'] == "attack":
             tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['tank_degrees'])
-            front.on(cmd['front_degrees'])
+            front.on_for_degrees(20, cmd['front_degrees'])
             tank_drive.off()
         if cmd['type'] == "deliver":
-            front.on(-20)
+            front.on_for_degrees(-20, 180)
             back.on_for_degrees(10, 90)
             time.sleep(4)
             back.on_for_degrees(-10, 90)
             time.sleep(1)
-            front.off()
+            front.on_for_degrees(20, 180)
+        if cmd['type'] == "w":
+            tank_drive.on(30, 30)
+        if cmd['type'] == "a":
+            tank_drive.on(-20, 20)
+        if cmd['type'] == "s":
+            tank_drive.on(-15, -15)
+        if cmd['type'] == "d":
+            tank_drive.on(20, -20)
+        if cmd['type'] == "stop":
+            tank_drive.off()
 
 
 

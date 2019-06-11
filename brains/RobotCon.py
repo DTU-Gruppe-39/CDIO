@@ -74,16 +74,16 @@ def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
     return
 
 
-def turn(angle, rotation, speed):
+def turn(angle, clockwise, speed):
     # Turn_speed can be changed to hardcoded values corresponding to the scenario
     degrees = math.floor((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
-    if rotation == "clockwise" :
+    if clockwise :
         msg = createCommandTank(speed, -speed, degrees)
 
     else:
         msg = createCommandTank(-speed, speed, degrees)
     # Send msg to NetworkCon
-    return
+    return msg
 
 
 def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
@@ -96,19 +96,90 @@ def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, tu
     return
 
 
-def dump_balls():
-    msg = createCommandDeliver()
-    # Send msg to NetworkCon
-    return
+def keyW():
+    message = {
+        "type": "w"
+    }
+    return message
+
+def keyA():
+    message = {
+        "type": "a"
+    }
+    return message
+
+def keyS():
+    message = {
+        "type": "s"
+    }
+    return message
+
+def keyD():
+    message = {
+        "type": "d"
+    }
+    return message
+
+def stop():
+    message = {
+        "type": "stop"
+    }
+    return message
+
+def keyF():
+    message = createCommandFront(25, 1080)
+    return message
+
+def keyG():
+    message = createCommandDeliver()
+    return message
+
+
 
 
 
 def main():
+    # while True:
+    #     networking.sendCommand(createCommandTank(30, 30, 360))
+    #     time.sleep(3)
+    #     networking.sendCommand(createCommandTank(-30, -30, 720))
+    #     time.sleep(10)
+
+
     while True:
-        networking.sendCommand(createCommandTank(30, 30, 360))
-        time.sleep(3)
-        networking.sendCommand(createCommandTank(-30, -30, 720))
-        time.sleep(10)
+        key = input()
+        if key == 'w':
+            networking.sendCommand(keyW())
+            while True:
+                if not input() == 'w':
+                    # key = input()
+                    networking.sendCommand(stop())
+                    break
+        elif key == 'a':
+            networking.sendCommand(keyA())
+            while True:
+                if not input() == 'a':
+                    # key = input()
+                    networking.sendCommand(stop())
+                    break
+        elif key == 's':
+            networking.sendCommand(keyS())
+            while True:
+                if not input() == 's':
+                    # key = input()
+                    networking.sendCommand(stop())
+                    break
+        elif key == 'd':
+            networking.sendCommand(keyD())
+            while True:
+                if not input() == 'd':
+                    # key = input()
+                    networking.sendCommand(stop())
+                    break
+        elif key == 'f':
+            networking.sendCommand(keyF())
+        elif key == 'g':
+            networking.sendCommand(keyG())
 
 if __name__ == "__main__":
     main()
