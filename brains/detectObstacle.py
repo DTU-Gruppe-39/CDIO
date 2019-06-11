@@ -1,20 +1,25 @@
 import cv2
 import imutils
 import numpy as np
-
-cap = cv2.VideoCapture(0)
-# cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/bane_video.mov')
-cap.set(cv2.CAP_PROP_FPS, 24)
+from brains import visionController
+from model import track
 
 
-boundaries = [
-    ([60, 40, 40], [86, 255, 255]),
-    # ([86, 0, 0], [255, 0, 0])
-]
 
-while True:
-    # Capture frame-by-frame
-    ret, img = cap.read()
+
+def getObstacle(img):
+
+    tempTrack = visionController.getTrackCoord()
+
+    x = tempTrack.track.topRightCorner.x
+    y = tempTrack.track.topRightCorner.x
+
+    scale = tempTrack.Track
+
+    # crop image
+    crop = img[x:400, y:400]
+    cv2.imshow("image", img)
+    cv2.imshow("cropped", crop)
 
     blurred_frame = cv2.GaussianBlur(img, (5, 5), 0)
 
@@ -23,7 +28,7 @@ while True:
     img_hsv = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
 
     # lower mask (0-10)
-    lower_red = np.array([0, 70, 70])
+    lower_red = np.array([0, 100, 20])
     upper_red = np.array([6, 255, 255])
     mask0 = cv2.inRange(img_hsv, lower_red, upper_red)
 
@@ -47,9 +52,3 @@ while True:
     cv2.namedWindow('images', cv2.WINDOW_NORMAL)
     cv2.imshow("images", np.hstack([img, output_hsv]))
     cv2.resizeWindow('images', 1400, 1000)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cap.release()
-cv2.destroyAllWindows()
