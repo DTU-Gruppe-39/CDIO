@@ -10,8 +10,8 @@ def nothing(x): # for trackbar
     pass
 
 
-#cap = cv2.VideoCapture(1)
-cap = cv2.VideoCapture("/home/soren/Downloads/RobotWithMarkings.mov")
+cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture("/home/soren/Downloads/RobotWithMarkings.mov")
 cap.set(cv2.CAP_PROP_FPS, 24)
 cv2.namedWindow("test")
 minDist = 0
@@ -37,12 +37,12 @@ while(True):
     boundaries = [
         # ([119, 182, 143], [136, 199, 169]),
         #([0, 230, 230], [130, 255, 255])  # Robot yellow
-        ([180, 0, 0], [255, 190, 50])
+        ([170, 0, 0], [255, 190, 50])
         # ([0, 150, 0], [150, 255, 150]) #Bander red
         # ([86, 0, 0], [255, 0, 0])
     ]
     boundaries1 = [
-        ([70, 0, 100], [255, 20, 255])
+        ([60, 0, 100], [255, 75, 255])
        # ([30, 0, 100], [55, 50, 200])
     ]
 
@@ -79,7 +79,7 @@ while(True):
 
         gray1 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-   #     thresh1 = cv2.threshold(mask1, 0, 0, cv2.THRESH_BINARY)[1]
+        # thresh1 = cv2.threshold(mask1, 0, 0, cv2.THRESH_BINARY)[1]
 
         minDist = 0
         x = 0
@@ -102,8 +102,6 @@ while(True):
                 x, y, w, h = cv2.boundingRect(mask)
                 rect1 = cv2.rectangle(frame.copy(), (x - 40, y - 35), (x + w + 35, y + h + 35), (255, 0, 0), 1)
 
-
-
                 # Finding the biggest contour to find robot
                 contours, _ = cv2.findContours(mask1, 1, 1)
                 max_area = 0
@@ -113,6 +111,28 @@ while(True):
                     if area > max_area:
                         max_area = area
                         best_cnt = cnt
+
+                # loop over the contours
+                cont, _ = cv2.findContours(mask, 1, 1)
+                for c in cont:
+                    # compute the center of the contour
+                    M = cv2.moments(c)
+
+                    if M["m00"] != 0:
+                        cX = int(M["m10"] / M["m00"])
+                        cY = int(M["m01"] / M["m00"])
+                        center = (cX, cY)
+                    else:
+                        # set values as what you need in the situation
+                        cX, cY = 0, 0
+                    #
+                    # # draw the contour and center of the shape on the image
+
+                    cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
+                    point = cv2.circle(frame, (cX, cY), 1, (0, 255, 255), 2)
+                    print(cont[1][0][0][0])
+                    cv2.line(frame, (cont[0][0][0][0], cont[0][0][0][1]), (cont[1][0][0][0], cont[1][0][0][1]), (0, 0, 255), 1)
+
 
                 # Center of robot
                 M = cv2.moments(best_cnt)
@@ -125,7 +145,7 @@ while(True):
                 box = cv2.boxPoints(rect)
                 box = np.int0(box)
                 cv2.drawContours(frame, [box], 0, (0, 255, 0), 2)
-               # print(rect)
+                #print(rect)
                 #box[0][0] -= 50
                 #box[0][1] += 50
                 #box[1][0] -= 50
@@ -148,7 +168,7 @@ while(True):
                     minDist = dist
                     cirX = i[0]
                     cirY = i[1]
-                   # print(minDist)
+                    #print(minDist)
 
                     cv2.line(frame, (cx, cy), (cirX, cirY), (0, 0, 255), 1)
 
