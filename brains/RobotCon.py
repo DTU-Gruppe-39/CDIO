@@ -81,9 +81,12 @@ def turn(angle, rotation, speed):
     return
 
 
-def attack(speed, tank_degrees, front_degrees):
-    createCommandTank(speed, speed, tank_degrees)
-    # Send attack to NetworkCon
+def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
+    pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
+    tank_degrees = drive_degrees(pix_dist, pix_pr_cm)
+    turn(angle, rotation, turn_speed)
+    msg = createCommandTank(speed, speed, tank_degrees)
+    # Send msg to NetworkCon
     return
 
 
