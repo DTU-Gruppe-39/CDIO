@@ -25,8 +25,8 @@ class VisionController:
     balls = []
     robot = None
 
-    # cap = cv2.VideoCapture(1)
-    cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mov')
+    cap = cv2.VideoCapture(1)
+    # cap = cv2.VideoCapture('/Users/thomasmattsson/Documents/GitHub/CDIO/Test_images/MovieWithMovingRobotAndBalls.mov')
 
     cap.set(cv2.CAP_PROP_FPS, 30)
     while True:
