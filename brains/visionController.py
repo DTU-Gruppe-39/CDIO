@@ -9,15 +9,6 @@ from model import obstacle
 from view import visionOutputView
 
 
-
-
-# def captureVideo():
-#     # Capture frame-by-frame
-#     ret, frame = cap.read()
-#
-#     return frame
-
-
 class VisionController:
     track = track.Track
     obstacle = obstacle.Obstacle
@@ -34,11 +25,10 @@ class VisionController:
 
         balls = getBalls(img)
 
-        if len(balls) is not 0:
-            print(str(balls[0].x))
-
         track = getTrack(img)
 
+        # if len(balls) is not 0:
+        #     print(str(balls[0].x))
         # test print
         # print("BottomRight: " + str(track.bottomRightCorner.x) + " " + str(track.bottomRightCorner.y))
         # print("BottomLeft: " + str(track.bottomLeftCorner.x) + " " + str(track.bottomLeftCorner.y))
