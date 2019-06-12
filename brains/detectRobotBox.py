@@ -9,12 +9,12 @@ from model import robot
 from imutils import contours
 
 
-
 def getRobot(img):
     # Capture frame-by-frame
     mask = None
     mask1 = None
     output = None
+    tempRobot = robot.Robot
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.medianBlur(gray, 3)

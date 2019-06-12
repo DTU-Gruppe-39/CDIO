@@ -1,4 +1,5 @@
 import cv2
+import math
 import imutils
 import numpy as np
 import brains.singleton as singleton
@@ -7,17 +8,16 @@ from model import track
 from model import obstacle
 
 
-def getObstacle():
+def getObstacle(img):
 
     tempObstacle = obstacle.Obstacle
 
     tempTrack = singleton.Singleton.track
 
+    x = tempTrack.topRightCorner.x - tempTrack.topLeftCorner.x
+    y = tempTrack.topRightCorner.y - tempTrack.topLeftCorner.y
 
-    x = tempTrack.topRightCorner.x
-    y = tempTrack.topRightCorner.y
-
-    scale = tempTrack
+    trackLenght = math.sqrt(pow(x, 2) + pow(y, 2))
 
     # crop image
     crop = img[x:400, y:400]

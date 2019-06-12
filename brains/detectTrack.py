@@ -108,7 +108,6 @@ def getTrack(frame):
 
         # Calculate goals
         tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
-
         tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
 
     return tempTrack

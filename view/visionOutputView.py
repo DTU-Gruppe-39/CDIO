@@ -35,7 +35,6 @@ def showImage(img, track, balls, robot):
     smallGoal = (track.smallGoal.x, track.smallGoal.y)
 
     if track.bottomLeftCorner.x is not None:
-
         cv2.circle(img, bigGoal, 7, (255, 255, 255), -1)
         cv2.circle(img, smallGoal, 7, (255, 255, 255), -1)
 
