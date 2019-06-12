@@ -16,7 +16,7 @@ from view import visionOutputView
 class VisionController:
 
     obstacle = obstacle.Obstacle
-    robot = None
+    # robot = None
 
     cap = cv2.VideoCapture(0)
     # cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/VideoOfRobot_2.mov')
