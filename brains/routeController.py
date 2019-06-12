@@ -10,14 +10,18 @@ forwardSpeed = 30
 attackSpeed = 10
 distanceCutOffPoint = 20
 frontArmDegrees = 1080
+clockwise = False
 
 
 def getAngle(cenBox, blPoint, cenBall):
+    global clockwise
     ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
     if ang < 0:
         ang = ang + 180
+        clockwise = True
     if cenBox[0] < blPoint[0] and cenBox[1] > cenBall[1] or cenBox[1] < cenBall[1] and cenBox[0] > blPoint[0]:
         ang = 180 - ang
+        clockwise = False
     return ang
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
@@ -83,7 +87,7 @@ def main():
                 goForGoal()
             else:
                 if not angle == 0:
-                    clockwise = True #TODO Find which way to turn
+                    # clockwise = True #TODO Find which way to turn
                     robotController.turn(angle, clockwise, turnSpeed)
                 # elif distanceToWaypoint() > 5:
                 elif distanceToBall(ball, robot) > distanceCutOffPoint:
