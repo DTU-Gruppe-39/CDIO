@@ -43,7 +43,7 @@ def getTrack(frame):
     tempTrack = track.Track
 
     corner_boundaries = [
-        ([43, 100, 20], [90, 255, 255])
+        ([40, 100, 20], [93, 255, 255])
         # ([86, 0, 0], [255, 0, 0])
     ]
 

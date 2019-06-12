@@ -3,8 +3,6 @@ import math
 import imutils
 import numpy as np
 import brains.singleton as singleton
-from brains import visionController
-from model import track
 from model import obstacle
 
 
@@ -14,10 +12,12 @@ def getObstacle(img):
 
     tempTrack = singleton.Singleton.track
 
+
     x = tempTrack.topRightCorner.x - tempTrack.topLeftCorner.x
     y = tempTrack.topRightCorner.y - tempTrack.topLeftCorner.y
 
     trackLenght = math.sqrt(pow(x, 2) + pow(y, 2))
+    print("trackLenght: " + str(trackLenght))
 
     # crop image
     crop = img[x:400, y:400]
