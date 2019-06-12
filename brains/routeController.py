@@ -21,9 +21,10 @@ def getAngle(cenBox, blPoint, cenBall):
     return ang
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
-    par1 = math.pow((end_x - start_x))
-    par2 = math.pow((end_y - start_y))
+    par1 = math.pow((end_x - start_x), 2)
+    par2 = math.pow((end_y - start_y), 2)
     pix_dist = math.sqrt(par1 + par2)
+
     return pix_dist
 
 def chooseBall(balls, robot):
