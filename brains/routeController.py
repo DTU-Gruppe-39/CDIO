@@ -82,7 +82,7 @@ def main():
             elif numberOfBallsLeft() == 2:
                 goForGoal()
             else:
-                if not angle == 0:
+                if not angle < 10:
                     clockwise = True #TODO Find which way to turn
                     robotController.turn(angle, clockwise, turnSpeed)
                 # elif distanceToWaypoint() > 5:
