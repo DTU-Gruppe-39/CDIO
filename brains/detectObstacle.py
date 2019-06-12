@@ -17,7 +17,7 @@ def getObstacle():
     x = tempTrack.topRightCorner.x
     y = tempTrack.topRightCorner.y
 
-    scale = tempTrack.Track
+    scale = tempTrack
 
     # crop image
     crop = img[x:400, y:400]
