@@ -102,8 +102,8 @@ def getRobot(img):
 
           #  cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
          #   cv2.circle(img, (cX, cY), 1, (0, 255, 255), 2)
-            tempRobot.conX = cont[0][0][0][0]
-            tempRobot.conY = cont[0][0][0][1]
+            tempRobot.blSquareX = cont[0][0][0][0]
+            tempRobot.blSquareY = cont[0][0][0][1]
 
         # Center of robot
         M = cv2.moments(best_cnt)
@@ -116,8 +116,8 @@ def getRobot(img):
         box = cv2.boxPoints(rect)
         box = np.int0(box)
 
-        tempRobot.x = cx
-        tempRobot.y = cy
+        tempRobot.centrumX = cx
+        tempRobot.centrumY = cy
         tempRobot.box = box
 
         # Smallest distance from robot to ball

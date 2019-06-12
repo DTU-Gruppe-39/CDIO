@@ -1,13 +1,13 @@
 class Robot:
-    x = None
-    y = None
-    conX = None
-    conY = None
+    centrumX = None
+    centrumY = None
+    blSquareX = None
+    blSquareY = None
     box = None
 
-    def __init__(self, x, y, conX, conY, box):
-        self.x = x
-        self.y = y
-        self.conX = conX
-        self.conY = conY
+    def __init__(self, x, y,conX,conY, box):
+        self.centrumX = x
+        self.centrumY = y
+        self.blSquareX = conX
+        self.blSquareY = conY
         self.box = box
