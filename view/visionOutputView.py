@@ -47,18 +47,24 @@ def showImage(img, track, balls, robot):
         # circle outline
         cv2.circle(img, center, ball.radius, (255, 0, 255), 3)
 
-    if robot.x is not None:
+    if robot.centrumX is not None:
         # contour point
-        cv2.circle(img, (robot.conX, robot.conY), 3, (0, 255, 255), -1)
+        cv2.circle(img, (robot.blSquareX, robot.blSquareY), 3, (0, 255, 255), -1)
 
         # center of robot
-        cv2.circle(img, (robot.x, robot.y), 4, 255, -1)
-        cv2.putText(img, "Robo bot", (robot.x, robot.y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
+        cv2.circle(img, (robot.centrumX, robot.centrumY), 4, 255, -1)
+        cv2.putText(img, "Robo bot", (robot.centrumX, robot.centrumY), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
         # drawing robot outline
         cv2.drawContours(img, [robot.box], 0, (0, 255, 0), 2)
 
+        # danger zone
+        cv2.line(img,(bottomLineA[0] + 40, bottomLineA[1] - 40), (bottomLineB[0] - 40 ,bottomLineB[1] - 40), (0,0,255), 2)
+        cv2.line(img, (topLineA[0] - 40, topLineA[1] + 40), (topLineB[0] + 40, topLineB[1] + 40),(0, 0, 255), 2)
+        cv2.line(img, (rightLineA[0] - 40, rightLineA[1] - 40), (rightLineB[0] - 40, rightLineB[1] + 40),(0, 0, 255), 2)
+        cv2.line(img, (leftLineA[0] + 40, leftLineA[1] - 40), (leftLineB[0] + 40, leftLineB[1] + 40),(0, 0, 255), 2)
+
         # robot to ball line
-       # cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
+        #cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
 
     # cv2.imshow('frame', img)
     cv2.imshow("images", np.hstack([img]))
