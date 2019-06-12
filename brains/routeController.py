@@ -86,8 +86,8 @@ def main():
             elif numberOfBallsLeft() == 2:
                 goForGoal()
             else:
-                if not angle == 0:
-                    # clockwise = True #TODO Find which way to turn
+                if not angle < 10:
+                    clockwise = True #TODO Find which way to turn
                     robotController.turn(angle, clockwise, turnSpeed)
                 # elif distanceToWaypoint() > 5:
                 elif distanceToBall(ball, robot) > distanceCutOffPoint:
@@ -100,10 +100,10 @@ def main():
         else:
             #no balls left
             goForGoal()
-    
+
     visionController.releaseImage()
 
-            
+
 
 
 
