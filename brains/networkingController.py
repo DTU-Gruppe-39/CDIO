@@ -5,11 +5,10 @@ import time
 import json
 import os
 import re
-import globals
 import socket
 
 
-HOST = "172.20.10.5"
+HOST = "172.20.10.8"
 PORT = 6000
 INIT = True
 tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

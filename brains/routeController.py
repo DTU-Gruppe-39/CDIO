@@ -34,7 +34,10 @@ def chooseBall(balls, robot):
 
 def calculateAngle(ball, robot):
     print("Calculate angle")
-    return getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (ball.x, ball.y))
+    ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (ball.x, ball.y))
+    print("routeCon: angle is " + str(ang))
+    return ang
+
 
 def distanceToBall(ball, robot):
     print("Calculate distance")
