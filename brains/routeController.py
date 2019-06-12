@@ -1,4 +1,4 @@
-import singleton.Singleton as singleton
+import brains.singleton as singleton
 import model
 from model import ball
 from brains import visionController
@@ -33,7 +33,7 @@ def chooseBall(balls, robot):
 
 def calculateAngle(ball, robot):
     print("Calculate angle")
-    return getAngle(robot.cenBox, robot.blPoint, ball.cenBall)
+    return getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (ball.x, ball.y))
 
 def distanceToBall(ball, robot):
     print("Calculate distance")
