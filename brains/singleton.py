@@ -51,11 +51,11 @@ class Singleton:
     # def setObstacle(self, obstacle):
     #     self.obstacle = obstacle
 
-    def getRobot(self):
-        return self.robot
+    # def getRobot(self):
+    #    return self.robot
 
-    def setRobot(self, robot):
-        self.robot = robot
+    # def setRobot(self, robot):
+    #    self.robot = robot
 
 
 

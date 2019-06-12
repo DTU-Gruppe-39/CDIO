@@ -2,9 +2,10 @@ import cv2
 import numpy as np
 from model import track
 from model import ball
+from model import robot
 
 
-def showImage(img, track, balls):
+def showImage(img, track, balls, robot):
 
 
     #--Draw border-lines--#
@@ -46,6 +47,7 @@ def showImage(img, track, balls):
         cv2.circle(img, center, 1, (0, 100, 100), 5)
         # circle outline
         cv2.circle(img, center, ball.radius, (255, 0, 255), 3)
+
 
     # cv2.imshow('frame', img)
     cv2.imshow("images", np.hstack([img]))
