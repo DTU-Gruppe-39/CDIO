@@ -10,7 +10,8 @@ def getBalls(img):
     # cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     gray = cv2.medianBlur(gray, 3)
     rows = gray.shape[1]
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=500, param2=26, minRadius=1, maxRadius=20)
+   # circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=500, param2=26, minRadius=1, maxRadius=20)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=550, param2=17, minRadius=5, maxRadius=8)
     # print(circles)
 
     if circles is not None:

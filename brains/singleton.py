@@ -4,13 +4,14 @@ from model import corner
 from model import obstacle
 from model import point
 from model import track
-
+from model import robot
 
 class Singleton:
 
     balls = [ball.Ball]
     track = track.Track
     obstacle = obstacle.Obstacle
+    robot = robot.Robot
 
 
     __instance = None
@@ -50,6 +51,11 @@ class Singleton:
     # def setObstacle(self, obstacle):
     #     self.obstacle = obstacle
 
+    def getRobot(self):
+        return self.robot
+
+    def setRobot(self, robot):
+        self.robot = robot
 
 
 
