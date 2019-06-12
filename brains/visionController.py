@@ -4,6 +4,7 @@ import cv2
 
 from brains.detectTrack import getTrack
 from brains.detectBalls import getBalls
+from brains.detectObstacle import getObstacle
 import brains.singleton as singleton
 from model import ball
 from model import track
@@ -13,13 +14,7 @@ from view import visionOutputView
 
 class VisionController:
 
-    s = singleton.Singleton.getInstance()
-
-
-    track = track.Track
     obstacle = obstacle.Obstacle
-    ball = ball.Ball
-    balls = []
     robot = None
 
     # cap = cv2.VideoCapture(1)
@@ -29,11 +24,13 @@ class VisionController:
     while True:
         ret, img = cap.read()
 
-        balls = getBalls(img)
+        singleton.Singleton.balls = getBalls(img)
 
-        track = getTrack(img)
+        singleton.Singleton.track = getTrack(img)
+        print(id(singleton.Singleton.track))
 
-        # obstacle = getObstacle(img)
+
+        # getObstacle()
 
         # robot = getRobot(img)
 
@@ -56,7 +53,7 @@ class VisionController:
 
         # cv2.imshow("images", np.hstack([img]))
 
-        visionOutputView.showImage(img, track, balls)
+        visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

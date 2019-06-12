@@ -32,23 +32,23 @@ class Singleton:
 
     # Getters and setters
 
-    def getBalls(self):
-        return self.balls
-
-    def setBalls(self, balls):
-        self.balls = balls
-
-    def getTrack(self):
-        return self.track
-
-    def setTrack(self, track):
-        self.track = track
-
-    def getObstacle(self):
-        return self.obstacle
-
-    def setObstacle(self, obstacle):
-        self.obstacle = obstacle
+    # def getBalls(self):
+    #     return self.balls
+    #
+    # def setBalls(self, balls):
+    #     self.balls = balls
+    #
+    # def getTrack(self):
+    #     return self.track
+    #
+    # def setTrack(self, track):
+    #     self.track = track
+    #
+    # def getObstacle(self):
+    #     return self.obstacle
+    #
+    # def setObstacle(self, obstacle):
+    #     self.obstacle = obstacle
 
 
 

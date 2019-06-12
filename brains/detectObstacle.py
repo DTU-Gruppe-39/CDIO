@@ -1,18 +1,21 @@
 import cv2
 import imutils
 import numpy as np
+import brains.singleton as singleton
 from brains import visionController
 from model import track
+from model import obstacle
 
 
+def getObstacle():
+
+    tempObstacle = obstacle.Obstacle
+
+    tempTrack = singleton.Singleton.track
 
 
-def getObstacle(img):
-
-    tempTrack = visionController.getTrackCoord()
-
-    x = tempTrack.track.topRightCorner.x
-    y = tempTrack.track.topRightCorner.x
+    x = tempTrack.topRightCorner.x
+    y = tempTrack.topRightCorner.y
 
     scale = tempTrack.Track
 
