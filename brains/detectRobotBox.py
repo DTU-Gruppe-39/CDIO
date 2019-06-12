@@ -11,9 +11,6 @@ from imutils import contours
 
 def getRobot(img):
     # Capture frame-by-frame
-    mask = None
-    mask1 = None
-    output = None
     tempRobot = robot.Robot
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -30,6 +27,8 @@ def getRobot(img):
     ]
     boundaries1 = [
         ([60, 0, 100], [255, 75, 255])
+        #hsv
+        #([105, 5, 100], [210, 90, 255])
     ]
 
     # roed: ([17, 15, 100], [50, 56, 200])
