@@ -23,7 +23,7 @@ def calculateAngle(px1, py1, px2, py2, px3, py3):
 
     return int(angleDeg)
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2_Trim.mov')
 #cap = cv2.VideoCapture("VideoOfRobot_2_Trim.mp4")
 cap.set(cv2.CAP_PROP_FPS, 24)
 cv2.namedWindow("test")
@@ -56,7 +56,7 @@ while(True):
     ]
     boundaries1 = [
         #([100, 90, 120], [205, 107, 255])
-        ([95, 0, 120], [205, 115, 255])
+        ([105, 5, 100], [210, 90, 255])
        # ([30, 0, 100], [55, 50, 200])
     ]
 
@@ -149,7 +149,7 @@ while(True):
                     cv2.circle(frame, (cX, cY), 1, (0, 255, 255), 2)
                     #print(cont[1][0][0][0])
                     #cv2.line(frame, (cont[0][0][0][0], cont[0][0][0][1]), (cont[1][0][0][0], cont[1][0][0][1]), (0, 0, 255), 1)
-                    #cv2.line(frame, c1, (cont[0][0][0][0], cont[0][0][0][1]), (0, 0, 255), 1)
+                    cv2.line(frame, c1, (cont[0][0][0][0], cont[0][0][0][1]), (0, 0, 255), 1)
                     #cv2.line(frame, c1, (cont[0][0][0][1], cont[0][0][0][0]), (0, 255, 255), 1)
                     #angle = calculateAngle(x1, y1, cX, cY, cont[0][0][0][0], cont[0][0][0][1])
                     a = np.array([[cX, cY]])

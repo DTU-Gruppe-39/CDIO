@@ -26,15 +26,10 @@ def getRobot(img):
 
 
     boundaries = [
-        # ([119, 182, 143], [136, 199, 169]),
-        #([0, 230, 230], [130, 255, 255])  # Robot yellow
         ([170, 0, 0], [255, 190, 50])
-        # ([0, 150, 0], [150, 255, 150]) #Bander red
-        # ([86, 0, 0], [255, 0, 0])
     ]
     boundaries1 = [
         ([60, 0, 100], [255, 75, 255])
-        # ([30, 0, 100], [55, 50, 200])
     ]
 
     # roed: ([17, 15, 100], [50, 56, 200])
@@ -68,8 +63,6 @@ def getRobot(img):
 
 
         gray1 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-        # thresh1 = cv2.threshold(mask1, 0, 0, cv2.THRESH_BINARY)[1]
 
         minDist = 0
         x = 0
@@ -80,7 +73,7 @@ def getRobot(img):
 
         # Bounding box of robot
         x, y, w, h = cv2.boundingRect(mask)
-        cv2.rectangle(img, (x - 40, y - 35), (x + w + 35, y + h + 35), (255, 0, 0), 1)
+        #cv2.rectangle(img, (x - 40, y - 35), (x + w + 35, y + h + 35), (255, 0, 0), 1)
 
         # Finding the biggest contour to find robot
         contours, _ = cv2.findContours(mask1, 1, 1)
@@ -107,27 +100,25 @@ def getRobot(img):
             #
             # # draw the contour and center of the shape on the image
 
-            cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
-            cv2.circle(img, (cX, cY), 1, (0, 255, 255), 2)
+          #  cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
+         #   cv2.circle(img, (cX, cY), 1, (0, 255, 255), 2)
             tempRobot.conX = cont[0][0][0][0]
             tempRobot.conY = cont[0][0][0][1]
 
         # Center of robot
         M = cv2.moments(best_cnt)
         cx, cy = int(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
-        cv2.circle(img, (cx, cy), 4, 255, -1)
         rect = cv2.minAreaRect(best_cnt)
-        cv2.putText(img, "Robo bot", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
-        tempRobot.x = cx
-        tempRobot.y = cy
+
 
         # Rotating box
         box = cv2.boxPoints(rect)
         box = np.int0(box)
-        cv2.drawContours(img, [box], 0, (0, 255, 0), 2)
 
-
+        tempRobot.x = cx
+        tempRobot.y = cy
+        tempRobot.box = box
 
         # Smallest distance from robot to ball
         # dist = math.sqrt(pow(i[0] - x, 2) + pow(i[1] - y, 2))
