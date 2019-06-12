@@ -182,6 +182,14 @@ def main():
                 msg = json.loads(data.decode())
                     # print("Before handler..")
                 cmdHandler2(msg)
+                try:
+                    command = {
+                        "type": "sucess"
+                    }
+                    dataToSend = json.JSONEncoder().encode(command)
+                    conn.sendall(dataToSend.encode())
+                except Exception as e:
+                    print("Respond failed e:" + e)
                         #Husk fjern udført kommand fra listen
                 # if not data: break
             except Exception as e:
