@@ -47,7 +47,7 @@ def showImage(img, track, balls, robot):
         # circle outline
         cv2.circle(img, center, ball.radius, (255, 0, 255), 3)
 
-
+    if robot.x is not None:
         # contour point
         cv2.circle(img, (robot.conX, robot.conY), 3, (0, 255, 255), -1)
 
@@ -58,7 +58,7 @@ def showImage(img, track, balls, robot):
         cv2.drawContours(img, [robot.box], 0, (0, 255, 0), 2)
 
         # robot to ball line
-        cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
+       # cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
 
     # cv2.imshow('frame', img)
     cv2.imshow("images", np.hstack([img]))
