@@ -1,37 +1,24 @@
 import time
 
+from brains.detectBalls import getBalls
 import math
 import numpy as np
 import imutils
 import cv2
+from model import robot
 from imutils import contours
 
-def nothing(x): # for trackbar
-    pass
 
 
-cap = cv2.VideoCapture(0)
-#cap = cv2.VideoCapture("/home/soren/Downloads/RobotWithMarkings.mov")
-cap.set(cv2.CAP_PROP_FPS, 24)
-cv2.namedWindow("test")
-minDist = 0
-
-
-while(True):
+def getRobot(img):
     # Capture frame-by-frame
-    ret, frame = cap.read()
-#    frame = cv2.imread("../Test_images/ImageOfRobot8.jpg")
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.medianBlur(gray, 3)
     rows = gray.shape[1]
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=550, param2=17, minRadius=5, maxRadius=8)
 
-
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)[1]
-
 
 
     boundaries = [
@@ -43,14 +30,13 @@ while(True):
     ]
     boundaries1 = [
         ([60, 0, 100], [255, 75, 255])
-       # ([30, 0, 100], [55, 50, 200])
+        # ([30, 0, 100], [55, 50, 200])
     ]
 
     # roed: ([17, 15, 100], [50, 56, 200])
     # blaa: ([86, 31, 4], [220, 88, 50]),
     # gul: ([25, 146, 190], [62, 174, 250])
     # graa: ([103, 86, 65], [145, 133, 128])
-
 
     # loop over the boundaries
     for (lower, upper) in boundaries:
@@ -60,11 +46,11 @@ while(True):
 
         # find the colors within the specified boundaries and apply
         # the mask
-        mask = cv2.inRange(frame, lower, upper)
-        output = cv2.bitwise_and(frame, frame, mask=mask)
+        mask = cv2.inRange(img, lower, upper)
+        output = cv2.bitwise_and(img, img, mask=mask)
 
 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # blurred = cv2.GaussianBlur(gray, (5, 5), 0)
         thresh = cv2.threshold(mask, 1, 2, cv2.THRESH_BINARY)[1]
 
@@ -73,11 +59,11 @@ while(True):
         lower1 = np.array(lower, dtype="uint8")
         upper1 = np.array(upper, dtype="uint8")
 
-        mask1 = cv2.inRange(frame, lower1, upper1)
-        output += cv2.bitwise_and(frame, frame, mask=mask1)
+        mask1 = cv2.inRange(img, lower1, upper1)
+        output += cv2.bitwise_and(img, img, mask=mask1)
 
 
-        gray1 = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray1 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # blurred = cv2.GaussianBlur(gray, (5, 5), 0)
         # thresh1 = cv2.threshold(mask1, 0, 0, cv2.THRESH_BINARY)[1]
 
@@ -86,105 +72,76 @@ while(True):
         y = 0
         cirX = 0
         cirY = 0
+        tempRobot = robot.Robot
 
-        if circles is not None:
-            circles = np.uint16(np.around(circles))
-            for i in circles[0, :]:
-                center = (i[0], i[1])
-                # circle center
-                cv2.circle(output, center, 1, (0, 100, 100), 5)
+        # Bounding box of robot
+        x, y, w, h = cv2.boundingRect(mask)
+        cv2.rectangle(img, (x - 40, y - 35), (x + w + 35, y + h + 35), (255, 0, 0), 1)
 
-                # circle outline
-                radius = i[2]
-                cv2.circle(output, center, radius, (255, 0, 255), 2)
+        # Finding the biggest contour to find robot
+        contours, _ = cv2.findContours(mask1, 1, 1)
+        max_area = 0
+        best_cnt = 0
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            if area > max_area:
+                max_area = area
+                best_cnt = cnt
 
-                # Bounding box of robot
-                x, y, w, h = cv2.boundingRect(mask)
-                rect1 = cv2.rectangle(frame.copy(), (x - 40, y - 35), (x + w + 35, y + h + 35), (255, 0, 0), 1)
+        # loop over the contours
+        cont, _ = cv2.findContours(mask, 1, 1)
+        for c in cont:
+            # compute the center of the contour
+            M = cv2.moments(c)
 
-                # Finding the biggest contour to find robot
-                contours, _ = cv2.findContours(mask1, 1, 1)
-                max_area = 0
-                best_cnt = 0
-                for cnt in contours:
-                    area = cv2.contourArea(cnt)
-                    if area > max_area:
-                        max_area = area
-                        best_cnt = cnt
+            if M["m00"] != 0:
+                cX = int(M["m10"] / M["m00"])
+                cY = int(M["m01"] / M["m00"])
+            else:
+                # set values as what you need in the situation
+                cX, cY = 0, 0
+            #
+            # # draw the contour and center of the shape on the image
 
-                # loop over the contours
-                cont, _ = cv2.findContours(mask, 1, 1)
-                for c in cont:
-                    # compute the center of the contour
-                    M = cv2.moments(c)
+            cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
+            cv2.circle(img, (cX, cY), 1, (0, 255, 255), 2)
+            tempRobot.conX = cont[0][0][0][0]
+            tempRobot.conY = cont[0][0][0][1]
 
-                    if M["m00"] != 0:
-                        cX = int(M["m10"] / M["m00"])
-                        cY = int(M["m01"] / M["m00"])
-                        center = (cX, cY)
-                    else:
-                        # set values as what you need in the situation
-                        cX, cY = 0, 0
-                    #
-                    # # draw the contour and center of the shape on the image
+        # Center of robot
+        M = cv2.moments(best_cnt)
+        cx, cy = int(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
+        cv2.circle(img, (cx, cy), 4, 255, -1)
+        rect = cv2.minAreaRect(best_cnt)
+        cv2.putText(img, "Robo bot", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
-                    cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
-                    point = cv2.circle(frame, (cX, cY), 1, (0, 255, 255), 2)
-                    print(cont[1][0][0][0])
-                    cv2.line(frame, (cont[0][0][0][0], cont[0][0][0][1]), (cont[1][0][0][0], cont[1][0][0][1]), (0, 0, 255), 1)
+        tempRobot.x = cx
+        tempRobot.y = cy
+
+        # Rotating box
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        cv2.drawContours(img, [box], 0, (0, 255, 0), 2)
 
 
-                # Center of robot
-                M = cv2.moments(best_cnt)
-                cx, cy = int(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
-                cv2.circle(frame, (cx, cy), 4, 255, -1)
-                rect = cv2.minAreaRect(best_cnt)
-                cv2.putText(frame, "Robo bot", (cx, cy), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
 
-                # Rotating box
-                box = cv2.boxPoints(rect)
-                box = np.int0(box)
-                cv2.drawContours(frame, [box], 0, (0, 255, 0), 2)
-                #print(rect)
-                #box[0][0] -= 50
-                #box[0][1] += 50
-                #box[1][0] -= 50
-                #box[1][1] -= 50
-                #box[2][0] += 50
-                #box[2][1] -= 50
-                #box[3][0] += 50
-                #box[3][1] += 50
+        # Smallest distance from robot to ball
+        # dist = math.sqrt(pow(i[0] - x, 2) + pow(i[1] - y, 2))
+        #
+        # # print(minDist)
+        # if (minDist == 0):
+        #     minDist = dist
+        # elif (dist < minDist):
+        #     minDist = 0
+        #     minDist = dist
+        #     cirX = i[0]
+        #     cirY = i[1]
+        #     #print(minDist)
+        #
+        #     cv2.line(img, (cx, cy), (cirX, cirY), (0, 0, 255), 1)
 
-                cv2.circle(frame, (box[1][0],box[1][1]), 4, 255, -1)
-
-                # Smallest distance from robot to ball
-                dist = math.sqrt(pow(i[0] - x, 2) + pow(i[1] - y, 2))
-
-               # print(minDist)
-                if (minDist == 0):
-                    minDist = dist
-                elif (dist < minDist):
-                    minDist = 0
-                    minDist = dist
-                    cirX = i[0]
-                    cirY = i[1]
-                    #print(minDist)
-
-                    cv2.line(frame, (cx, cy), (cirX, cirY), (0, 0, 255), 1)
-
-        print("\n")
-    # show the images
-    cv2.imshow("images", np.hstack([rect1, output]))
-
-    # Display the resulting frame
-    #cv2.imshow('frame', gray)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-# When everything done, release the capture
-cap.release()
-cv2.destroyAllWindows()
+   # print("\n")
+    return tempRobot
 
 
 

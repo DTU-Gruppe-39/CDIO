@@ -73,12 +73,8 @@ while(True):
         cnts = imutils.grab_contours(cnts)
 
 
-
-
-
         # M = cv2.moments(cnt)
        # print(M)
-
 
         # loop over the contours
         for c in cnts:
@@ -139,9 +135,6 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
-
-
-
 
 
 

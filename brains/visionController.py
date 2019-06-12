@@ -4,6 +4,7 @@ import cv2
 
 from brains.detectTrack import getTrack
 from brains.detectBalls import getBalls
+from brains.robotBox import getRobot
 from brains.detectObstacle import getObstacle
 import brains.singleton as singleton
 from model import ball
@@ -18,7 +19,7 @@ class VisionController:
     robot = None
 
     # cap = cv2.VideoCapture(1)
-    cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/MovieWithMovingRobotAndBalls.mp4')
+    cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2_Trim.mov')
 
     cap.set(cv2.CAP_PROP_FPS, 30)
     while True:
@@ -30,6 +31,7 @@ class VisionController:
         print(id(singleton.Singleton.track))
 
 
+        robot = getRobot(img)
         # getObstacle()
 
         # robot = getRobot(img)
