@@ -52,26 +52,26 @@ def createCommandDeliver ():
     return networking.sendCommand(message)
 
 
-def calc_pix_dist(start_x, start_y, end_x, end_y):
-    par1 = math.pow((end_x - start_x))
-    par2 = math.pow((end_y - start_y))
-    pix_dist = math.sqrt(par1 + par2)
-    return pix_dist
+# def calc_pix_dist(start_x, start_y, end_x, end_y):
+#     par1 = math.pow((end_x - start_x), 2)
+#     par2 = math.pow((end_y - start_y), 2)
+#     pix_dist = math.sqrt(par1 + par2)
+#     return pix_dist
 
 
 def drive_degrees(pix_dist, pix_pr_cm):
-    dist = pix_dist * pix_pr_cm
+    dist = pix_dist / pix_pr_cm
     drive_deg = math.floor((dist / wheelCircunference) * 360.0)
     return drive_deg
 
 
-def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
-    # Speed can be changed to hardcoded values corresponding to the scenario
-    pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
-    degrees = drive_degrees(pix_dist, pix_pr_cm)
-    msg = createCommandTank(speed, speed, degrees)
-    # Send msg NetworkCon
-    return networking.sendCommand(msg)
+# def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
+#     # Speed can be changed to hardcoded values corresponding to the scenario
+#     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
+#     degrees = drive_degrees(pix_dist, pix_pr_cm)
+#     msg = createCommandTank(speed, speed, degrees)
+#     # Send msg NetworkCon
+#     return networking.sendCommand(msg)
 
 
 def turn(angle, clockwise, speed):
@@ -85,14 +85,14 @@ def turn(angle, clockwise, speed):
     # Send msg to NetworkCon
 
 
-def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
-    # Speed and turn_speed can be changed to hardcoded values corresponding to the scenario
-    pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
-    tank_degrees = drive_degrees(pix_dist, pix_pr_cm)
-    turn(angle, rotation, turn_speed)
-    msg = createCommandTank(speed, speed, tank_degrees)
-    # Send msg to NetworkCon
-    return
+# def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
+#     # Speed and turn_speed can be changed to hardcoded values corresponding to the scenario
+#     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
+#     tank_degrees = drive_degrees(pix_dist, pix_pr_cm)
+#     turn(angle, rotation, turn_speed)
+#     msg = createCommandTank(speed, speed, tank_degrees)
+#     # Send msg to NetworkCon
+#     return
 
 
 def keyW():
