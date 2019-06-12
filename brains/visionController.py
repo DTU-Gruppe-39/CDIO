@@ -30,8 +30,7 @@ def captureFrame():
     singleton.Singleton.balls = getBalls(copy.deepcopy(img))
     singleton.Singleton.robot = getRobot(copy.deepcopy(img))
     singleton.Singleton.track = getTrack(copy.deepcopy(img))
-    print("Pixel: " + str(singleton.Singleton.track.pixelConversion))
-    print(id(singleton.Singleton.track))
+    print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
 
     # getObstacle(copy.deepcopy(img))
 
@@ -41,7 +40,7 @@ def captureFrame():
     # if len(balls) is not 0:
     #     print(str(balls[0].x))
     # test print
-    print("BottomRight: " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
+    print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
     # print("BottomLeft: " + str(track.bottomLeftCorner.x) + " " + str(track.bottomLeftCorner.y))
     # print("TopRight: " + str(track.topRightCorner.x) + " " + str(track.topRightCorner.y))
     # print("TopLeft: " + str(track.topLeftCorner.x) + " " + str(track.topLeftCorner.y))

@@ -25,9 +25,8 @@ def getBalls(img):
             # radius = i[2]
             # cv2.circle(img, center, radius, (255, 0, 255), 3)
             singleBall = ball.Ball(i[0], i[1], i[2])
-            print(str("Balls: " + str(singleBall.x)))
 
             tempBall.append(singleBall)
-            print(str("balls: " + str(tempBall[0].x)))
+            print(str("detectBalls: ball[0] is at " + str(tempBall[0].x) + str(tempBall[0].z)))
 
     return tempBall
