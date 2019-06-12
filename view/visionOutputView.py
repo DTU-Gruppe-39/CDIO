@@ -47,7 +47,7 @@ def showImage(img, track, balls, robot):
         # circle outline
         cv2.circle(img, center, ball.radius, (255, 0, 255), 3)
 
-    if robot.x is not None:
+    if robot.conX is not None:
         # contour point
         cv2.circle(img, (robot.conX, robot.conY), 3, (0, 255, 255), -1)
 

@@ -1,3 +1,5 @@
+import math
+
 import cv2
 import imutils
 import numpy as np
@@ -5,6 +7,8 @@ from model import track
 from model import corner
 from model import point
 
+# trackHeight = 124
+# trackLength = 169
 
 def sort(points):
 
@@ -43,7 +47,7 @@ def getTrack(frame):
     tempTrack = track.Track
 
     corner_boundaries = [
-        ([40, 100, 20], [93, 255, 255])
+        ([37, 50, 20], [96, 255, 255])
         # ([86, 0, 0], [255, 0, 0])
     ]
 
@@ -109,6 +113,18 @@ def getTrack(frame):
         # Calculate goals
         tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
         tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
+
+        # Calculate pixel/cm conversion
+        LenghtX = tempTrack.topRightCorner.x - tempTrack.topLeftCorner.x
+        LenghtY = tempTrack.topRightCorner.y - tempTrack.topLeftCorner.y
+
+        HeightX = tempTrack.topRightCorner.x - tempTrack.bottomLeftCorner.x
+        HeightY = tempTrack.topRightCorner.y - tempTrack.bottomLeftCorner.y
+
+        trackLenght = math.sqrt(pow(LenghtX, 2) + pow(LenghtY, 2))
+        # trackHeight = math.sqrt(pow(HeightX, 2) + pow(HeightY, 2))
+
+        tempTrack.pixelConversion = trackLenght/169
 
     return tempTrack
 

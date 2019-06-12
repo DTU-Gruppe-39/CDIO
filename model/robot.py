@@ -5,7 +5,7 @@ class Robot:
     conY = None
     box = None
 
-    def __init__(self, x, y,conX,conY, box):
+    def __init__(self, x, y, conX, conY, box):
         self.x = x
         self.y = y
         self.conX = conX

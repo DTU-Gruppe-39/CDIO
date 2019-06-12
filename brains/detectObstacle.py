@@ -13,14 +13,24 @@ def getObstacle(img):
     tempTrack = singleton.Singleton.track
 
 
-    x = tempTrack.topRightCorner.x - tempTrack.topLeftCorner.x
-    y = tempTrack.topRightCorner.y - tempTrack.topLeftCorner.y
+    LenghtX = tempTrack.topRightCorner.x - tempTrack.topLeftCorner.x
+    LenghtY = tempTrack.topRightCorner.y - tempTrack.topLeftCorner.y
 
-    trackLenght = math.sqrt(pow(x, 2) + pow(y, 2))
+    HeightX = tempTrack.topRightCorner.x - tempTrack.bottomLeftCorner.x
+    HeightY = tempTrack.topRightCorner.y - tempTrack.bottomLeftCorner.y
+
+    trackLenght = math.sqrt(pow(LenghtX, 2) + pow(LenghtY, 2))
+    trackHeight = math.sqrt(pow(HeightX, 2) + pow(HeightY, 2))
     print("trackLenght: " + str(trackLenght))
 
+    cropX = int(tempTrack.topLeftCorner.x + trackLenght/10)
+    cropY = int(tempTrack.topLeftCorner.y - trackLenght/10)
+
+    cropLenghtX = int((trackLenght/10) * 8)
+    cropLenghtY = int((trackHeight/10) * 8)
+
     # crop image
-    crop = img[x:400, y:400]
+    crop = img[cropX:cropLenghtX, cropY:cropLenghtY]
     cv2.imshow("image", img)
     cv2.imshow("cropped", crop)
 
