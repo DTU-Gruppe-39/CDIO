@@ -10,7 +10,6 @@ import random
 import globals
 
 
-
 class Ball():
     """Ball der er blevet genkendt"""
     def __init__(self, xpos, ypos, radius):
