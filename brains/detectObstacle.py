@@ -9,18 +9,26 @@ from model import obstacle
 
 def getObstacle(img):
 
+    tempTrack = singleton.Singleton.track
 
+    pixelConversion = tempTrack.pixelConversion
+    scale = int(pixelConversion*5)
 
     roi = []
 
-    low_x_roi = singleton.Singleton.track.topLeftCorner.x
-    up_x_roi = singleton.Singleton.track.bottomRightCorner.x
-    low_y_roi = singleton.Singleton.track.topLeftCorner.y
-    up_y_roi = singleton.Singleton.track.bottomRightCorner.y
+    low_x_roi = tempTrack.topLeftCorner.x + scale + int(scale/2)
+    up_x_roi = tempTrack.bottomRightCorner.x - scale - int(scale/2)
+    low_y_roi = tempTrack.topLeftCorner.y + int(1.5 * scale)
+    up_y_roi = tempTrack.bottomRightCorner.y - int(1.5 * scale)
 
-    roi = img[low_x_roi:up_x_roi, low_y_roi:up_y_roi]
+    # cv2.circle(img, (low_x_roi, low_y_roi), 4, (0, 0, 255), -1)
+    # cv2.circle(img, (low_x_roi, up_y_roi), 4, (0, 0, 255), -1)
+    # cv2.circle(img, (up_x_roi, low_y_roi), 4, (0, 0, 255), -1)
+    # cv2.circle(img, (up_x_roi, up_y_roi), 4, (0, 0, 255), -1)
 
-    blurred_frame = cv2.GaussianBlur(img, (5, 5), 0)
+    roi = img[low_y_roi:up_y_roi, low_x_roi:up_x_roi]
+
+    blurred_frame = cv2.GaussianBlur(roi, (5, 5), 0)
 
     img_hsv = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
 
@@ -60,15 +68,16 @@ def getObstacle(img):
     sorteddata = sorted(zip(areaArray, contours), key=lambda x: x[0], reverse=True)
 
     # find the nth largest contour [n-1][1], in this case 2
-    secondlargestcontour = sorteddata[1][1]
+    largestContour = sorteddata[0][1]
 
     # draw it
     x, y, w, h = cv2.boundingRect(sorteddata[0][1])
-    cv2.drawContours(img, sorteddata[0][1], -1, (255, 0, 0), 2)
+    cv2.drawContours(img, largestContour, -1, (255, 0, 0), 2)
     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
     cv2.imshow('Image', img)
     cv2.imshow('maskHsv', mask)
     cv2.imshow('roi', roi)
+
 
 
 
