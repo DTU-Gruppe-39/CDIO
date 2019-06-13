@@ -27,7 +27,7 @@ class VisionController:
         ret, img = cap.read()
 
         singleton.Singleton.balls = getBalls(copy.deepcopy(img))
-        # singleton.Singleton.robot = getRobot(copy.deepcopy(img))
+        singleton.Singleton.robot = getRobot(copy.deepcopy(img))
         singleton.Singleton.track = getTrack(copy.deepcopy(img))
         print("Pixel: " + str(singleton.Singleton.track.pixelConversion))
         print(id(singleton.Singleton.track))
