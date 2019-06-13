@@ -133,13 +133,18 @@ def goForGoal(robot):
                 track = singleton.Singleton.track
                 pix_pr_cm = track.pixelConversion
                 goalCord = (track.bigGoal.x, track.bigGoal.y)
+                # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
                 angle = calculateAngle(goalCord, robot)
+                print ("\nRealvector angle: " + str(angle) + "\n")
                 if angle >= 5:
                     robotController.turn(angle, clockwise, turnSpeed)
                 else:
+                    robotController.createCommandTank(20, 20, 360)
                     robotController.createCommandDeliver()
                     aligned = True
+                    break
             completed = True
+            break
 
 
 
