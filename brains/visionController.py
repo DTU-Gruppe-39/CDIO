@@ -18,7 +18,7 @@ class VisionController:
     obstacle = obstacle.Obstacle
     # robot = None
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     # cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/VideoOfRobot_2.mov')
     # cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2.mov')
 
@@ -27,12 +27,12 @@ class VisionController:
         ret, img = cap.read()
 
         singleton.Singleton.balls = getBalls(copy.deepcopy(img))
-        singleton.Singleton.robot = getRobot(copy.deepcopy(img))
+        # singleton.Singleton.robot = getRobot(copy.deepcopy(img))
         singleton.Singleton.track = getTrack(copy.deepcopy(img))
         print("Pixel: " + str(singleton.Singleton.track.pixelConversion))
         print(id(singleton.Singleton.track))
 
-        # getObstacle(copy.deepcopy(img))
+        getObstacle(copy.deepcopy(img))
 
         # robot = getRobot(img)
 
