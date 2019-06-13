@@ -50,6 +50,13 @@ def vectorAngle(v1, v2):
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
 
+def realVectorAngle(p1, p2, p3):
+    v0 = np.array(p1) - np.array(p2)
+    v1 = np.array(p3) - np.array(p2)
+    angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
+    return np.degrees(angle)
+
+
 def calc_pix_dist(start_x, start_y, end_x, end_y):
     par1 = math.pow((end_x - start_x), 2)
     par2 = math.pow((end_y - start_y), 2)
