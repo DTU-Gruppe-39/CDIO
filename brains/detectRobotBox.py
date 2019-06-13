@@ -51,7 +51,6 @@ def getRobot(img):
 
         tempRobot = robot.Robot
 
-
         # Finding the biggest contour to find robot
         contours, _ = cv2.findContours(mask1, 1, 1)
         max_area = 0
@@ -68,32 +67,28 @@ def getRobot(img):
         bl_best_cnt = 0
         for c in cont:
             # compute the center of the contour
-            bl_area = cv2.contourArea(cnt)
+            bl_area = cv2.contourArea(c)
             if bl_area > bl_max_area:
                 bl_max_area = bl_area
-                bl_best_cnt = cnt
-            M = cv2.moments(bl_best_cnt)
+                bl_best_cnt = c
+        B = cv2.moments(bl_best_cnt)
 
-            if M["m00"] != 0:
-                cX = int(M["m10"] / M["m00"])
-                cY = int(M["m01"] / M["m00"])
-            else:
+        if B["m00"] != 0:
+            cX = int(B["m10"] / B["m00"])
+            cY = int(B["m01"] / B["m00"])
+        else:
                 # set values as what you need in the situation
-                cX, cY = 0, 0
+            cX, cY = 0, 0
             #
             # # draw the contour and center of the shape on the image
 
-          #  cv2.drawContours(img, [c], -1, (0, 255, 0), 2)
-         #   cv2.circle(img, (cX, cY), 1, (0, 255, 255), 2)
-            tempRobot.blSquareX = cont[0][0][0][0]
-            tempRobot.blSquareY = cont[0][0][0][1]
+        tempRobot.blSquareX = cX
+        tempRobot.blSquareY = cY
 
         # Center of robot
         M = cv2.moments(best_cnt)
         cx, cy = int(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
         rect = cv2.minAreaRect(best_cnt)
-
-
 
         # Rotating box
         box = cv2.boxPoints(rect)
@@ -103,7 +98,7 @@ def getRobot(img):
         tempRobot.centrumY = cy
         tempRobot.box = box
 
-        cv2.imshow("mask", mask1)
+        cv2.imshow("mask", mask)
    # print("\n")
     return tempRobot
 

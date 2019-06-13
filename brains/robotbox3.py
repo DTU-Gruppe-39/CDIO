@@ -182,15 +182,39 @@ while(True):
 
                 #print(rect)
 
-                box[0][0] -= 50
-                box[0][1] += 50
-                box[1][0] -= 50
-                box[1][1] -= 50
-                box[2][0] += 50
-                box[2][1] -= 50
-                box[3][0] += 50
-                box[3][1] += 50
+               # box[0][0] -= 50
+               # box[0][1] += 50
+               # box[1][0] -= 50
+               # box[1][1] -= 50
+               # box[2][0] += 50
+               # box[2][1] -= 50
+               # box[3][0] += 50
+               # box[3][1] += 50
                 cv2.drawContours(frame, [box], 0, (255), 2)
+
+                roi = []
+                low_x_roi = 0
+                up_x_roi = 0
+                low_y_roi = 0
+                up_y_roi = 0
+                if box[0][0] < box[1][0]:
+                    low_x_roi = box[0][0]
+                    up_x_roi = box[1][0]
+                else:
+                    low_x_roi = box[1][0]
+                    up_x_roi = box[0][0]
+                if box[0][1] < box[1][1]:
+                    low_y_roi = box[0][1]
+                    up_y_roi = box[1][1]
+                else:
+                    low_y_roi = box[1][1]
+                    up_y_roi = box[0][1]
+                    cv2.pol
+                roi = cv2.rectangle(frame, (low_x_roi, low_y_roi), (low_x_roi + (up_x_roi - low_x_roi), low_y_roi + (up_y_roi - low_y_roi)), (0, 0, 255), 2)
+                #roi = frame[low_x_roi:up_x_roi, low_y_roi:up_y_roi]
+                cv2.imshow("roi", roi)
+
+
                # cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
 
                 # Smallest distance from robot to ball
