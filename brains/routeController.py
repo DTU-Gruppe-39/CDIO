@@ -5,6 +5,7 @@ from brains import visionController
 from brains import robotController
 import math
 
+chosenBall = None
 turnSpeed = 20
 forwardSpeed = 30
 attackSpeed = 10
@@ -41,9 +42,15 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
     return pix_dist
 
 def chooseBall(balls, robot):
+    global chosenBall
+
     print("Choose ball")
     # return ball
-    return balls[0]
+    if chosenBall is None:
+        chosenBall = balls[0]
+        return chosenBall
+    else:
+        return chosenBall
 
 def calculateAngle(ball, robot):
     print("Calculate angle")
@@ -75,6 +82,7 @@ def goForGoal():
 
 
 def main():
+    global chosenBall
     print("hej")
     while True:
         print("While loop start")
@@ -121,6 +129,7 @@ def main():
                     print("Foran drive")
                     robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
                     robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+                    chosenBall = None
                     print("efter drive")
                 elif distanceToBall(ball, robot) <= distanceCutOffPoint:
                     degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
