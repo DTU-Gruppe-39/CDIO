@@ -3,6 +3,7 @@ import model
 from model import ball, robot
 from brains import visionController
 from brains import robotController
+from brains import wpGoal
 import math
 
 numberOfTries = 0
@@ -12,8 +13,9 @@ turnSpeed = 20
 forwardSpeed = 30
 attackSpeed = 10
 distanceCutOffPoint = 20
-frontArmDegrees = 1080
+frontArmDegrees = 360
 clockwise = False
+pix_pr_cm = None
 # fakeBall = ball.Ball
 # fakeRobot = robot.Robot
 
@@ -60,29 +62,65 @@ def chooseBall(balls, robot):
             return chosenBall
 
 
-def calculateAngle(ball, robot):
+def calculateAngle(pointCord, robot):
     print("Calculate angle")
-    ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (ball.x, ball.y))
+    ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (pointCord[0], pointCord[1]))
     print("routeCon: angle is " + str(ang))
     return ang
 
 
 def distanceToBall(ball, robot):
-    print("Calculate distance")
+    print("Calculate distance in pix")
     return calc_pix_dist(robot.blSquareX, robot.blSquareY, ball.x, ball.y)
 
+def distanceToWaypoint(point, robot):
+    print("Calculate distance in pix")
+    return calc_pix_dist(robot.blSquareX, robot.blSquareY, point[0], point[1])
+
 def numberOfBallsLeft():
-    print("Number of balls left on track")
+    print("Number of balls left on track: " + str(len(singleton.Singleton.balls)))
 
     return len(singleton.Singleton.balls)
 
 
 
-def goForGoal():
-    print("Driving to goal")
-    robotController.turn(360, True, 40)
-    robotController.createCommandDeliver()
-
+def goForGoal(robot):
+    print("\n\nDriving to goal")
+    completed = False
+    aligned = False
+    # robotController.turn(360, True, 40)
+    # robotController.createCommandDeliver()
+    #False for left goal
+    goalCord = wpGoal.getWpGoal(False)
+    print("Goal cord: " + str(goalCord))
+    while not completed:
+        visionController.captureFrame()
+        # balls = singleton.Singleton.balls
+        robot = singleton.Singleton.robot
+        # obstacle = Singleton.obstacle
+        track = singleton.Singleton.track
+        pix_pr_cm = track.pixelConversion
+        angle = calculateAngle(goalCord, robot)
+        if angle >= 5:
+            robotController.turn(angle, clockwise, turnSpeed)
+        else:
+            # Drive forward to waypoint/ball
+            robotController.drive_forward(robot.centrumX, robot.centrumY, goalCord[0], goalCord[1], pix_pr_cm, forwardSpeed)
+            while not aligned:
+                visionController.captureFrame()
+                # balls = singleton.Singleton.balls
+                robot = singleton.Singleton.robot
+                # obstacle = Singleton.obstacle
+                track = singleton.Singleton.track
+                pix_pr_cm = track.pixelConversion
+                goalCord = (track.bigGoal.x, track.bigGoal.y)
+                angle = calculateAngle(goalCord, robot)
+                if angle >= 5:
+                    robotController.turn(angle, clockwise, turnSpeed)
+                else:
+                    robotController.createCommandDeliver()
+                    aligned = True
+            completed = True
 
 
 
@@ -90,7 +128,7 @@ def goForGoal():
 
 
 def main():
-    global chosenBall, numberOfTries
+    global chosenBall, numberOfTries, pix_pr_cm
     print("hej")
     while True:
         print("While loop start")
@@ -118,15 +156,15 @@ def main():
         # robot = fakeRobot
 
         ball = chooseBall(balls, robot)
-        angle = calculateAngle(ball, robot)
+        angle = calculateAngle((ball.x, ball.y), robot)
 
 
 
         if not numberOfBallsLeft() == 0:
             if numberOfBallsLeft() == 6:
-                goForGoal()
+                goForGoal(robot)
             elif numberOfBallsLeft() == 2:
-                goForGoal()
+                goForGoal(robot)
             else:
                 if not angle < 5:
                     robotController.turn(angle, clockwise, turnSpeed)
@@ -146,7 +184,7 @@ def main():
                     robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
             #no balls left
-            goForGoal()
+            goForGoal(robot)
 
     visionController.releaseImage()
 
