@@ -5,6 +5,8 @@ from brains import visionController
 from brains import robotController
 import math
 
+numberOfTries = 0
+maxNumberOfTries = 5
 chosenBall = None
 turnSpeed = 20
 forwardSpeed = 30
@@ -42,7 +44,7 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
     return pix_dist
 
 def chooseBall(balls, robot):
-    global chosenBall
+    global chosenBall, numberOfTries
 
     print("Choose ball")
     # return ball
@@ -50,7 +52,13 @@ def chooseBall(balls, robot):
         chosenBall = balls[0]
         return chosenBall
     else:
-        return chosenBall
+        if numberOfTries >= maxNumberOfTries:
+            numberOfTries = 0
+            chosenBall = balls[0]
+            return chosenBall
+        else:
+            return chosenBall
+
 
 def calculateAngle(ball, robot):
     print("Calculate angle")
@@ -82,7 +90,7 @@ def goForGoal():
 
 
 def main():
-    global chosenBall
+    global chosenBall, numberOfTries
     print("hej")
     while True:
         print("While loop start")
@@ -122,6 +130,7 @@ def main():
             else:
                 if not angle < 5:
                     robotController.turn(angle, clockwise, turnSpeed)
+                    numberOfTries = numberOfTries + 1
                 # elif distanceToWaypoint() > 5:
                 elif distanceToBall(ball, robot) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
