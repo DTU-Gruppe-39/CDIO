@@ -18,7 +18,7 @@ def getRobot(img):
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     boundaries = [
-        ([100, 150, 20], [140, 255, 255])
+        ([27, 40, 20], [32, 255, 255])
     ]
     boundaries1 = [
         ([120, 100, 20], [170, 255, 255])
@@ -101,12 +101,3 @@ def getRobot(img):
         cv2.imshow("mask", mask)
    # print("\n")
     return tempRobot
-
-
-
-
-
-
-
-
-

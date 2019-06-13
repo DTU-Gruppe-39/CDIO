@@ -1,6 +1,6 @@
 import math
 import sys
-import networking
+import brains.networkingController as networking
 import time
 wheelCircunference = 3 * math.pi
 wheelBase = 12.5
@@ -13,7 +13,7 @@ def createCommandTank (left, right, degrees):
         "right": right,
         "degrees": degrees
     }
-    return message
+    return networking.sendCommand(message)
 
 
 def createCommandFront (speed, degrees):
@@ -22,7 +22,7 @@ def createCommandFront (speed, degrees):
         "speed": speed,
         "degrees": degrees
     }
-    return message
+    return networking.sendCommand(message)
 
 
 def createCommandBack (speed, degrees):
@@ -31,36 +31,36 @@ def createCommandBack (speed, degrees):
         "speed": speed,
         "degrees": degrees
     }
-    return message
+    return networking.sendCommand(message)
 
 
-def createCommandAttack (left, right, tank_degrees, front_degrees):
+def createCommandAttack (speed, tank_degrees, front_degrees):
     message = {
         "type": "attack",
-        "left": left,
-        "right": right,
+        "left": speed,
+        "right": speed,
         "tank_degrees": tank_degrees,
         "front_degrees": front_degrees
     }
-    return message
+    return networking.sendCommand(message)
 
 
 def createCommandDeliver ():
     message = {
         "type": "deliver"
     }
-    return message
+    return networking.sendCommand(message)
 
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
-    par1 = math.pow((end_x - start_x))
-    par2 = math.pow((end_y - start_y))
+    par1 = math.pow((end_x - start_x), 2)
+    par2 = math.pow((end_y - start_y), 2)
     pix_dist = math.sqrt(par1 + par2)
     return pix_dist
 
 
 def drive_degrees(pix_dist, pix_pr_cm):
-    dist = pix_dist * pix_pr_cm
+    dist = pix_dist / pix_pr_cm
     drive_deg = math.floor((dist / wheelCircunference) * 360.0)
     return drive_deg
 
@@ -68,32 +68,30 @@ def drive_degrees(pix_dist, pix_pr_cm):
 def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
     # Speed can be changed to hardcoded values corresponding to the scenario
     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
-    degrees = drive_degrees(pix_dist, pix_pr_cm)
-    msg = createCommandTank(speed, speed, degrees)
+    degrees = drive_degrees(pix_dist-14, pix_pr_cm)
     # Send msg NetworkCon
-    return
+    return createCommandTank(speed, speed, degrees)
 
 
 def turn(angle, clockwise, speed):
     # Turn_speed can be changed to hardcoded values corresponding to the scenario
     degrees = math.floor((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
     if clockwise :
-        msg = createCommandTank(speed, -speed, degrees)
+      return createCommandTank(speed, -speed, degrees)
 
     else:
-        msg = createCommandTank(-speed, speed, degrees)
+        return createCommandTank(-speed, speed, degrees)
     # Send msg to NetworkCon
-    return msg
 
 
-def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
-    # Speed and turn_speed can be changed to hardcoded values corresponding to the scenario
-    pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
-    tank_degrees = drive_degrees(pix_dist, pix_pr_cm)
-    turn(angle, rotation, turn_speed)
-    msg = createCommandTank(speed, speed, tank_degrees)
-    # Send msg to NetworkCon
-    return
+# def attack(speed, start_x, start_y, end_x, end_y, pix_pr_cm, angle, rotation, turn_speed):
+#     # Speed and turn_speed can be changed to hardcoded values corresponding to the scenario
+#     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
+#     tank_degrees = drive_degrees(pix_dist, pix_pr_cm)
+#     turn(angle, rotation, turn_speed)
+#     msg = createCommandTank(speed, speed, tank_degrees)
+#     # Send msg to NetworkCon
+#     return
 
 
 def keyW():
@@ -138,48 +136,48 @@ def keyG():
 
 
 
-def main():
-    # while True:
-    #     networking.sendCommand(createCommandTank(30, 30, 360))
-    #     time.sleep(3)
-    #     networking.sendCommand(createCommandTank(-30, -30, 720))
-    #     time.sleep(10)
+# def main():
+#     # while True:
+#     #     networking.sendCommand(createCommandTank(30, 30, 360))
+#     #     time.sleep(3)
+#     #     networking.sendCommand(createCommandTank(-30, -30, 720))
+#     #     time.sleep(10)
 
 
-    while True:
-        key = input()
-        if key == 'w':
-            networking.sendCommand(keyW())
-            while True:
-                if not input() == 'w':
-                    # key = input()
-                    networking.sendCommand(stop())
-                    break
-        elif key == 'a':
-            networking.sendCommand(keyA())
-            while True:
-                if not input() == 'a':
-                    # key = input()
-                    networking.sendCommand(stop())
-                    break
-        elif key == 's':
-            networking.sendCommand(keyS())
-            while True:
-                if not input() == 's':
-                    # key = input()
-                    networking.sendCommand(stop())
-                    break
-        elif key == 'd':
-            networking.sendCommand(keyD())
-            while True:
-                if not input() == 'd':
-                    # key = input()
-                    networking.sendCommand(stop())
-                    break
-        elif key == 'f':
-            networking.sendCommand(keyF())
-        elif key == 'g':
-            networking.sendCommand(keyG())
+#     while True:
+#         key = input()
+#         if key == 'w':
+#             networking.sendCommand(keyW())
+#             while True:
+#                 if not input() == 'w':
+#                     # key = input()
+#                     networking.sendCommand(stop())
+#                     break
+#         elif key == 'a':
+#             networking.sendCommand(keyA())
+#             while True:
+#                 if not input() == 'a':
+#                     # key = input()
+#                     networking.sendCommand(stop())
+#                     break
+#         elif key == 's':
+#             networking.sendCommand(keyS())
+#             while True:
+#                 if not input() == 's':
+#                     # key = input()
+#                     networking.sendCommand(stop())
+#                     break
+#         elif key == 'd':
+#             networking.sendCommand(keyD())
+#             while True:
+#                 if not input() == 'd':
+#                     # key = input()
+#                     networking.sendCommand(stop())
+#                     break
+#         elif key == 'f':
+#             networking.sendCommand(keyF())
+#         elif key == 'g':
+#             networking.sendCommand(keyG())
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

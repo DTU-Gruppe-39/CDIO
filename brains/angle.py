@@ -14,7 +14,13 @@ def getAngle(cenBox, blPoint, cenBall):
     if ang < 0 and rotation > 0:
         ang = ang + 180
         clockwise = True
+    if ang > 180:
+        ang = ang - 180
+        clockwise = True
     if rotation < 0:
             ang = 180 - ang
             clockwise = False
-    return ang, rotation, clockwise
+            if ang > 180:
+                ang = ang - 360
+                clockwise = False
+    return ang, clockwise

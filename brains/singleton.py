@@ -1,4 +1,6 @@
+import model
 from model import ball
+# import model.ball as ball
 from model import boundary
 from model import corner
 from model import obstacle

@@ -4,9 +4,7 @@ import sys
 import time
 import json
 import os
-import networking
 import re
-import globals
 import socket
 
 
@@ -28,6 +26,10 @@ tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #         print("Invalid ip")
 #         sys.exit(1)
 
+def printRobotStatus(cmd):
+    print("ev3 returned " + cmd['type'])
+
+
 
 def sendCommand(command):
     global INIT
@@ -48,6 +50,12 @@ def sendCommand(command):
         dataToSend = json.JSONEncoder().encode(command)
         tcpclient.sendall(dataToSend.encode())
         print("Data sent")
+        data = tcpclient.recv(1024)
+        print("Data recv")
+
+        msg = json.loads(data.decode())
+
+        printRobotStatus(msg)
     except KeyboardInterrupt:
         print("Exiting..")
         tcpclient.close()
