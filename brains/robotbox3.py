@@ -190,33 +190,38 @@ while(True):
                # box[2][1] -= 50
                # box[3][0] += 50
                # box[3][1] += 50
-                cv2.drawContours(frame, [box], 0, (255), 2)
+               # cv2.drawContours(frame, [box], 0, (255), 2)
 
                 roi = []
-                low_x_roi = 0
+                low_x_roi = 10000
                 up_x_roi = 0
-                low_y_roi = 0
+                low_y_roi = 10000
                 up_y_roi = 0
-                if box[0][0] < box[1][0]:
-                    low_x_roi = box[0][0]
-                    up_x_roi = box[1][0]
-                else:
-                    low_x_roi = box[1][0]
-                    up_x_roi = box[0][0]
-                if box[0][1] < box[1][1]:
-                    low_y_roi = box[0][1]
-                    up_y_roi = box[1][1]
-                else:
-                    low_y_roi = box[1][1]
-                    up_y_roi = box[0][1]
-                    cv2.pol
-                roi = cv2.rectangle(frame, (low_x_roi, low_y_roi), (low_x_roi + (up_x_roi - low_x_roi), low_y_roi + (up_y_roi - low_y_roi)), (0, 0, 255), 2)
-                #roi = frame[low_x_roi:up_x_roi, low_y_roi:up_y_roi]
-                cv2.imshow("roi", roi)
+                for x in range(4):
+                    if low_x_roi > box[x][0]:
+                        low_x_roi = box[x][0]
+                    if up_x_roi < box[x][0]:
+                        up_x_roi = box[x][0]
+                    if low_y_roi > box[x][1]:
+                        low_y_roi = box[x][1]
+                    if up_y_roi < box[x][1]:
+                        up_y_roi = box[x][1]
 
+                # pts = np.array([[low_x_roi, low_y_roi], [up_x_roi, low_y_roi], [low_x_roi, up_y_roi], [up_x_roi, up_y_roi]], np.int32)
+                # pts = pts.reshape((-1, 1, 2))
+                # cv2.polylines(frame, [pts], True, (0, 255, 255))
+                roi = frame[low_x_roi:up_x_roi, low_y_roi:up_y_roi]
+                # frame[low_x_roi + 15: up_x_roi + 15, low_y_roi + 15:up_y_roi + 15] = roi
+                # cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
+                cv2.circle(frame, (box[0][0], box[0][1]), 4, 255, -1)
+                cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
+                cv2.circle(frame, (box[2][0], box[2][1]), 4, 255, -1)
+                cv2.circle(frame, (box[3][0], box[3][1]), 4, 255, -1)
 
-               # cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
-
+                cv2.circle(frame, (low_x_roi, low_y_roi), 4, (0, 0, 255), -1)
+                cv2.circle(frame, (low_x_roi, up_y_roi), 4, (0, 0,255), -1)
+                cv2.circle(frame, (up_x_roi, low_y_roi), 4, (0, 0, 255), -1)
+                cv2.circle(frame, (up_x_roi, up_y_roi), 4, (0, 0, 255), -1)
                 # Smallest distance from robot to ball
                 dist = math.sqrt(pow(i[0] - x, 2) + pow(i[1] - y, 2))
 
