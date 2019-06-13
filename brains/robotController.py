@@ -59,16 +59,16 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
     return pix_dist
 
 
-def drive_degrees(pix_dist, pix_pr_cm):
-    dist = pix_dist / pix_pr_cm
+def drive_degrees(dist):
     drive_deg = math.floor((dist / wheelCircunference) * 360.0)
     return drive_deg
 
 
-def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
+def drive_forward(dist, speed):
     # Speed can be changed to hardcoded values corresponding to the scenario
-    pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
-    degrees = drive_degrees(pix_dist-14, pix_pr_cm)
+    # pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
+    # dist is in cm
+    degrees = drive_degrees(dist-2)
     # Send msg NetworkCon
     return createCommandTank(speed, speed, degrees)
 
