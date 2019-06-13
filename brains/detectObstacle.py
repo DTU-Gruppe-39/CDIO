@@ -2,11 +2,24 @@ import cv2
 import math
 import imutils
 import numpy as np
+from model import track
 import brains.singleton as singleton
 from model import obstacle
 
 
 def getObstacle(img):
+
+
+
+    roi = []
+
+    low_x_roi = singleton.Singleton.track.topLeftCorner.x
+    up_x_roi = singleton.Singleton.track.bottomRightCorner.x
+    low_y_roi = singleton.Singleton.track.topLeftCorner.y
+    up_y_roi = singleton.Singleton.track.bottomRightCorner.y
+
+    roi = img[low_x_roi:up_x_roi, low_y_roi:up_y_roi]
+
     blurred_frame = cv2.GaussianBlur(img, (5, 5), 0)
 
     img_hsv = cv2.cvtColor(blurred_frame, cv2.COLOR_BGR2HSV)
@@ -33,28 +46,29 @@ def getObstacle(img):
     # maskHsv = cv2.inRange(img_hsv, lower_red, upper_red)
 
     # join my masks
-    #mask = mask0 + mask1
+    mask = mask0 + mask1
 
     areaArray = []
     count = 1
 
-    #contours, _ = cv2.findContours(maskHsv, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    #for i, c in enumerate(contours):
-    #    area = cv2.contourArea(c)
-    #    areaArray.append(area)
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for i, c in enumerate(contours):
+       area = cv2.contourArea(c)
+       areaArray.append(area)
 
     # first sort the array by area
-    #sorteddata = sorted(zip(areaArray, contours), key=lambda x: x[0], reverse=True)
+    sorteddata = sorted(zip(areaArray, contours), key=lambda x: x[0], reverse=True)
 
     # find the nth largest contour [n-1][1], in this case 2
-    # secondlargestcontour = sorteddata[1][1]
+    secondlargestcontour = sorteddata[1][1]
 
     # draw it
-    # x, y, w, h = cv2.boundingRect(sorteddata[0][1])
-    # cv2.drawContours(img, sorteddata[0][1], -1, (255, 0, 0), 2)
-    # cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    # cv2.imshow('Image', img)
-    # cv2.imshow('maskHsv', maskHsv)
+    x, y, w, h = cv2.boundingRect(sorteddata[0][1])
+    cv2.drawContours(img, sorteddata[0][1], -1, (255, 0, 0), 2)
+    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    cv2.imshow('Image', img)
+    cv2.imshow('maskHsv', mask)
+    cv2.imshow('roi', roi)
 
 
 
