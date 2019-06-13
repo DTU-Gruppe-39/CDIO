@@ -41,7 +41,6 @@ def showImage(img, track, balls, robot):
     #--Draw balls--#
 
     for ball in balls:
-        print("lol: " + str(ball.x))
         center = (ball.x, ball.y)
         cv2.circle(img, center, 1, (0, 100, 100), 5)
         # circle outline
