@@ -23,12 +23,13 @@ def getRobot(img):
 
 
     boundaries = [
-        ([170, 0, 0], [255, 190, 50])
+        ([100, 150, 20], [140, 255, 255])
     ]
     boundaries1 = [
         ([60, 0, 100], [255, 75, 255])
         #hsv
         #([105, 5, 100], [210, 90, 255])
+
     ]
 
     # roed: ([17, 15, 100], [50, 56, 200])
@@ -44,7 +45,8 @@ def getRobot(img):
 
         # find the colors within the specified boundaries and apply
         # the mask
-        mask = cv2.inRange(img, lower, upper)
+
+        mask = cv2.inRange(hsv, lower, upper)
         output = cv2.bitwise_and(img, img, mask=mask)
 
 
@@ -134,6 +136,7 @@ def getRobot(img):
         #
         #     cv2.line(img, (cx, cy), (cirX, cirY), (0, 0, 255), 1)
 
+        cv2.imshow("mask", mask)
    # print("\n")
     return tempRobot
 

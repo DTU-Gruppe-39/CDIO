@@ -28,9 +28,9 @@ def getObstacle(img):
     # mask = cv2.inRange(img_hsv, lower_red, upper_red)
 
     # blue maskHSV (170-180)
-    lower_red = np.array([100, 150, 20])
-    upper_red = np.array([140, 255, 255])
-    maskHsv = cv2.inRange(img_hsv, lower_red, upper_red)
+    # lower_red = np.array([100, 150, 20])
+    # upper_red = np.array([140, 255, 255])
+    # maskHsv = cv2.inRange(img_hsv, lower_red, upper_red)
 
     # join my masks
     #mask = mask0 + mask1
@@ -38,23 +38,23 @@ def getObstacle(img):
     areaArray = []
     count = 1
 
-    contours, _ = cv2.findContours(maskHsv, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    for i, c in enumerate(contours):
-        area = cv2.contourArea(c)
-        areaArray.append(area)
+    #contours, _ = cv2.findContours(maskHsv, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    #for i, c in enumerate(contours):
+    #    area = cv2.contourArea(c)
+    #    areaArray.append(area)
 
     # first sort the array by area
-    sorteddata = sorted(zip(areaArray, contours), key=lambda x: x[0], reverse=True)
+    #sorteddata = sorted(zip(areaArray, contours), key=lambda x: x[0], reverse=True)
 
     # find the nth largest contour [n-1][1], in this case 2
     # secondlargestcontour = sorteddata[1][1]
 
     # draw it
-    x, y, w, h = cv2.boundingRect(sorteddata[0][1])
-    cv2.drawContours(img, sorteddata[0][1], -1, (255, 0, 0), 2)
-    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
-    cv2.imshow('Image', img)
-    cv2.imshow('maskHsv', maskHsv)
+    # x, y, w, h = cv2.boundingRect(sorteddata[0][1])
+    # cv2.drawContours(img, sorteddata[0][1], -1, (255, 0, 0), 2)
+    # cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    # cv2.imshow('Image', img)
+    # cv2.imshow('maskHsv', maskHsv)
 
 
 
