@@ -1,6 +1,6 @@
 import brains.singleton as singleton
 import model
-from model import ball
+from model import ball, robot
 from brains import visionController
 from brains import robotController
 import math
@@ -11,11 +11,14 @@ attackSpeed = 10
 distanceCutOffPoint = 20
 frontArmDegrees = 1080
 clockwise = False
+fakeBall = ball.Ball
+fakeRobot = robot.Robot
 
 
 def getAngle(cenBox, blPoint, cenBall):
     global clockwise
     ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
+    print("Angle preCalc: " + str(ang))
     rotation = (blPoint[0] - cenBox[0]) * (cenBall[1] - cenBox[1]) - (blPoint[1] - cenBox[1]) * (cenBall[0] - cenBox[0])
     if ang < 0 and rotation > 0:
         ang = ang + 180
@@ -23,6 +26,7 @@ def getAngle(cenBox, blPoint, cenBall):
     if rotation < 0:
             ang = 180 - ang
             clockwise = False
+    print("Clockwise: " + str(clockwise))
     return ang
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
@@ -66,7 +70,6 @@ def goForGoal():
 
 
 
-
 def main():
     print("hej")
     while True:
@@ -78,31 +81,48 @@ def main():
         track = singleton.Singleton.track
         pix_pr_cm = track.pixelConversion
 
-        ball = chooseBall(balls, robot)
-        angle = calculateAngle(ball, robot)
 
-        if not numberOfBallsLeft() == 0:
-            if numberOfBallsLeft() == 6:
-                goForGoal()
-            elif numberOfBallsLeft() == 2:
-                goForGoal()
-            else:
-                if not angle < 10:
-                    clockwise = True #TODO Find which way to turn
-                    robotController.turn(angle, clockwise, turnSpeed)
-                # elif distanceToWaypoint() > 5:
-                elif distanceToBall(ball, robot) > distanceCutOffPoint:
-                    #Drive forward to waypoint/ball
-                    # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
-                    robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
-                elif distanceToBall(ball, robot) <= distanceCutOffPoint:
-                    degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
-                    robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
-        else:
-            #no balls left
-            goForGoal()
+        # fakeBall.x = 1013
+        # fakeBall.y = 570
+        # fakeBall.radius = 0
+        #
+        # fakeBalls = []
+        # fakeBalls.append(fakeBall)
+        #
+        # fakeRobot.blSquareX = 685
+        # fakeRobot.blSquareY = 602
+        # fakeRobot.centrumX = 656
+        # fakeRobot.centrumY = 696
 
-    visionController.releaseImage()
+        # pix_pr_cm = 7
+        # robot = fakeRobot
+
+        ball = chooseBall(fakeBalls, fakeRobot)
+        angle = calculateAngle(ball, fakeRobot)
+
+
+
+    #     if not numberOfBallsLeft() == 0:
+    #         if numberOfBallsLeft() == 6:
+    #             goForGoal()
+    #         elif numberOfBallsLeft() == 2:
+    #             goForGoal()
+    #         else:
+    #             if not angle < 10:
+    #                 robotControlle    r.turn(angle, clockwise, turnSpeed)
+    #             # elif distanceToWaypoint() > 5:
+    #             elif distanceToBall(ball, robot) > distanceCutOffPoint:
+    #                 #Drive forward to waypoint/ball
+    #                 # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
+    #                 robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
+    #             elif distanceToBall(ball, robot) <= distanceCutOffPoint:
+    #                 degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
+    #                 robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+    #     else:
+    #         #no balls left
+    #         goForGoal()
+    #
+    # visionController.releaseImage()
 
 
 
