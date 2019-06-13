@@ -98,6 +98,5 @@ def getRobot(img):
         tempRobot.centrumY = cy
         tempRobot.box = box
 
-        cv2.imshow("mask", mask)
    # print("\n")
     return tempRobot

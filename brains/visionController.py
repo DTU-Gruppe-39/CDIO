@@ -55,10 +55,20 @@ def captureFrame():
 
     # cv2.imshow("images", np.hstack([img]))
 
-    # visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls, singleton.Singleton.robot)
+    visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls, singleton.Singleton.robot)
 
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     break
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        # When everything done, release the capture
+        cap.release()
+        cv2.destroyAllWindows()
+
+
+
+
+
 
 def releaseImage():
     global cap
