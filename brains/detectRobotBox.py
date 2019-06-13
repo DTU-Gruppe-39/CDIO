@@ -13,14 +13,9 @@ def getRobot(img):
     # Capture frame-by-frame
     tempRobot = robot.Robot
 
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    gray = cv2.medianBlur(gray, 3)
-    rows = gray.shape[1]
 
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-    thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)[1]
-
+    blurred = cv2.GaussianBlur(img, (5, 5), 0)
+    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     boundaries = [
         ([100, 150, 20], [140, 255, 255])
@@ -47,7 +42,6 @@ def getRobot(img):
         # the mask
 
         mask = cv2.inRange(hsv, lower, upper)
-        output = cv2.bitwise_and(img, img, mask=mask)
 
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -60,10 +54,6 @@ def getRobot(img):
         upper1 = np.array(upper, dtype="uint8")
 
         mask1 = cv2.inRange(img, lower1, upper1)
-        output += cv2.bitwise_and(img, img, mask=mask1)
-
-
-        gray1 = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         minDist = 0
         x = 0
