@@ -1,6 +1,7 @@
 import brains.singleton as singleton
 import model
 from model import ball, robot
+import numpy as np
 from brains import visionController
 from brains import robotController
 from brains import wpGoal
@@ -37,6 +38,17 @@ def getAngle(cenBox, blPoint, cenBall):
                 ang = ang - 360
                 clockwise = False
     return ang
+
+
+def vector(vector):
+    return vector / np.linalg.norm(vector)
+
+
+def vectorAngle(v1, v2):
+    v1_u = vector(v1)
+    v2_u = vector(v2)
+    return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
+
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
     par1 = math.pow((end_x - start_x), 2)
