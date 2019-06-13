@@ -68,10 +68,9 @@ def drive_degrees(pix_dist, pix_pr_cm):
 def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
     # Speed can be changed to hardcoded values corresponding to the scenario
     pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
-    degrees = drive_degrees(pix_dist, pix_pr_cm)
-    msg = createCommandTank(speed, speed, degrees)
+    degrees = drive_degrees(pix_dist-14, pix_pr_cm)
     # Send msg NetworkCon
-    return networking.sendCommand(msg)
+    return createCommandTank(speed, speed, degrees)
 
 
 def turn(angle, clockwise, speed):

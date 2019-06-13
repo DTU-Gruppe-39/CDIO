@@ -18,15 +18,19 @@ clockwise = False
 def getAngle(cenBox, blPoint, cenBall):
     global clockwise
     ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
-    print("Angle preCalc: " + str(ang))
     rotation = (blPoint[0] - cenBox[0]) * (cenBall[1] - cenBox[1]) - (blPoint[1] - cenBox[1]) * (cenBall[0] - cenBox[0])
     if ang < 0 and rotation > 0:
         ang = ang + 180
         clockwise = True
+    if ang > 180:
+        ang = ang - 180
+        clockwise = True
     if rotation < 0:
             ang = 180 - ang
             clockwise = False
-    print("Clockwise: " + str(clockwise))
+            if ang > 180:
+                ang = ang - 360
+                clockwise = False
     return ang
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
@@ -54,14 +58,14 @@ def distanceToBall(ball, robot):
 
 def numberOfBallsLeft():
     print("Number of balls left on track")
-    # return numberOfBalls
-    return 1
+
+    return len(singleton.Singleton.balls)
 
 
 
 def goForGoal():
     print("Driving to goal")
-    robotController.turn(360, True, 50)
+    robotController.turn(360, True, 40)
     robotController.createCommandDeliver()
 
 
@@ -108,15 +112,19 @@ def main():
             elif numberOfBallsLeft() == 2:
                 goForGoal()
             else:
-                if not angle < 10:
+                if not angle < 5:
                     robotController.turn(angle, clockwise, turnSpeed)
                 # elif distanceToWaypoint() > 5:
                 elif distanceToBall(ball, robot) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
+                    print("Foran drive")
                     robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
+                    robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+                    print("efter drive")
                 elif distanceToBall(ball, robot) <= distanceCutOffPoint:
                     degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
+                    print("degrees" + str(degrees))
                     robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
             #no balls left

@@ -67,4 +67,4 @@ def showImage(img, track, balls, robot):
         # cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
 
     # cv2.imshow('frame', img)
-    cv2.imshow("images", np.hstack([img]))
+    cv2.imshow("images", img)

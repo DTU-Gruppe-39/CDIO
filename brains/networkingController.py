@@ -8,7 +8,7 @@ import re
 import socket
 
 
-HOST = "172.20.10.8"
+HOST = "172.20.10.5"
 PORT = 6000
 INIT = True
 tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,7 +27,7 @@ tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #         sys.exit(1)
 
 def printRobotStatus(cmd):
-    print("ev3 returned" + cmd['type'])
+    print("ev3 returned " + cmd['type'])
 
 
 
@@ -51,7 +51,10 @@ def sendCommand(command):
         tcpclient.sendall(dataToSend.encode())
         print("Data sent")
         data = tcpclient.recv(1024)
+        print("Data recv")
+
         msg = json.loads(data.decode())
+
         printRobotStatus(msg)
     except KeyboardInterrupt:
         print("Exiting..")
