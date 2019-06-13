@@ -27,6 +27,5 @@ def getBalls(img):
             singleBall = ball.Ball(i[0], i[1], i[2])
 
             tempBall.append(singleBall)
-            print(str("\n\ndetectBalls: ball[0] is at " + str(tempBall[0].x) + " " + str(tempBall[0].y) + " balls is " + str(len(tempBall)) + " long" +  "\n\n"))
 
     return tempBall
