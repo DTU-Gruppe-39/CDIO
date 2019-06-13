@@ -23,10 +23,11 @@ def calculateAngle(px1, py1, px2, py2, px3, py3):
 
     return int(angleDeg)
 
+
+#cap = cv2.VideoCapture(0)
 cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2_Trim.mov')
 #cap = cv2.VideoCapture("VideoOfRobot_2_Trim.mp4")
 cap.set(cv2.CAP_PROP_FPS, 24)
-cv2.namedWindow("test")
 minDist = 0
 
 
@@ -43,7 +44,7 @@ while(True):
 
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-    thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)[1]
+    #thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)[1]
 
 
 
@@ -56,8 +57,8 @@ while(True):
     ]
     boundaries1 = [
         #([100, 90, 120], [205, 107, 255])
-        ([105, 5, 100], [210, 90, 255])
-       # ([30, 0, 100], [55, 50, 200])
+       # ([105, 5, 100], [210, 90, 255])
+         ([140, 160, 100], [250, 255, 255])
     ]
 
     # roed: ([17, 15, 100], [50, 56, 200])
@@ -87,13 +88,15 @@ while(True):
         lower1 = np.array(lower, dtype="uint8")
         upper1 = np.array(upper, dtype="uint8")
 
-        mask1 = cv2.inRange(frame, lower1, upper1)
-        output += cv2.bitwise_and(frame, frame, mask=mask1)
+
 
 
         gray1 = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-        # blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        blurred = cv2.GaussianBlur(gray1, (5, 5), 0)
         # thresh1 = cv2.threshold(mask1, 0, 0, cv2.THRESH_BINARY)[1]
+
+        mask1 = cv2.inRange(blurred, lower1, upper1)
+        output += cv2.bitwise_and(frame, frame, mask=mask1)
 
         minDist = 0
         x = 0
@@ -187,7 +190,7 @@ while(True):
                 #box[3][0] += 50
                 #box[3][1] += 50
 
-                cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
+               # cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
 
                 # Smallest distance from robot to ball
                 dist = math.sqrt(pow(i[0] - x, 2) + pow(i[1] - y, 2))
