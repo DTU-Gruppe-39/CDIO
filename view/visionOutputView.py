@@ -49,7 +49,7 @@ def showImage(img, track, balls, robot):
 
     if robot.blSquareX is not None:
         # contour point
-        cv2.circle(img, (robot.blSquareX, robot.blSquareY), 3, (0, 255, 255), -1)
+        cv2.circle(img, (robot.blSquareX, robot.blSquareY), 3, 255, -1)
 
         # center of robot
         cv2.circle(img, (robot.centrumX, robot.centrumY), 4, 255, -1)
@@ -64,7 +64,7 @@ def showImage(img, track, balls, robot):
         cv2.line(img, (leftLineA[0] + 40, leftLineA[1] - 40), (leftLineB[0] + 40, leftLineB[1] + 40),(0, 0, 255), 2)
 
         # robot to ball line
-        #cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
+        # cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
 
     # cv2.imshow('frame', img)
     cv2.imshow("images", np.hstack([img]))
