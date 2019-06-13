@@ -1,6 +1,6 @@
 import math
 import sys
-import networking
+import networkingController as networking
 import time
 wheelCircunference = 3 * math.pi
 wheelBase = 12.5

@@ -4,9 +4,6 @@ import sys
 import time
 import json
 import os
-import networking
-import re
-import globals
 import socket
 
 
