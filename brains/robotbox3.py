@@ -23,10 +23,9 @@ def calculateAngle(px1, py1, px2, py2, px3, py3):
 
     return int(angleDeg)
 
-
-#cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2_Trim.mov')
+#cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2_Trim.mov')
 #cap = cv2.VideoCapture("VideoOfRobot_2_Trim.mp4")
+cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FPS, 24)
 minDist = 0
 

@@ -3,9 +3,9 @@ import cv2
 import numpy as np
 
 
+tempBall = []
 def getBalls(img):
-    tempBall = []
-
+    global tempBall
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     gray = cv2.medianBlur(gray, 3)
@@ -25,9 +25,8 @@ def getBalls(img):
             # radius = i[2]
             # cv2.circle(img, center, radius, (255, 0, 255), 3)
             singleBall = ball.Ball(i[0], i[1], i[2])
-            print(str("Balls: " + str(singleBall.x)))
 
             tempBall.append(singleBall)
-            print(str("balls: " + str(tempBall[0].x)))
+            print(str("\n\ndetectBalls: ball[0] is at " + str(tempBall[0].x) + " " + str(tempBall[0].y) + " balls is " + str(len(tempBall)) + " long" +  "\n\n"))
 
     return tempBall

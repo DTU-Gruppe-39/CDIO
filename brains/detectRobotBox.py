@@ -101,12 +101,3 @@ def getRobot(img):
         cv2.imshow("mask", mask)
    # print("\n")
     return tempRobot
-
-
-
-
-
-
-
-
-
