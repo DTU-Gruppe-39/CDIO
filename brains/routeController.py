@@ -11,8 +11,8 @@ attackSpeed = 10
 distanceCutOffPoint = 20
 frontArmDegrees = 1080
 clockwise = False
-fakeBall = ball.Ball
-fakeRobot = robot.Robot
+# fakeBall = ball.Ball
+# fakeRobot = robot.Robot
 
 
 def getAngle(cenBox, blPoint, cenBall):
@@ -97,32 +97,32 @@ def main():
         # pix_pr_cm = 7
         # robot = fakeRobot
 
-        ball = chooseBall(fakeBalls, fakeRobot)
-        angle = calculateAngle(ball, fakeRobot)
+        ball = chooseBall(balls, robot)
+        angle = calculateAngle(ball, robot)
 
 
 
-    #     if not numberOfBallsLeft() == 0:
-    #         if numberOfBallsLeft() == 6:
-    #             goForGoal()
-    #         elif numberOfBallsLeft() == 2:
-    #             goForGoal()
-    #         else:
-    #             if not angle < 10:
-    #                 robotControlle    r.turn(angle, clockwise, turnSpeed)
-    #             # elif distanceToWaypoint() > 5:
-    #             elif distanceToBall(ball, robot) > distanceCutOffPoint:
-    #                 #Drive forward to waypoint/ball
-    #                 # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
-    #                 robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
-    #             elif distanceToBall(ball, robot) <= distanceCutOffPoint:
-    #                 degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
-    #                 robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
-    #     else:
-    #         #no balls left
-    #         goForGoal()
-    #
-    # visionController.releaseImage()
+        if not numberOfBallsLeft() == 0:
+            if numberOfBallsLeft() == 6:
+                goForGoal()
+            elif numberOfBallsLeft() == 2:
+                goForGoal()
+            else:
+                if not angle < 10:
+                    robotController.turn(angle, clockwise, turnSpeed)
+                # elif distanceToWaypoint() > 5:
+                elif distanceToBall(ball, robot) > distanceCutOffPoint:
+                    #Drive forward to waypoint/ball
+                    # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
+                    robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
+                elif distanceToBall(ball, robot) <= distanceCutOffPoint:
+                    degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
+                    robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+        else:
+            #no balls left
+            goForGoal()
+
+    visionController.releaseImage()
 
 
 
