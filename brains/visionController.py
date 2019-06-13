@@ -20,7 +20,7 @@ class VisionController:
 
     cap = cv2.VideoCapture(1)
     # cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/VideoOfRobot_2.mov')
-    # cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2.mov')
+    cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2.mov')
 
     cap.set(cv2.CAP_PROP_FPS, 30)
     while True:
