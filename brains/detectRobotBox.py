@@ -21,7 +21,7 @@ def getRobot(img):
         ([100, 150, 20], [140, 255, 255])
     ]
     boundaries1 = [
-        ([60, 0, 100], [255, 75, 255])
+        ([120, 100, 20], [170, 255, 255])
         #hsv
         #([105, 5, 100], [210, 90, 255])
 
@@ -39,32 +39,18 @@ def getRobot(img):
         upper = np.array(upper, dtype="uint8")
 
         # find the colors within the specified boundaries and apply
-        # the mask
-
         mask = cv2.inRange(hsv, lower, upper)
 
-
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        # blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-        thresh = cv2.threshold(mask, 1, 2, cv2.THRESH_BINARY)[1]
 
     for (lower, upper) in boundaries1:
         # create NumPy arrays from the boundaries
         lower1 = np.array(lower, dtype="uint8")
         upper1 = np.array(upper, dtype="uint8")
 
-        mask1 = cv2.inRange(img, lower1, upper1)
+        mask1 = cv2.inRange(hsv, lower1, upper1)
 
-        minDist = 0
-        x = 0
-        y = 0
-        cirX = 0
-        cirY = 0
         tempRobot = robot.Robot
 
-        # Bounding box of robot
-        x, y, w, h = cv2.boundingRect(mask)
-        #cv2.rectangle(img, (x - 40, y - 35), (x + w + 35, y + h + 35), (255, 0, 0), 1)
 
         # Finding the biggest contour to find robot
         contours, _ = cv2.findContours(mask1, 1, 1)
@@ -78,9 +64,15 @@ def getRobot(img):
 
         # loop over the contours
         cont, _ = cv2.findContours(mask, 1, 1)
+        bl_max_area = 0
+        bl_best_cnt = 0
         for c in cont:
             # compute the center of the contour
-            M = cv2.moments(c)
+            bl_area = cv2.contourArea(cnt)
+            if bl_area > bl_max_area:
+                bl_max_area = bl_area
+                bl_best_cnt = cnt
+            M = cv2.moments(bl_best_cnt)
 
             if M["m00"] != 0:
                 cX = int(M["m10"] / M["m00"])
@@ -111,22 +103,7 @@ def getRobot(img):
         tempRobot.centrumY = cy
         tempRobot.box = box
 
-        # Smallest distance from robot to ball
-        # dist = math.sqrt(pow(i[0] - x, 2) + pow(i[1] - y, 2))
-        #
-        # # print(minDist)
-        # if (minDist == 0):
-        #     minDist = dist
-        # elif (dist < minDist):
-        #     minDist = 0
-        #     minDist = dist
-        #     cirX = i[0]
-        #     cirY = i[1]
-        #     #print(minDist)
-        #
-        #     cv2.line(img, (cx, cy), (cirX, cirY), (0, 0, 255), 1)
-
-        cv2.imshow("mask", mask)
+        cv2.imshow("mask", mask1)
    # print("\n")
     return tempRobot
 

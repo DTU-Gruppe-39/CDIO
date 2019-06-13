@@ -179,17 +179,18 @@ while(True):
                 # Rotating box
                 box = cv2.boxPoints(rect)
                 box = np.int0(box)
-                cv2.drawContours(frame, [box], 0, (0, 255, 0), 2)
-                #print(rect)
-                #box[0][0] -= 50
-                #box[0][1] += 50
-                #box[1][0] -= 50
-                #box[1][1] -= 50
-                #box[2][0] += 50
-                #box[2][1] -= 50
-                #box[3][0] += 50
-                #box[3][1] += 50
 
+                #print(rect)
+
+                box[0][0] -= 50
+                box[0][1] += 50
+                box[1][0] -= 50
+                box[1][1] -= 50
+                box[2][0] += 50
+                box[2][1] -= 50
+                box[3][0] += 50
+                box[3][1] += 50
+                cv2.drawContours(frame, [box], 0, (255), 2)
                # cv2.circle(frame, (box[1][0], box[1][1]), 4, 255, -1)
 
                 # Smallest distance from robot to ball
