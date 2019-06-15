@@ -1,3 +1,5 @@
+import time
+
 import brains.singleton as singleton
 import model
 from model import ball, robot
@@ -176,7 +178,8 @@ def main():
 
         ball = chooseBall(balls, robot)
         angle = calculateAngle((ball.x, ball.y), robot)
-
+        robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+        time.sleep(1)
 
 
         if not numberOfBallsLeft() == 0:
