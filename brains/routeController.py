@@ -11,6 +11,7 @@ import math
 import threading
 import _thread
 from brains.angle import *
+from brains import preventRotation
 
 
 numberOfTries = 0
@@ -219,6 +220,10 @@ def main():
 
         # pix_pr_cm = 7
         # robot = fakeRobot
+
+        # Check if robot point is in rotation danger zone
+        if preventRotation:
+            robotController.createCommandTank(-20, -20, 360)
 
         ball = chooseBall(balls, robot)
 
