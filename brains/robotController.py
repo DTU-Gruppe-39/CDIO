@@ -6,7 +6,7 @@ wheelCircunference = 3 * math.pi
 wheelBase = 12.5
 
 
-def createCommandTank (left, right, degrees):
+def createCommandTank(left, right, degrees):
     message = {
         "type": "tank_drive",
         "left": left,
@@ -16,7 +16,7 @@ def createCommandTank (left, right, degrees):
     return networking.sendCommand(message)
 
 
-def createCommandFront (speed, degrees):
+def createCommandFront(speed, degrees):
     message = {
         "type": "front",
         "speed": speed,
@@ -25,7 +25,7 @@ def createCommandFront (speed, degrees):
     return networking.sendCommand(message)
 
 
-def createCommandBack (speed, degrees):
+def createCommandBack(speed, degrees):
     message = {
         "type": "back",
         "speed": speed,
@@ -34,7 +34,7 @@ def createCommandBack (speed, degrees):
     return networking.sendCommand(message)
 
 
-def createCommandAttack (speed, tank_degrees, front_degrees):
+def createCommandAttack(speed, tank_degrees, front_degrees):
     message = {
         "type": "attack",
         "left": speed,
@@ -45,9 +45,16 @@ def createCommandAttack (speed, tank_degrees, front_degrees):
     return networking.sendCommand(message)
 
 
-def createCommandDeliver ():
+def createCommandDeliver():
     message = {
         "type": "deliver"
+    }
+    return networking.sendCommand(message)
+
+
+def createCommandSound():
+    message = {
+        "type": "sound"
     }
     return networking.sendCommand(message)
 

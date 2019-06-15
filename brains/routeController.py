@@ -211,7 +211,8 @@ def main():
                 print("Time: " + str(min_run) + "min" + str(sec_run) + "sec")
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 while True:
-                    robotController.turn(1080, getclockWise(), 30)
+                    #Play sound to mark it is done
+                    robotController.createCommandSound()
             else:
                 zeroBallsLeft = True
                 goForGoal(robot, numberOfBalls)
