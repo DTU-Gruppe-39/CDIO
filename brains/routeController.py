@@ -11,7 +11,9 @@ import math
 import threading
 import _thread
 from brains.angle import *
+
 from brains.chooseBall import *
+
 
 
 numberOfTries = 0
@@ -220,9 +222,11 @@ def main():
         # pix_pr_cm = 7
         # robot = fakeRobot
 
-        ball = chooseBall(balls)
-        # print("ChosenBall: " + str(ball.x) + " " + str(ball.y))
-        # print("ChosenBall: " + str(getChosenBall().x) + " " + str(getChosenBall().y))
+        # Check if robot point is in rotation danger zone
+        if preventRotation:
+            robotController.createCommandTank(-20, -20, 360)
+
+        ball = chooseBall(balls, robot)
 
         numberOfBalls = numberOfBallsLeft()
 
