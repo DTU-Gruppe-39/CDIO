@@ -33,42 +33,7 @@ twoBallsLeft = True
 
 def endingRun():
     print("8 min has passed.\n Ending run.")
-    # _thread.interrupt_main()
-
-# def getAngle(cenBox, blPoint, cenBall):
-#     global clockwise
-#     ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
-#     rotation = (blPoint[0] - cenBox[0]) * (cenBall[1] - cenBox[1]) - (blPoint[1] - cenBox[1]) * (cenBall[0] - cenBox[0])
-#     if ang < 0 and rotation > 0:
-#         ang = ang + 180
-#         clockwise = True
-#     if ang > 180:
-#         ang = ang - 180
-#         clockwise = True
-#     if rotation < 0:
-#             ang = 180 - ang
-#             clockwise = False
-#             if ang > 180:
-#                 ang = ang - 360
-#                 clockwise = False
-#     return ang
-
-
-# def vector(vector):
-#     return vector / np.linalg.norm(vector)
-#
-#
-# def vectorAngle(v1, v2):
-#     v1_u = vector(v1)
-#     v2_u = vector(v2)
-#     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
-#
-#
-# def realVectorAngle(p1, p2, p3):
-#     v0 = np.array(p1) - np.array(p2)
-#     v1 = np.array(p3) - np.array(p2)
-#     angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
-#     return np.degrees(angle)
+    _thread.interrupt_main()
 
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
@@ -99,13 +64,6 @@ def chooseBall(balls):
                 return getChosenBall()
 
 
-# def calculateAngle(pointCord, robot):
-#     print("Calculate angle")
-#     ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (pointCord[0], pointCord[1]))
-#     print("routeCon: angle is " + str(ang))
-#     return ang
-
-
 def distanceToBall(ball, robot):
     print("Calculate distance in pix")
     return calc_pix_dist(robot.blSquareX, robot.blSquareY, ball.x, ball.y)
@@ -121,6 +79,7 @@ def numberOfBallsLeft():
 
     return len(singleton.Singleton.balls)
 
+
 def moreBallsThanExpected():
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     if numberOfBallsLeft() > 6:
@@ -133,7 +92,6 @@ def moreBallsThanExpected():
         # break
     elif numberOfBallsLeft() > 0:
         zeroBallsLeft = False
-
 
 
 def goForGoal(robot, expectedNumberOfBallsLeft):
@@ -195,9 +153,10 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
 def main():
     global numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
     #print("hej")
-    #timer = threading.Timer(480, endingRun())
-    #timer.start()
-    #start = time.time()
+    # 480 seconds is 8 minutes
+    timer = threading.Timer(480.0, endingRun)
+    timer.start()
+    start = time.time()
     while True:
         print("While loop start")
         visionController.captureFrame()
@@ -206,22 +165,6 @@ def main():
         # obstacle = Singleton.obstacle
         track = singleton.Singleton.track
         pix_pr_cm = track.pixelConversion
-
-
-        # fakeBall.x = 1013
-        # fakeBall.y = 570
-        # fakeBall.radius = 0
-        #
-        # fakeBalls = []
-        # fakeBalls.append(fakeBall)
-        #
-        # fakeRobot.blSquareX = 685
-        # fakeRobot.blSquareY = 602
-        # fakeRobot.centrumX = 656
-        # fakeRobot.centrumY = 696
-
-        # pix_pr_cm = 7
-        # robot = fakeRobot
 
         # Check if robot point is in rotation danger zone
         # if preventRotation():
@@ -260,9 +203,9 @@ def main():
         else:
             #no balls left
             if zeroBallsLeft:
-                # timer.cancel()
-                # end = time.time()
-                # print("Time: " + str(end - start))
+                timer.cancel()
+                end = time.time()
+                print("Time: " + str(end - start))
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 while True:
                     robotController.turn(1080, getclockWise(), 30)

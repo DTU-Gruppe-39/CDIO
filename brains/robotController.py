@@ -61,7 +61,7 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
 
 def drive_degrees(pix_dist, pix_pr_cm):
     dist = pix_dist / pix_pr_cm
-    drive_deg = math.floor((dist / wheelCircunference) * 360.0)
+    drive_deg = round((dist / wheelCircunference) * 360.0)
     return drive_deg
 
 
@@ -75,7 +75,7 @@ def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
 
 def turn(angle, clockwise, speed):
     # Turn_speed can be changed to hardcoded values corresponding to the scenario
-    degrees = math.floor((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
+    degrees = round((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
     if clockwise :
       return createCommandTank(speed, -speed, degrees)
 
