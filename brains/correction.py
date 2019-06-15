@@ -14,4 +14,11 @@ def point_correction(cam_cen, bl_point):
     return p
 
 def main():
-    point_correction()
+    cp = point.Point
+    cp.x = 500
+    cp.y = 500
+    bl = point.Point
+    bl.x = 1250
+    bl.y = 250
+    real = point_correction(cp, bl)
+    print("" + real.x + "" + real.y)
