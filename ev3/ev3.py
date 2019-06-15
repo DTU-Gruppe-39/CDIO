@@ -17,7 +17,7 @@ import json
 import socket
 import time
 from ev3dev2.motor import LargeMotor, OUTPUT_C, OUTPUT_B, SpeedPercent, MoveTank, MediumMotor, OUTPUT_A, OUTPUT_D
-from ev3dev.ev3 import *
+from ev3dev2.sound import Sound
 
 #Sætter default mode til noev3
 #Andre modes: 
@@ -38,6 +38,7 @@ right = LargeMotor(OUTPUT_B)
 front = MediumMotor(OUTPUT_A)
 back = MediumMotor(OUTPUT_D)
 
+sound = Sound()
 
 # def cmdHandler(cmd):
 #     """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
@@ -114,10 +115,10 @@ def cmdHandler2(cmd):
         if cmd['type'] == "stop":
             tank_drive.off()
         if cmd['type'] == "sound":
-            # Sound.speak(text)
-            # Sound.play('insert wav file')
-            Sound.beep().wait()
-            # Sound.tone([(500, 1000, 400)] * 3)
+            # sound.speak(text)
+            # sound.play('insert wav file')
+            sound.beep().wait()
+            # sound.tone([(500, 1000, 400)] * 3)
 
 
 
