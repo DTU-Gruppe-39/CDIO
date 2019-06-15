@@ -8,6 +8,8 @@ from brains import visionController
 from brains import robotController
 from brains import wpGoal
 import math
+import threading
+import _thread
 
 numberOfTries = 0
 maxNumberOfTries = 5
@@ -24,6 +26,11 @@ sixBallsLeft = True
 twoBallsLeft = True
 # fakeBall = ball.Ball
 # fakeRobot = robot.Robot
+
+
+def endingRun():
+    print("8 min has passed.\n Ending run.")
+    _thread.interrupt_main()
 
 
 def getAngle(cenBox, blPoint, cenBall):
@@ -69,6 +76,7 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
 
     return pix_dist
 
+
 def chooseBall(balls, robot):
     global chosenBall, numberOfTries
 
@@ -100,15 +108,16 @@ def distanceToBall(ball, robot):
     print("Calculate distance in pix")
     return calc_pix_dist(robot.blSquareX, robot.blSquareY, ball.x, ball.y)
 
+
 def distanceToWaypoint(point, robot):
     print("Calculate distance in pix")
     return calc_pix_dist(robot.blSquareX, robot.blSquareY, point[0], point[1])
+
 
 def numberOfBallsLeft():
     print("Number of balls left on track: " + str(len(singleton.Singleton.balls)))
 
     return len(singleton.Singleton.balls)
-
 
 
 def goForGoal(robot):
@@ -163,13 +172,12 @@ def goForGoal(robot):
             break
 
 
-
-
-
-
 def main():
     global chosenBall, numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("hej")
+    timer = threading.Timer(480, endingRun())
+    timer.start()
+    start = time.time()
     while True:
         print("While loop start")
         visionController.captureFrame()
@@ -197,8 +205,7 @@ def main():
 
         ball = chooseBall(balls, robot)
         angle = calculateAngle((ball.x, ball.y), robot)
-        robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-        time.sleep(1)
+
 
 
         if not numberOfBallsLeft() == 0 and not zeroBallsLeft:
@@ -229,6 +236,9 @@ def main():
         else:
             #no balls left
             if zeroBallsLeft:
+                timer.cancel()
+                end = time.time()
+                print("Time: " + str(end - start))
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 while True:
                     robotController.turn(1080, clockwise, 30)
