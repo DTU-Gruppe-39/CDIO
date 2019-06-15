@@ -118,8 +118,22 @@ def numberOfBallsLeft():
 
     return len(singleton.Singleton.balls)
 
+def moreBallsThanExpected():
+    global zeroBallsLeft, twoBallsLeft, sixBallsLeft
+    if numberOfBallsLeft() > 6:
+        sixBallsLeft = True
+        # print("Unexpected extra ball, ABORTING go for goal")
+        # break
+    elif numberOfBallsLeft() > 2:
+        twoBallsLeft = True
+        # print("Unexpected extra ball, ABORTING go for goal")
+        # break
+    elif numberOfBallsLeft() > 0:
+        zeroBallsLeft = False
 
-def goForGoal(robot):
+
+
+def goForGoal(robot, expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\nDriving to goal")
     completed = False
@@ -138,7 +152,11 @@ def goForGoal(robot):
         pix_pr_cm = track.pixelConversion
         angle = calculateAngle(goalCord, robot)
         if angle >= 5:
-            robotController.turn(angle, getclockWise(), turnSpeed)
+            robotController.turn(angle, clockwise, turnSpeed)
+            if numberOfBallsLeft() > expectedNumberOfBallsLeft:
+                print("Unexpected extra ball, ABORTING go for goal")
+                moreBallsThanExpected()
+                break
         else:
             # Drive forward to waypoint/ball
             robotController.drive_forward(robot.centrumX, robot.centrumY, goalCord[0], goalCord[1], pix_pr_cm, forwardSpeed)
@@ -153,15 +171,14 @@ def goForGoal(robot):
                 # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
                 angle = calculateAngle(goalCord, robot)
                 print ("\nRealvector angle: " + str(angle) + "\n")
+                if numberOfBallsLeft() > expectedNumberOfBallsLeft:
+                    print("Unexpected extra ball, ABORTING go for goal")
+                    moreBallsThanExpected()
+                    break
                 if angle >= 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                 else:
-                    if numberOfBallsLeft() > 6:
-                        sixBallsLeft = True
-                    elif numberOfBallsLeft() > 2:
-                        twoBallsLeft = True
-                    elif numberOfBallsLeft() > 0:
-                        zeroBallsLeft = False
+                    moreBallsThanExpected()
                     robotController.createCommandTank(20, 20, 360)
                     robotController.createCommandDeliver()
                     robotController.createCommandTank(-20, -20, 360)
@@ -169,14 +186,15 @@ def goForGoal(robot):
                     break
             completed = True
             break
+    print("Go for goal done\n")
 
 
 def main():
     global chosenBall, numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
-    print("hej")
-    # timer = threading.Timer(480, endingRun())
-    # timer.start()
-    # start = time.time()
+    #print("hej")
+    #timer = threading.Timer(480, endingRun())
+    #timer.start()
+    #start = time.time()
     while True:
         print("While loop start")
         visionController.captureFrame()
@@ -204,15 +222,16 @@ def main():
 
         ball = chooseBall(balls, robot)
 
+        numberOfBalls = numberOfBallsLeft()
 
-        if not numberOfBallsLeft() == 0 and not zeroBallsLeft:
+        if not numberOfBalls == 0 and not zeroBallsLeft:
             angle = calculateAngle((ball.x, ball.y), robot)
-            if numberOfBallsLeft() == 6 and sixBallsLeft:
+            if numberOfBalls == 6 and sixBallsLeft:
                 sixBallsLeft = False
-                goForGoal(robot)
-            elif numberOfBallsLeft() == 2 and twoBallsLeft:
+                goForGoal(robot, numberOfBalls)
+            elif numberOfBalls == 2 and twoBallsLeft:
                 twoBallsLeft = False
-                goForGoal(robot)
+                goForGoal(robot, numberOfBalls)
             else:
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
@@ -221,14 +240,15 @@ def main():
                 elif distanceToBall(ball, robot) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
-                    print("Foran drive")
+                    # print("Foran drive")
                     robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
                     robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
                     chosenBall = None
-                    print("efter drive")
+                    # print("efter drive")
                 elif distanceToBall(ball, robot) <= distanceCutOffPoint:
                     degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
                     print("degrees" + str(degrees))
+                    print("BLIVER DET HER BRUGT???")
                     robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
             #no balls left
@@ -241,10 +261,10 @@ def main():
                     robotController.turn(1080, getclockWise(), 30)
             else:
                 zeroBallsLeft = True
-                goForGoal(robot)
+                goForGoal(robot, numberOfBalls)
 
 
-    visionController.releaseImage()
+    # visionController.releaseImage()
 
 
 
