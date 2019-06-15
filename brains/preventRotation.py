@@ -4,13 +4,13 @@ def preventRotation():
     robot = Singleton.robot
     track = Singleton.track
 
-    if robot.blSquareX < track.bottomLeftCorner.x + track.pixelConversion * 32:
+    if robot.centrumX < track.bottomLeftCorner.x + track.pixelConversion * 25:
         return True
-    elif robot.blSquareX > track.bottomRightCorner.x - track.pixelConversion * 32:
+    elif robot.centrumX > track.bottomRightCorner.x - track.pixelConversion * 25:
         return True
-    elif robot.blSquareY < track.bottomRightCorner.y + track.pixelConversion * 32:
+    elif robot.centrumY < track.bottomRightCorner.y + track.pixelConversion * 25:
         return True
-    elif robot.blSquareY > track.topLeftCorner.y - track.pixelConversion * 32:
+    elif robot.centrumY > track.topLeftCorner.y - track.pixelConversion * 25:
         return True
     else:
         return False
