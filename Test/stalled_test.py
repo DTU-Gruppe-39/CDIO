@@ -39,10 +39,13 @@ back = MediumMotor(OUTPUT_D)
 
 
 def main():
+    print("" + front.is_stalled)
     front.on_for_degrees(20, 180)
     if front.is_stalled():
+        print("" + front.is_stalled())
         front.stop()
         time.sleep(1)
+        front.on_for_degrees(-20, 90)
 
 
 
