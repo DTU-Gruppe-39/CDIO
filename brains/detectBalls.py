@@ -27,5 +27,8 @@ def getBalls(img):
             singleBall = ball.Ball(i[0], i[1], i[2])
 
             tempBall.append(singleBall)
+    else:
+        tempBall.clear()
+        return tempBall
 
     return tempBall

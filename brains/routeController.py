@@ -19,6 +19,9 @@ distanceCutOffPoint = 20
 frontArmDegrees = 360
 clockwise = False
 pix_pr_cm = None
+zeroBallsLeft = False
+sixBallsLeft = True
+twoBallsLeft = True
 # fakeBall = ball.Ball
 # fakeRobot = robot.Robot
 
@@ -71,16 +74,19 @@ def chooseBall(balls, robot):
 
     print("Choose ball")
     # return ball
-    if chosenBall is None:
-        chosenBall = balls[0]
-        return chosenBall
+    if numberOfBallsLeft() == 0:
+        return None
     else:
-        if numberOfTries >= maxNumberOfTries:
-            numberOfTries = 0
+        if chosenBall is None:
             chosenBall = balls[0]
             return chosenBall
         else:
-            return chosenBall
+            if numberOfTries >= maxNumberOfTries:
+                numberOfTries = 0
+                chosenBall = balls[0]
+                return chosenBall
+            else:
+                return chosenBall
 
 
 def calculateAngle(pointCord, robot):
@@ -106,6 +112,7 @@ def numberOfBallsLeft():
 
 
 def goForGoal(robot):
+    global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\nDriving to goal")
     completed = False
     aligned = False
@@ -135,13 +142,25 @@ def goForGoal(robot):
                 track = singleton.Singleton.track
                 pix_pr_cm = track.pixelConversion
                 goalCord = (track.bigGoal.x, track.bigGoal.y)
+                # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
                 angle = calculateAngle(goalCord, robot)
+                print ("\nRealvector angle: " + str(angle) + "\n")
                 if angle >= 5:
                     robotController.turn(angle, clockwise, turnSpeed)
                 else:
+                    if numberOfBallsLeft() > 6:
+                        sixBallsLeft = True
+                    elif numberOfBallsLeft() > 2:
+                        twoBallsLeft = True
+                    elif numberOfBallsLeft() > 0:
+                        zeroBallsLeft = False
+                    robotController.createCommandTank(20, 20, 360)
                     robotController.createCommandDeliver()
+                    robotController.createCommandTank(-20, -20, 360)
                     aligned = True
+                    break
             completed = True
+            break
 
 
 
@@ -149,7 +168,7 @@ def goForGoal(robot):
 
 
 def main():
-    global chosenBall, numberOfTries, pix_pr_cm
+    global chosenBall, numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("hej")
     while True:
         print("While loop start")
@@ -182,10 +201,13 @@ def main():
         time.sleep(1)
 
 
-        if not numberOfBallsLeft() == 0:
-            if numberOfBallsLeft() == 6:
+        if not numberOfBallsLeft() == 0 and not zeroBallsLeft:
+            angle = calculateAngle((ball.x, ball.y), robot)
+            if numberOfBallsLeft() == 6 and sixBallsLeft:
+                sixBallsLeft = False
                 goForGoal(robot)
-            elif numberOfBallsLeft() == 2:
+            elif numberOfBallsLeft() == 2 and twoBallsLeft:
+                twoBallsLeft = False
                 goForGoal(robot)
             else:
                 if not angle < 5:
@@ -206,7 +228,14 @@ def main():
                     robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
             #no balls left
-            goForGoal(robot)
+            if zeroBallsLeft:
+                print("\n\n\nRobot is Done!!!\n\n\n")
+                while True:
+                    robotController.turn(1080, clockwise, 30)
+            else:
+                zeroBallsLeft = True
+                goForGoal(robot)
+
 
     visionController.releaseImage()
 

@@ -47,7 +47,9 @@ def getTrack(frame):
     tempTrack = track.Track
 
     corner_boundaries = [
+        #day
         ([37, 50, 20], [96, 255, 255])
+        # ([37, 50, 20], [96, 255, 255])
         # ([86, 0, 0], [255, 0, 0])
     ]
 
@@ -72,11 +74,21 @@ def getTrack(frame):
     cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
                             cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
+    areaArray = []
+
+    for i, c in enumerate(cnts):
+       area = cv2.contourArea(c)
+       areaArray.append(area)
+
+    # first sort the array by area
+    sorteddata = sorted(zip(areaArray, cnts), key=lambda x: x[0], reverse=True)
+
+    biggest4 = [sorteddata[0][1], sorteddata[1][1], sorteddata[2][1], sorteddata[3][1]]
 
     count = 0
 
     # loop over the contours
-    for c in cnts:
+    for c in biggest4:
         # compute the center of the contour
         M = cv2.moments(c)
         count = count + 1
@@ -125,6 +137,8 @@ def getTrack(frame):
         # trackHeight = math.sqrt(pow(HeightX, 2) + pow(HeightY, 2))
 
         tempTrack.pixelConversion = trackLenght/169
+    cv2.imshow("mask", mask)
+
 
     return tempTrack
 
