@@ -8,6 +8,7 @@ from brains import visionController
 from brains import robotController
 from brains import wpGoal
 import math
+from brains.angle import *
 
 numberOfTries = 0
 maxNumberOfTries = 5
@@ -26,40 +27,40 @@ twoBallsLeft = True
 # fakeRobot = robot.Robot
 
 
-def getAngle(cenBox, blPoint, cenBall):
-    global clockwise
-    ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
-    rotation = (blPoint[0] - cenBox[0]) * (cenBall[1] - cenBox[1]) - (blPoint[1] - cenBox[1]) * (cenBall[0] - cenBox[0])
-    if ang < 0 and rotation > 0:
-        ang = ang + 180
-        clockwise = True
-    if ang > 180:
-        ang = ang - 180
-        clockwise = True
-    if rotation < 0:
-            ang = 180 - ang
-            clockwise = False
-            if ang > 180:
-                ang = ang - 360
-                clockwise = False
-    return ang
+# def getAngle(cenBox, blPoint, cenBall):
+#     global clockwise
+#     ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
+#     rotation = (blPoint[0] - cenBox[0]) * (cenBall[1] - cenBox[1]) - (blPoint[1] - cenBox[1]) * (cenBall[0] - cenBox[0])
+#     if ang < 0 and rotation > 0:
+#         ang = ang + 180
+#         clockwise = True
+#     if ang > 180:
+#         ang = ang - 180
+#         clockwise = True
+#     if rotation < 0:
+#             ang = 180 - ang
+#             clockwise = False
+#             if ang > 180:
+#                 ang = ang - 360
+#                 clockwise = False
+#     return ang
 
 
-def vector(vector):
-    return vector / np.linalg.norm(vector)
-
-
-def vectorAngle(v1, v2):
-    v1_u = vector(v1)
-    v2_u = vector(v2)
-    return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
-
-
-def realVectorAngle(p1, p2, p3):
-    v0 = np.array(p1) - np.array(p2)
-    v1 = np.array(p3) - np.array(p2)
-    angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
-    return np.degrees(angle)
+# def vector(vector):
+#     return vector / np.linalg.norm(vector)
+#
+#
+# def vectorAngle(v1, v2):
+#     v1_u = vector(v1)
+#     v2_u = vector(v2)
+#     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
+#
+#
+# def realVectorAngle(p1, p2, p3):
+#     v0 = np.array(p1) - np.array(p2)
+#     v1 = np.array(p3) - np.array(p2)
+#     angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
+#     return np.degrees(angle)
 
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
@@ -89,11 +90,11 @@ def chooseBall(balls, robot):
                 return chosenBall
 
 
-def calculateAngle(pointCord, robot):
-    print("Calculate angle")
-    ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (pointCord[0], pointCord[1]))
-    print("routeCon: angle is " + str(ang))
-    return ang
+# def calculateAngle(pointCord, robot):
+#     print("Calculate angle")
+#     ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (pointCord[0], pointCord[1]))
+#     print("routeCon: angle is " + str(ang))
+#     return ang
 
 
 def distanceToBall(ball, robot):
@@ -108,7 +109,6 @@ def numberOfBallsLeft():
     print("Number of balls left on track: " + str(len(singleton.Singleton.balls)))
 
     return len(singleton.Singleton.balls)
-
 
 
 def goForGoal(robot):
@@ -197,8 +197,6 @@ def main():
 
         ball = chooseBall(balls, robot)
         angle = calculateAngle((ball.x, ball.y), robot)
-        robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-        time.sleep(1)
 
 
         if not numberOfBallsLeft() == 0 and not zeroBallsLeft:
