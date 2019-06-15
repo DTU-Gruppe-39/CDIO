@@ -7,6 +7,7 @@ from model import obstacle
 from model import point
 from model import track
 from model import robot
+from model import ball
 
 class Singleton:
 
@@ -15,6 +16,8 @@ class Singleton:
     obstacle = obstacle.Obstacle
     robot = robot.Robot
     clockWise = False
+
+    chosenBall = None
 
 
     __instance = None
