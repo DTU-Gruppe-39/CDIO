@@ -22,10 +22,10 @@ def getRobot(img):
     ]
     boundaries1 = [
         # Dag kørsel:
-        ([120, 100, 20], [170, 255, 255])
+        # ([120, 100, 20], [170, 255, 255])
 
         #Nat kørsel:
-        # ([140, 40, 10], [190, 255, 255])
+        ([140, 40, 10], [190, 255, 255])
         #hsv
         #([105, 5, 100], [210, 90, 255])
 
@@ -102,7 +102,7 @@ def getRobot(img):
         tempRobot.centrumY = cy
         tempRobot.box = box
 
-        cv2.imshow("mask", mask1)
+        cv2.imshow("maskPurple", mask1)
         cv2.imshow("maskYellow", mask)
 
    # print("\n")

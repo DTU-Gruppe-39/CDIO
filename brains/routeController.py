@@ -21,7 +21,6 @@ forwardSpeed = 30
 attackSpeed = 10
 distanceCutOffPoint = 20
 frontArmDegrees = 360
-clockwise = False
 pix_pr_cm = None
 zeroBallsLeft = False
 sixBallsLeft = True
@@ -31,7 +30,7 @@ twoBallsLeft = True
 
 def endingRun():
     print("8 min has passed.\n Ending run.")
-    _thread.interrupt_main()
+    # _thread.interrupt_main()
 
 # def getAngle(cenBox, blPoint, cenBall):
 #     global clockwise
@@ -139,7 +138,7 @@ def goForGoal(robot):
         pix_pr_cm = track.pixelConversion
         angle = calculateAngle(goalCord, robot)
         if angle >= 5:
-            robotController.turn(angle, clockwise, turnSpeed)
+            robotController.turn(angle, getclockWise(), turnSpeed)
         else:
             # Drive forward to waypoint/ball
             robotController.drive_forward(robot.centrumX, robot.centrumY, goalCord[0], goalCord[1], pix_pr_cm, forwardSpeed)
@@ -155,7 +154,7 @@ def goForGoal(robot):
                 angle = calculateAngle(goalCord, robot)
                 print ("\nRealvector angle: " + str(angle) + "\n")
                 if angle >= 5:
-                    robotController.turn(angle, clockwise, turnSpeed)
+                    robotController.turn(angle, getclockWise(), turnSpeed)
                 else:
                     if numberOfBallsLeft() > 6:
                         sixBallsLeft = True
@@ -175,9 +174,9 @@ def goForGoal(robot):
 def main():
     global chosenBall, numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("hej")
-    timer = threading.Timer(480, endingRun())
-    timer.start()
-    start = time.time()
+    # timer = threading.Timer(480, endingRun())
+    # timer.start()
+    # start = time.time()
     while True:
         print("While loop start")
         visionController.captureFrame()
@@ -204,7 +203,6 @@ def main():
         # robot = fakeRobot
 
         ball = chooseBall(balls, robot)
-        angle = calculateAngle((ball.x, ball.y), robot)
 
 
         if not numberOfBallsLeft() == 0 and not zeroBallsLeft:
@@ -217,7 +215,7 @@ def main():
                 goForGoal(robot)
             else:
                 if not angle < 5:
-                    robotController.turn(angle, clockwise, turnSpeed)
+                    robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
                 # elif distanceToWaypoint() > 5:
                 elif distanceToBall(ball, robot) > distanceCutOffPoint:
@@ -235,12 +233,12 @@ def main():
         else:
             #no balls left
             if zeroBallsLeft:
-                timer.cancel()
-                end = time.time()
-                print("Time: " + str(end - start))
+                # timer.cancel()
+                # end = time.time()
+                # print("Time: " + str(end - start))
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 while True:
-                    robotController.turn(1080, clockwise, 30)
+                    robotController.turn(1080, getclockWise(), 30)
             else:
                 zeroBallsLeft = True
                 goForGoal(robot)

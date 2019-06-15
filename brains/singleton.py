@@ -14,6 +14,7 @@ class Singleton:
     track = track.Track
     obstacle = obstacle.Obstacle
     robot = robot.Robot
+    clockWise = False
 
 
     __instance = None
