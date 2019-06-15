@@ -152,7 +152,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
         pix_pr_cm = track.pixelConversion
         angle = calculateAngle(goalCord, robot)
         if angle >= 5:
-            robotController.turn(angle, clockwise, turnSpeed)
+            robotController.turn(angle, getclockWise(), turnSpeed)
             if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                 print("Unexpected extra ball, ABORTING go for goal")
                 moreBallsThanExpected()
