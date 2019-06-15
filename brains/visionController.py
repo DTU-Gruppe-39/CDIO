@@ -66,10 +66,6 @@ def captureFrame():
         cv2.destroyAllWindows()
 
 
-
-
-
-
 def releaseImage():
     global cap
     cap.release()
