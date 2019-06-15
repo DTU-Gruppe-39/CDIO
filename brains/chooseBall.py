@@ -6,7 +6,6 @@ def getChosenBall(balls, numberOfTries):
     robot = singleton.Singleton.robot
     track = singleton.Singleton.track
 
-    destBall = (0, 0)
     minDist = 0
     maxNumberOfTries = 5
     numberOfBallsLeft = len(singleton.Singleton.balls)
@@ -15,8 +14,8 @@ def getChosenBall(balls, numberOfTries):
     # return ball
     if numberOfBallsLeft == 0:
         return None
-    elif numberOfTries >= maxNumberOfTries:
-        numberOfTries = 0
+    elif robot.numberOfTries >= maxNumberOfTries:
+        robot.numberOfTries = 0
         chosenBall = balls[0]
         return chosenBall
     else:
@@ -37,7 +36,3 @@ def getChosenBall(balls, numberOfTries):
                 chosenBall = (cirX, cirY)
 
         return chosenBall
-
-
-
-
