@@ -6,19 +6,25 @@ scale = 162.2 / 15.5
 
 
 def point_correction(cam_cen, bl_point):
-    p = point.Point
-    x_correction = (cam_cen.x - bl_point.x) * scale
-    y_correction = (cam_cen.y - bl_point.y) * scale
-    p.x = bl_point.x + x_correction
-    p.y = bl_point.y + y_correction
+    x_correction = (cam_cen.x - bl_point.x) / scale
+    y_correction = (cam_cen.y - bl_point.y) / scale
+    px = bl_point.x + x_correction
+    py = bl_point.y + y_correction
+    p = point.Point(px, py)
     return p
 
-def main():
-    cp = point.Point
-    cp.x = 500
-    cp.y = 500
-    bl = point.Point
-    bl.x = 1250
-    bl.y = 250
-    real = point_correction(cp, bl)
-    print("" + real.x + "" + real.y)
+
+def ball_cen_correction():
+
+    return
+
+
+# def main():
+#     bl = point.Point(1250, 250)
+#     cp = point.Point(500, 500)
+#     real = point_correction(cp, bl)
+#     print("x:" + str(real.x) + ", y: " + str(real.y))
+
+
+# if __name__ == "__main__":
+#     main()
