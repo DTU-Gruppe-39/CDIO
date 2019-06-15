@@ -11,11 +11,11 @@ import math
 import threading
 import _thread
 from brains.angle import *
+from brains.chooseBall import *
 
 
 numberOfTries = 0
 maxNumberOfTries = 5
-chosenBall = None
 turnSpeed = 20
 forwardSpeed = 30
 attackSpeed = 10
@@ -76,24 +76,24 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
     return pix_dist
 
 
-def chooseBall(balls, robot):
-    global chosenBall, numberOfTries
+def chooseBall(balls):
+    global numberOfTries
 
     print("Choose ball")
     # return ball
     if numberOfBallsLeft() == 0:
         return None
     else:
-        if chosenBall is None:
-            chosenBall = balls[0]
-            return chosenBall
+        if getChosenBall() is None:
+            setChosenBall(findBestBall(balls))
+            return getChosenBall()
         else:
             if numberOfTries >= maxNumberOfTries:
                 numberOfTries = 0
-                chosenBall = balls[0]
-                return chosenBall
+                setChosenBall(balls[0])
+                return getChosenBall()
             else:
-                return chosenBall
+                return getChosenBall()
 
 
 # def calculateAngle(pointCord, robot):
@@ -190,7 +190,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
 
 
 def main():
-    global chosenBall, numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
+    global numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
     #print("hej")
     #timer = threading.Timer(480, endingRun())
     #timer.start()
@@ -220,7 +220,9 @@ def main():
         # pix_pr_cm = 7
         # robot = fakeRobot
 
-        ball = chooseBall(balls, robot)
+        ball = chooseBall(balls)
+        # print("ChosenBall: " + str(ball.x) + " " + str(ball.y))
+        # print("ChosenBall: " + str(getChosenBall().x) + " " + str(getChosenBall().y))
 
         numberOfBalls = numberOfBallsLeft()
 
@@ -243,7 +245,7 @@ def main():
                     # print("Foran drive")
                     robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
                     robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-                    chosenBall = None
+                    setChosenBall(None)
                     # print("efter drive")
                 elif distanceToBall(ball, robot) <= distanceCutOffPoint:
                     degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
