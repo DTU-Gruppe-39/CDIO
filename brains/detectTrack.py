@@ -137,7 +137,7 @@ def getTrack(frame):
         # trackHeight = math.sqrt(pow(HeightX, 2) + pow(HeightY, 2))
 
         tempTrack.pixelConversion = trackLenght/169
-    cv2.imshow("mask", mask)
+    # cv2.imshow("mask", mask)
 
 
     return tempTrack
