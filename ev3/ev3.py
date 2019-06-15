@@ -86,7 +86,7 @@ def cmdHandler2(cmd):
         if cmd['type'] == "attack":
             tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['tank_degrees'])
             front.on_for_degrees(20, cmd['front_degrees'])
-            tank_drive.off()
+            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav')
         if cmd['type'] == "deliver":
             front.on_for_degrees(-20, 180)
             back.on_for_degrees(10, 90)
@@ -116,8 +116,8 @@ def cmdHandler2(cmd):
             tank_drive.off()
         if cmd['type'] == "sound":
             # sound.speak(text)
-            # sound.play('insert wav file')
-            sound.beep().wait()
+            sound.play_file('/home/robot/CDIO/sounds/we-are-the-champions-copia.wav')
+            #sound.beep().wait()
             # sound.tone([(500, 1000, 400)] * 3)
 
 
