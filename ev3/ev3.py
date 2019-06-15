@@ -84,9 +84,6 @@ def cmdHandler2(cmd):
         if cmd['type'] == "attack":
             tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['tank_degrees'])
             front.on_for_degrees(20, cmd['front_degrees'])
-            if(front.is_stalled()):
-                front.on_for_degrees(-20, 90)
-                time.sleep(1)
             tank_drive.off()
         if cmd['type'] == "deliver":
             front.on_for_degrees(-20, 180)
