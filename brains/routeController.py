@@ -224,8 +224,8 @@ def main():
         # robot = fakeRobot
 
         # Check if robot point is in rotation danger zone
-        if preventRotation():
-            robotController.createCommandTank(-20, -20, 360)
+        # if preventRotation():
+        #     robotController.createCommandTank(-20, -20, 360)
 
         ball = chooseBall(balls)
 
