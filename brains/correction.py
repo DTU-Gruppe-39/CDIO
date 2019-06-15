@@ -6,8 +6,8 @@ scale = 162.2 / 15.5
 
 
 def point_correction(cam_cen, bl_point):
-    x_correction = (cam_cen.x - bl_point.x) / scale
-    y_correction = (cam_cen.y - bl_point.y) / scale
+    x_correction = int((cam_cen.x - bl_point.x) / scale)
+    y_correction = int((cam_cen.y - bl_point.y) / scale)
     px = bl_point.x + x_correction
     py = bl_point.y + y_correction
     p = point.Point(px, py)

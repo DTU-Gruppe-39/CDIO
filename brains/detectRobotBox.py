@@ -6,6 +6,8 @@ import numpy as np
 import imutils
 import cv2
 from model import robot
+from model import point
+from brains.correction import point_correction
 from imutils import contours
 
 
@@ -85,9 +87,18 @@ def getRobot(img):
             cX, cY = 0, 0
             #
             # # draw the contour and center of the shape on the image
+        y_val = np.amax(img, axis=0)
+        x_val = np.amax(img, axis=1)
+        y_val = int(y_val/2)
+        x_val = int(x_val/2)
+        c_cen = point.Point(x_val, y_val)
+        bl = point.Point(cX, cY)
+        real = point_correction(c_cen, bl)
+        # tempRobot.blSquareX = cX
+        # tempRobot.blSquareY = cY
 
-        tempRobot.blSquareX = cX
-        tempRobot.blSquareY = cY
+        tempRobot.blSquareX = real.x
+        tempRobot.blSquareY = real.y
 
         # Center of robot
         M = cv2.moments(best_cnt)
