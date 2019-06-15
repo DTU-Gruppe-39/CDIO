@@ -1,9 +1,8 @@
-import singleton
-
+from brains.singleton import Singleton
 
 def preventRotation():
-    robot = singleton.Singleton.robot
-    track = singleton.Singleton.track
+    robot = Singleton.robot
+    track = Singleton.track
 
     if robot.blSquareX < track.bottomLeftCorner.x + track.pixelConversion * 32:
         return True

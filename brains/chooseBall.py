@@ -44,7 +44,7 @@ def findBestBall(balls):
 
             if minDist == 0:
                 minDist = dist
-                print("MinDist: " + str(minDist/track.pixelConversion))
+                # print("MinDist: " + str(minDist/track.pixelConversion))
                 cirX = ball.x
                 cirY = ball.y
                 tempBall.x = ball.x
@@ -61,8 +61,8 @@ def findBestBall(balls):
                 # tempBall.x = cirX
                 # tempBall.y = cirY
 
-                print("circ: " + str(cirX) + ", " + str(cirY))
-            print("minDist: " + str(minDist), "Dist: " + str(dist))
+            #     print("circ: " + str(cirX) + ", " + str(cirY))
+            # print("minDist: " + str(minDist), "Dist: " + str(dist))
 
         # # If it is a easy ball outside dangerzone
         # if cirX > track.bottomLeftCorner.x + danger and cirX < track.bottomRightCorner.x - track.pixelConversion * 5 and cirY > track.bottomRightCorner.y + track.pixelConversion * 5 and cirY < track.topLeftCorner.y - track.pixelConversion * 5:

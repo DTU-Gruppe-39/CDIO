@@ -13,6 +13,7 @@ import _thread
 from brains.angle import *
 
 from brains.chooseBall import *
+from brains.preventRotation import preventRotation
 
 
 
@@ -223,10 +224,10 @@ def main():
         # robot = fakeRobot
 
         # Check if robot point is in rotation danger zone
-        if preventRotation:
+        if preventRotation():
             robotController.createCommandTank(-20, -20, 360)
 
-        ball = chooseBall(balls, robot)
+        ball = chooseBall(balls)
 
         numberOfBalls = numberOfBallsLeft()
 
