@@ -16,6 +16,7 @@ class Singleton:
     obstacle = obstacle.Obstacle
     robot = robot.Robot
     clockWise = False
+    img = None
 
     chosenBall = None
 

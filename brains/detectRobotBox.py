@@ -20,7 +20,7 @@ def getRobot(img):
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     boundaries = [
-        ([28, 34, 20], [33, 255, 255])
+        ([27, 54, 20], [32, 255, 255])
     ]
     boundaries1 = [
         # Dag kørsel:
@@ -118,8 +118,8 @@ def getRobot(img):
         tempRobot.centrumY = real2.y
         tempRobot.box = box
 
-        cv2.imshow("maskPurple", mask1)
-        cv2.imshow("maskYellow", mask)
+        # cv2.imshow("maskPurple", mask1)
+        # cv2.imshow("maskYellow", mask)
 
    # print("\n")
     return tempRobot

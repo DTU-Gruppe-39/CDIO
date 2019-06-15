@@ -13,9 +13,7 @@ from model import obstacle
 from view import visionOutputView
 
 
-cap = None
-def captureFrame():
-    global cap
+while True:
     # obstacle = obstacle.Obstacle
     robot = None
 
@@ -31,20 +29,25 @@ def captureFrame():
     singleton.Singleton.balls = getBalls(copy.deepcopy(img))
     singleton.Singleton.robot = getRobot(copy.deepcopy(img))
     singleton.Singleton.track = getTrack(copy.deepcopy(img))
-    singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
-    
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
+
+    getObstacle(copy.deepcopy(img))
+
+    # robot = getRobot(img)
+
     print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
 
-    visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls, singleton.Singleton.robot)
+
+
+
+    # cv2.imshow("images", np.hstack([img]))
+
+    # visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls, singleton.Singleton.robot)
+
+    # if cv2.waitKey(1) & 0xFF == ord('q'):
+    #     break
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         # When everything done, release the capture
         cap.release()
         cv2.destroyAllWindows()
-
-
-def releaseImage():
-    global cap
-    cap.release()
-    cv2.destroyAllWindows()

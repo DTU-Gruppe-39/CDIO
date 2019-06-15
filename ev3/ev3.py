@@ -17,6 +17,7 @@ import json
 import socket
 import time
 from ev3dev2.motor import LargeMotor, OUTPUT_C, OUTPUT_B, SpeedPercent, MoveTank, MediumMotor, OUTPUT_A, OUTPUT_D
+from ev3dev2.sound import Sound
 
 #Sætter default mode til noev3
 #Andre modes: 
@@ -37,6 +38,7 @@ right = LargeMotor(OUTPUT_B)
 front = MediumMotor(OUTPUT_A)
 back = MediumMotor(OUTPUT_D)
 
+sound = Sound()
 
 # def cmdHandler(cmd):
 #     """Handling af actions. Sensorer der skal aflæses eller motorer der skal tændes"""
@@ -84,11 +86,21 @@ def cmdHandler2(cmd):
         if cmd['type'] == "attack":
             tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['tank_degrees'])
             front.on_for_degrees(20, cmd['front_degrees'])
-            tank_drive.off()
+            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav')
         if cmd['type'] == "deliver":
             front.on_for_degrees(-20, 180)
             back.on_for_degrees(10, 90)
             time.sleep(4)
+            back.on_for_degrees(-10, 90)
+            time.sleep(1)
+            back.on_for_degrees(10, 90)
+            back.on_for_degrees(-10, 90)
+            back.on_for_degrees(10, 90)
+            back.on_for_degrees(-10, 90)
+            back.on_for_degrees(10, 90)
+            back.on_for_degrees(-10, 90)
+            back.on_for_degrees(10, 90)
+            time.sleep(2)
             back.on_for_degrees(-10, 90)
             time.sleep(1)
             front.on_for_degrees(20, 180)
@@ -102,6 +114,11 @@ def cmdHandler2(cmd):
             tank_drive.on(20, -20)
         if cmd['type'] == "stop":
             tank_drive.off()
+        if cmd['type'] == "sound":
+            # sound.speak(text)
+            sound.play_file('/home/robot/CDIO/sounds/we-are-the-champions-copia.wav')
+            #sound.beep().wait()
+            # sound.tone([(500, 1000, 400)] * 3)
 
 
 
