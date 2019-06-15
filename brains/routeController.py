@@ -11,6 +11,7 @@ import math
 import threading
 import _thread
 from brains.angle import *
+from ev3dev.ev3 import *
 
 
 numberOfTries = 0
