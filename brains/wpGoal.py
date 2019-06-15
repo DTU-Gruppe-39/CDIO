@@ -8,14 +8,14 @@ def getWpGoal(direction):
     #False is left goal
     if direction == False:
         if track.bigGoal.x > track.smallGoal.x:
-            wpGoal = (track.bigGoal.x - int(track.pixelConversion*35), track.bigGoal.y)
+            wpGoal = (track.bigGoal.x - round(track.pixelConversion*35), track.bigGoal.y)
         elif track.bigGoal.x < track.smallGoal.x:
-            wpGoal = (track.bigGoal.x + int(track.pixelConversion*35), track.bigGoal.y)
+            wpGoal = (track.bigGoal.x + round(track.pixelConversion*35), track.bigGoal.y)
     # True is right goal
     elif direction == True:
         if track.bigGoal.x > track.smallGoal.x:
-            wpGoal = (track.smallGoal.x + int(track.pixelConversion*35), track.smallGoal.y)
+            wpGoal = (track.smallGoal.x + round(track.pixelConversion*35), track.smallGoal.y)
         elif track.bigGoal.x < track.smallGoal.x:
-            wpGoal = (track.smallGoal.x - int(track.pixelConversion*35), track.smallGoal.y)
+            wpGoal = (track.smallGoal.x - round(track.pixelConversion*35), track.smallGoal.y)
 
     return wpGoal

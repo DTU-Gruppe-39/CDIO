@@ -66,4 +66,12 @@ def showImage(img, track, balls, robot):
         # cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
 
     # cv2.imshow('frame', img)
+
+    # y_val1 = len(np.amax(img, axis=1))
+    # x_val1 = len(np.amax(img, axis=0))
+    # y_val = int(y_val1/ 2)
+    # x_val = int(x_val1 / 2)
+    #
+    # cv2.line(img, (x_val, 0), (x_val, y_val1), (0,0,255), 2)
+
     cv2.imshow("images", img)

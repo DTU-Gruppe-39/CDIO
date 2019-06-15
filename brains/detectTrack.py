@@ -34,7 +34,7 @@ def sort(points):
 
 def calculateGoals(corner1, corner2):
 
-    goalMidpoint = point.Point(int((corner1.x + corner2.x) / 2), int((corner1.y + corner2.y) / 2))
+    goalMidpoint = point.Point(round((corner1.x + corner2.x) / 2), round((corner1.y + corner2.y) / 2))
 
     # goalMidpoint.x = (corner1.x + corner2.x)/2
     # goalMidpoint.y = (corner1.y + corner2.y)/2
@@ -94,8 +94,8 @@ def getTrack(frame):
         count = count + 1
         # print(str(count))
         if M["m00"] != 0:
-            cX = int(M["m10"] / M["m00"])
-            cY = int(M["m01"] / M["m00"])
+            cX = round(M["m10"] / M["m00"])
+            cY = round(M["m01"] / M["m00"])
 
             # print("count: " + str(count) + " cX: " + str(cX) + " cY: " + str(cY))
 

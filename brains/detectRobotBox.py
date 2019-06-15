@@ -80,17 +80,17 @@ def getRobot(img):
         B = cv2.moments(bl_best_cnt)
 
         if B["m00"] != 0:
-            cX = int(B["m10"] / B["m00"])
-            cY = int(B["m01"] / B["m00"])
+            cX = round(B["m10"] / B["m00"])
+            cY = round(B["m01"] / B["m00"])
         else:
                 # set values as what you need in the situation
             cX, cY = 0, 0
             #
             # # draw the contour and center of the shape on the image
-        y_val = np.amax(img, axis=0)
-        x_val = np.amax(img, axis=1)
-        y_val = int(len(y_val)/2)
-        x_val = int(len(x_val)/2)
+        x_val = np.amax(img, axis=0)
+        y_val = np.amax(img, axis=1)
+        x_val = round(len(x_val)/2)
+        y_val = round(len(y_val)/2)
         c_cen = point.Point(x_val, y_val)
         bl = point.Point(cX, cY)
         real = point_correction(c_cen, bl)
@@ -102,7 +102,7 @@ def getRobot(img):
 
         # Center of robot
         M = cv2.moments(best_cnt)
-        cx, cy = int(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
+        cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
         rect = cv2.minAreaRect(best_cnt)
 
         # Rotating box
