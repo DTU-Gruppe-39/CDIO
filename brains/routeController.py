@@ -258,7 +258,11 @@ def main():
                 # print("Time: " + str(end - start))
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 while True:
-                    robotController.turn(1080, getclockWise(), 30)
+                    #robotController.turn(1080, getclockWise(), 30)
+                    #Sound.speak(text)
+                    #Sound.play('insert wav file')
+                    #Sound.beep()
+                    Sound.tone([(500, 1000, 400)] * 3)
             else:
                 zeroBallsLeft = True
                 goForGoal(robot, numberOfBalls)
