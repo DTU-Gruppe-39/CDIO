@@ -109,8 +109,13 @@ def getRobot(img):
         box = cv2.boxPoints(rect)
         box = np.int0(box)
 
-        tempRobot.centrumX = cx
-        tempRobot.centrumY = cy
+        r_cen = point.Point(cx, cy)
+        real2 = point_correction(c_cen, r_cen)
+
+        # tempRobot.centrumX = cx
+        # tempRobot.centrumY = cy
+        tempRobot.centrumX = real2.x
+        tempRobot.centrumY = real2.y
         tempRobot.box = box
 
         cv2.imshow("maskPurple", mask1)
