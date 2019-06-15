@@ -1,4 +1,5 @@
 import cv2
+from brains import singleton
 import numpy as np
 from model import track
 from model import ball
@@ -19,6 +20,11 @@ def showImage(img, track, balls, robot):
     topLineA = (track.topRightCorner.x, track.topRightCorner.y)
     topLineB = (track.topLeftCorner.x, track.topLeftCorner.y)
 
+
+    if singleton.Singleton.chosenBall is not None:
+        cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),
+                 (singleton.Singleton.chosenBall.x, singleton.Singleton.chosenBall.y), (0,0,255), 2)
+
     if track.bottomLeftCorner.x is not None:
         # Draw bottom line, 180 cm
         cv2.line(img, bottomLineA, bottomLineB, (0, 255, 0), thickness=3, lineType=8)
@@ -29,6 +35,7 @@ def showImage(img, track, balls, robot):
         # # Draw top line, 180 cm
         cv2.line(img, topLineA, topLineB, (0, 255, 0), thickness=3, lineType=8)
 
+
     #--Draw goals--#
     # Convert to tuple
     bigGoal = (track.bigGoal.x, track.bigGoal.y)
@@ -37,6 +44,7 @@ def showImage(img, track, balls, robot):
     if track.bottomLeftCorner.x is not None:
         cv2.circle(img, bigGoal, 7, (255, 255, 255), -1)
         cv2.circle(img, smallGoal, 7, (255, 255, 255), -1)
+
 
     #--Draw balls--#
 
@@ -57,7 +65,7 @@ def showImage(img, track, balls, robot):
         cv2.drawContours(img, [robot.box], 0, (0, 255, 0), 2)
 
         # danger zone
-        cv2.line(img,(bottomLineA[0] + 40, bottomLineA[1] - 40), (bottomLineB[0] - 40 ,bottomLineB[1] - 40), (0,0,255), 2)
+        cv2.line(img, (bottomLineA[0] + 40, bottomLineA[1] - 40), (bottomLineB[0] - 40 ,bottomLineB[1] - 40), (0,0,255), 2)
         cv2.line(img, (topLineA[0] - 40, topLineA[1] + 40), (topLineB[0] + 40, topLineB[1] + 40),(0, 0, 255), 2)
         cv2.line(img, (rightLineA[0] - 40, rightLineA[1] - 40), (rightLineB[0] - 40, rightLineB[1] + 40),(0, 0, 255), 2)
         cv2.line(img, (leftLineA[0] + 40, leftLineA[1] - 40), (leftLineB[0] + 40, leftLineB[1] + 40),(0, 0, 255), 2)

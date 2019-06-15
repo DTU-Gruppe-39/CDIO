@@ -26,6 +26,7 @@ def captureFrame():
     cap.set(cv2.CAP_PROP_FPS, 30)
     # while True:
     ret, img = cap.read()
+    singleton.Singleton.img = copy.deepcopy(img)
 
     singleton.Singleton.balls = getBalls(copy.deepcopy(img))
     singleton.Singleton.robot = getRobot(copy.deepcopy(img))
