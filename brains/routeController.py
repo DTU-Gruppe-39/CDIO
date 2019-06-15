@@ -205,7 +205,10 @@ def main():
             if zeroBallsLeft:
                 timer.cancel()
                 end = time.time()
-                print("Time: " + str(end - start))
+                run_time = end - start
+                min_run = math.floor(run_time/60)
+                sec_run = run_time % 60
+                print("Time: " + str(min_run) + "min" + str(sec_run) + "sec")
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 while True:
                     robotController.turn(1080, getclockWise(), 30)
