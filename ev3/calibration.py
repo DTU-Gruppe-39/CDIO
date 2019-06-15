@@ -14,18 +14,19 @@ lift = MediumMotor(OUTPUT_D)
 squareSize = 50
 wheelCircunference = 3 * math.pi
 wheelBase = 12.5
-speed = 25
+speed = 30
+turnspeed = 20
 degrees = 0
 
 
 def dist_to_degree(dist):
-    new = math.floor((dist / wheelCircunference) * 360.0)
+    new = round((dist / wheelCircunference) * 360.0)
 
     return new
 
 
 for j in range(5):
-    arm.on(20)
+    # arm.on(20)
     for i in range(4): 
         # Move straight the squareSize centimetres
         # degrees = math.floor((squareSize / wheelCircunference) * 360.0)
@@ -33,7 +34,7 @@ for j in range(5):
         print("Degrees" + str(degrees))
         # left.on_for_degrees(speed, degrees)
         # right.on_for_degrees(speed, degrees)
-        tank_drive.on_for_degrees(speed*2, speed*2, degrees)
+        tank_drive.on_for_degrees(speed, speed, degrees)
         tank_drive.wait_until_not_moving()
         time.sleep(1)
         
@@ -43,15 +44,15 @@ for j in range(5):
         # left.on_for_degrees(speed, -degrees)
         # right.on_for_degrees(speed, degrees)
         # left.wait_until_not_moving()
-        tank_drive.on_for_degrees(-speed, speed, degrees)
-        tank_drive.wait_until_not_moving()
-        time.sleep(1)
+        tank_drive.on_for_degrees(-turnspeed, turnspeed, degrees)
+        # tank_drive.wait_until_not_moving()
+        time.sleep(2)
     
-    arm.on(-20)
-    lift.on_for_degrees(10, 90)
-    time.sleep(4)
-    lift.on_for_degrees(-10, 90)
-    time.sleep(1)
+    # arm.on(-20)
+    # lift.on_for_degrees(10, 90)
+    # time.sleep(4)
+    # lift.on_for_degrees(-10, 90)
+    # time.sleep(1)
 
     # System.out.println("CW: "+(j+1)+"/5")
     # brick.getAudio().systemSound(0)
