@@ -14,6 +14,8 @@ from view import visionOutputView
 
 
 cap = None
+
+
 def captureFrame():
     global cap
     # obstacle = obstacle.Obstacle
@@ -32,7 +34,7 @@ def captureFrame():
     singleton.Singleton.robot = getRobot(copy.deepcopy(img))
     singleton.Singleton.track = getTrack(copy.deepcopy(img))
     singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
-    
+
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
     print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
 
