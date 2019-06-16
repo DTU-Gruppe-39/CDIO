@@ -31,10 +31,10 @@ def showImage():
 
     if len(singleton.Singleton.way_points) != 0:
         for wp in singleton.Singleton.way_points:
-            cv2.circle(img, (wp.x, wp.y), 3, (0, 0, 255), 3)
+            cv2.circle(img, (int(wp.x), int(wp.y)), 3, (255, 255, 255), -1)
 
         cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),
-                 (singleton.Singleton.way_points[0].x, singleton.Singleton.way_points[0].y), (0, 255, 0), thickness=3, lineType=8)
+                 (int(singleton.Singleton.way_points[0].x), int(singleton.Singleton.way_points[0].y)), (0, 255, 0), thickness=3, lineType=8)
 
 
     if track.bottomLeftCorner.x is not None:
