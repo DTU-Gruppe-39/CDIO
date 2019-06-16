@@ -4,12 +4,21 @@ from model.ball import Ball
 from model import point
 
 
+def pop_waypoint():
+    singleton.Singleton.way_points.pop(0)
+    return
+
+
+def get_waypoint():
+    return singleton.Singleton.way_points
+
+
 def waypoints(endPoint):
     track = singleton.Singleton.track
     danger = round(track.pixelConversion * 15)
-    cornerSafePointX = round(track.pixelConversion * 15)
-    cornerSafePointY = round(track.pixelConversion * 30)
-    sideSafePoint = round(track.pixelConversion * 15)
+    cornerSafePointX = round(track.pixelConversion * 32)
+    cornerSafePointY = round(track.pixelConversion * 47)
+    sideSafePoint = round(track.pixelConversion * 32)
     waypoint_list = []
     # If it is a easy ball outside dangerzone
     if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
