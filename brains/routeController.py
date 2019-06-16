@@ -210,14 +210,27 @@ def main():
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
+                    print("PRØVER AT TURNE TIL PUNKT")
                 elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
-                    print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
-                    robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
+                    if len(waypoints) > 1:
+                        print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
+                        print("MERE END 1 WAYPOINT TILBAGE")
+                        print("Antal af Waypoints: " + str(len(waypoints)))
+                        robotController.drive_forward(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]), pix_pr_cm, forwardSpeed)
+                        waypoint.pop_waypoint()
+                        print("POPPER ET WAYPOINT")
+                        print("Antal af Waypoints: " + str(len(waypoints)))
+                    else:
+                        print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
+                        print("MINDRE END 1 WAYPOINT TILBAGE")
+                        print("Antal af Waypoints: " + str(len(waypoints)))
+                        robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
                     # waypoints.pop(0)
                 elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) <= distanceCutOffPoint:
+                    print("ER UNDER CUTOFFPOINTET")
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
                     dist = distanceToBall(waypoints[0], robot)

@@ -6,7 +6,6 @@ from model import point
 
 def pop_waypoint():
     singleton.Singleton.way_points.pop(0)
-    return
 
 
 def get_waypoint():
