@@ -189,10 +189,10 @@ def main():
         # if preventRotation():
         #     robotController.createCommandTank(-20, -20, 360)
         ball = chooseBall(balls)
-        waypoint.waypoints(ball)
-        waypoints = singleton.Singleton.way_points
-        if len(waypoints) == 0:
+
+        if len(singleton.Singleton.way_points) == 0:
             waypoint.waypoints(ball)
+            waypoints = singleton.Singleton.way_points
             visionOutputView.showImage()
             print("List af wawypoints: " + str(singleton.Singleton.way_points)   )
             print("waypoint x: " + str(waypoints[0].x))
