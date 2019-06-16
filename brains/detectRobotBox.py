@@ -93,12 +93,12 @@ def getRobot(img):
         y_val = round(len(y_val)/2)
         c_cen = point.Point(x_val, y_val)
         bl = point.Point(cX, cY)
-        real = point_correction(c_cen, bl)
+        blSquare_corrected = point_correction(c_cen, bl)
         # tempRobot.blSquareX = cX
         # tempRobot.blSquareY = cY
 
-        tempRobot.blSquareX = real.x
-        tempRobot.blSquareY = real.y
+        tempRobot.blSquareX = blSquare_corrected.x
+        tempRobot.blSquareY = blSquare_corrected.y
 
         # Center of robot
         M = cv2.moments(best_cnt)
@@ -110,12 +110,12 @@ def getRobot(img):
         box = np.int0(box)
 
         r_cen = point.Point(cx, cy)
-        real2 = point_correction(c_cen, r_cen)
+        center_corrected = point_correction(c_cen, r_cen)
 
         # tempRobot.centrumX = cx
         # tempRobot.centrumY = cy
-        tempRobot.centrumX = real2.x
-        tempRobot.centrumY = real2.y
+        tempRobot.centrumX = center_corrected.x
+        tempRobot.centrumY = center_corrected.y
         tempRobot.box = box
 
         scale_percent = 30  # percent of original size
