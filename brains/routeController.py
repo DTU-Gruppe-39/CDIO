@@ -194,7 +194,7 @@ def main():
             waypoint.waypoints(ball)
             waypoints = singleton.Singleton.way_points
             visionOutputView.showImage()
-            if len(singleton.Singleton.way_points) != 0:
+            if len(singleton.Singleton.way_points) is not 0:
                 print("List af wawypoints: " + str(singleton.Singleton.way_points)   )
                 print("waypoint x: " + str(waypoints[0].x))
         numberOfBalls = numberOfBallsLeft()
