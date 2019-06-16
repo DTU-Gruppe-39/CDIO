@@ -14,7 +14,7 @@ def get_waypoint():
 
 def waypoints(endPoint):
     track = singleton.Singleton.track
-    danger = round(track.pixelConversion * 15)
+    danger = round(track.pixelConversion * 25)
     cornerSafePointX = round(track.pixelConversion * 32)
     cornerSafePointY = round(track.pixelConversion * 47)
     sideSafePoint = round(track.pixelConversion * 32)
