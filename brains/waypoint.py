@@ -50,7 +50,7 @@ def waypoints(endPoint):
             return
 
         # If ball is in top-right corner
-        elif endPoint.x > track.topRightCorner.x - danger and endPoint.y > track.topRightCorner.y - danger:
+        elif endPoint.x > track.topRightCorner.x - danger and endPoint.y > track.topRightCorner.y + danger:
             last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y + cornerSafePointY))
             print("Ball is in top right corner")
             waypoint_list.append(last_waypoint)
