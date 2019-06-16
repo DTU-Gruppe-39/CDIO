@@ -107,7 +107,8 @@ def waypoints(endPoint):
         singleton.Singleton.way_points = waypoint_list
         singleton.Singleton.danger_pos = True
         return
-    test = point.Point(0, 0)
-    waypoint_list.append(test)
+    print("Ball is an easy ball")
+    waypoint_list.append(point.Point(endPoint.x, endPoint.y))
     singleton.Singleton.way_points = waypoint_list
+    singleton.Singleton.danger_pos = False
     return
