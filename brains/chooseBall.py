@@ -6,8 +6,11 @@ from brains import waypoint
 
 def getChosenBall():
     ball = []
-    ball = waypoint.waypoints(singleton.Singleton.chosenBall)
-    return ball
+    if singleton.Singleton.chosenBall is not None:
+        ball = waypoint.waypoints(singleton.Singleton.chosenBall)
+        return ball
+    else:
+        return None
 
 
 def setChosenBall(ball):
