@@ -3,24 +3,16 @@ import brains.singleton as singleton
 from model.ball import Ball
 from model import point
 
-robot = singleton.Singleton.robot
-track = singleton.Singleton.track
-
-minDist = 0
-dist = 0
-maxNumberOfTries = 5
-numberOfBallsLeft = len(singleton.Singleton.balls)
-danger = track.pixelConversion * 15
-cornerSafePointX = track.pixelConversion * 15
-cornerSafePointY = track.pixelConversion * 30
-sideSafePoint = track.pixelConversion * 15
-tempBall = Ball
-waypoint_list = []
 
 def waypoints(endPoint):
+    track = singleton.Singleton.track
+    danger = track.pixelConversion * 15
+    cornerSafePointX = track.pixelConversion * 15
+    cornerSafePointY = track.pixelConversion * 30
+    sideSafePoint = track.pixelConversion * 15
+    waypoint_list = []
     # If it is a easy ball outside dangerzone
-    if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and \
-    endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
+    if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
     and endPoint.y < track.topLeftCorner.y - track.pixelConversion * 5:
         print("Ball is an easy ball")
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
