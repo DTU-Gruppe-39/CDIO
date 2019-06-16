@@ -188,10 +188,11 @@ def main():
         # if preventRotation():
         #     robotController.createCommandTank(-20, -20, 360)
         ball = chooseBall(balls)
-        waypoints = waypoint.waypoints(ball)
-        visionOutputView.showImage()
-        print("List af wawypoints: " + str(singleton.Singleton.way_points)   )
-        print("waypoint x: " + str(waypoints[0].x)) 
+        if len(waypoints) == 0:
+            waypoints = waypoint.waypoints(ball)
+            visionOutputView.showImage()
+            print("List af wawypoints: " + str(singleton.Singleton.way_points)   )
+            print("waypoint x: " + str(waypoints[0].x))
         numberOfBalls = numberOfBallsLeft()
 
         if not numberOfBalls == 0 and not zeroBallsLeft:
@@ -219,10 +220,11 @@ def main():
                     dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
                     # waypoints.pop(0)
-                    robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-                    waypoints.pop(0)
-                    setChosenBall(None)
-                    # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+                    if len(waypoints) == 1:
+                        robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+                        waypoints.pop(0)
+                        setChosenBall(None)
+                        # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
             #no balls left
             if zeroBallsLeft:
