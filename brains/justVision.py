@@ -6,7 +6,9 @@ from brains.detectTrack import getTrack
 from brains.detectBalls import getBalls
 from brains.detectRobotBox import getRobot
 from brains.detectObstacle import getObstacle
+from brains.angle import getPointFromTwoLines
 import brains.singleton as singleton
+
 from model import ball
 from model import track
 from model import obstacle
@@ -15,7 +17,6 @@ from view import visionOutputView
 
 while True:
     # obstacle = obstacle.Obstacle
-    robot = None
 
     cap = cv2.VideoCapture(1)
     # cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/VideoOfRobot_2.mov')
@@ -29,6 +30,22 @@ while True:
     singleton.Singleton.balls = getBalls(copy.deepcopy(img))
     singleton.Singleton.robot = getRobot(copy.deepcopy(img))
     singleton.Singleton.track = getTrack(copy.deepcopy(img))
+    singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
+
+    robot = singleton.Singleton.robot
+    track = singleton.Singleton.track
+    obstacle = singleton.Singleton.obstacle
+
+    # point = getPointFromTwoLines([robot.centrumX, robot.centrumY], [robot.blSquareX, robot.blSquareY],
+    #                      [track.topLeftCorner.x, track.topLeftCorner.y], [track.topRightCorner.x, track.topRightCorner.y])
+
+    point = getPointFromTwoLines((robot.centrumX, robot.centrumY),
+                                 (obstacle.x, obstacle.y),
+                                 (track.topLeftCorner.x, track.topLeftCorner.y),
+                                 (track.bottomRightCorner.x, track.bottomRightCorner.y))
+
+    print("Intersection: " + str(point.x) + ", " + str(point.y))
+
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
 
     getObstacle(copy.deepcopy(img))

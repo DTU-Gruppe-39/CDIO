@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
-from brains.singleton import Singleton
 import math
+from brains.singleton import Singleton
+from shapely.geometry import LineString
+from model.point import Point
 
 
 def getclockWise():
@@ -53,3 +55,18 @@ def calculateAngle(pointCord, robot):
                    (pointCord[0], pointCord[1]))
     print("routeCon: angle is " + str(ang))
     return ang
+
+
+def getPointFromTwoLines(p1, p2, p3, p4):
+    line1 = LineString([(p1[0], p1[1]), (p2[0],  p2[1])])
+    line2 = LineString([(p3[0], p3[1]), (p4[0],  p4[1])])
+
+    print(line1.intersection(line2))
+
+    p = line1.intersection(line2)
+
+    print(p)
+    intersection = Point(p.x, p.y)
+
+    return intersection
+
