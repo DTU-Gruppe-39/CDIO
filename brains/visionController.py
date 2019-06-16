@@ -14,6 +14,8 @@ from view import visionOutputView
 
 
 cap = None
+
+
 def captureFrame():
     global cap
     # obstacle = obstacle.Obstacle
