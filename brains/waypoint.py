@@ -56,6 +56,7 @@ def waypoints(endPoint):
         print("Ball is in bottom right corner")
         waypoint_list.append(last_waypoint)
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+        singleton.Singleton.way_points = waypoint_list
         return waypoint_list
 
     # If ball is close to left side
@@ -64,6 +65,7 @@ def waypoints(endPoint):
         print("Ball is close to left side")
         waypoint_list.append(last_waypoint)
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+        singleton.Singleton.way_points = waypoint_list
         return waypoint_list
 
     # If ball is close to right side
@@ -72,6 +74,7 @@ def waypoints(endPoint):
         print("Ball is close to right side")
         waypoint_list.append(last_waypoint)
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+        singleton.Singleton.way_points = waypoint_list
         return waypoint_list
 
     # If ball is close to bottom side
@@ -80,6 +83,7 @@ def waypoints(endPoint):
         print("Ball is close to bottom side")
         waypoint_list.append(last_waypoint)
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+        singleton.Singleton.way_points = waypoint_list
         return waypoint_list
 
     # If ball is close to top side
@@ -88,7 +92,9 @@ def waypoints(endPoint):
         print("Ball is close to top side")
         waypoint_list.append(last_waypoint)
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+        singleton.Singleton.way_points = waypoint_list
         return waypoint_list
-    test = point.Point(666, 666)
+    test = point.Point(0, 0)
     waypoint_list.append(test)
+    singleton.Singleton.way_points = waypoint_list
     return waypoint_list

@@ -15,6 +15,7 @@ class Singleton:
     track = track.Track
     obstacle = obstacle.Obstacle
     robot = robot.Robot
+    way_points = []
     clockWise = False
     img = None
 
