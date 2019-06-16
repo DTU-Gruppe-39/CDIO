@@ -6,8 +6,12 @@ from model import ball
 from model import robot
 
 
-def showImage(img, track, balls, robot):
+def showImage():
 
+    img = singleton.Singleton.img
+    track = singleton.Singleton.track
+    balls = singleton.Singleton.balls
+    robot = singleton.Singleton.robot
 
     #--Draw border-lines--#
     # Convert corners tuples:

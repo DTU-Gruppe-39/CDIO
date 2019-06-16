@@ -38,7 +38,7 @@ def captureFrame():
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
     print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
 
-    visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls, singleton.Singleton.robot)
+    visionOutputView.showImage()
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         # When everything done, release the capture

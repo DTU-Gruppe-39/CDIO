@@ -11,7 +11,7 @@ import math
 import threading
 import _thread
 from brains.angle import *
-
+from view import visionOutputView
 from brains.chooseBall import *
 from brains.preventRotation import preventRotation
 
@@ -59,6 +59,7 @@ def chooseBall(balls):
             return getChosenBall()
         else:
             if numberOfTries >= maxNumberOfTries:
+                print("\033[1;33m" + "Maximum number of tries reached, picking a new ball" + "\033[0m")
                 numberOfTries = 0
                 setChosenBall(balls[0])
                 return getChosenBall()
@@ -77,22 +78,23 @@ def distanceToWaypoint(point, robotpos):
 
 
 def numberOfBallsLeft():
-    print("Number of balls left on track: " + str(len(singleton.Singleton.balls)))
+    print("\033[1m" + "Number of balls left on track: " + "\033[0m" + "\033[1;34m" + str(len(singleton.Singleton.balls)) + "\033[0m")
 
     return len(singleton.Singleton.balls)
 
 
 def moreBallsThanExpected():
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
-    if numberOfBallsLeft() > 6:
+    numberOfBall = numberOfBallsLeft()
+    if numberOfBall > 6:
         sixBallsLeft = True
         # print("Unexpected extra ball, ABORTING go for goal")
         # break
-    elif numberOfBallsLeft() > 2:
+    elif numberOfBall > 2:
         twoBallsLeft = True
         # print("Unexpected extra ball, ABORTING go for goal")
         # break
-    elif numberOfBallsLeft() > 0:
+    elif numberOfBall > 0:
         zeroBallsLeft = False
 
 
@@ -106,7 +108,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
     # robotController.createCommandDeliver()
     #False for left goal
     goalCord = wpGoal.getWpGoal(False)
-    print("Goal cord: " + str(goalCord))
+    print("\033[1;32m" + "Goal cord: " + str(goalCord) + "\033[0m")
     while not completed:
         visionController.captureFrame()
         # balls = singleton.Singleton.balls
@@ -118,7 +120,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
         if angle >= 5:
             robotController.turn(angle, getclockWise(), turnSpeed)
             if numberOfBallsLeft() > expectedNumberOfBallsLeft:
-                print("Unexpected extra ball, ABORTING go for goal")
+                print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                 moreBallsThanExpected()
                 break
             numberOfTriesToAlign = numberOfTriesToAlign + 1
@@ -144,7 +146,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
                 angle = calculateAngle(goalCord, robot)
                 print ("\nRealvector angle: " + str(angle) + "\n")
                 if numberOfBallsLeft() > expectedNumberOfBallsLeft:
-                    print("Unexpected extra ball, ABORTING go for goal")
+                    print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                     moreBallsThanExpected()
                     break
                 if angle >= 5:
@@ -174,7 +176,7 @@ def main():
     timer.start()
     start = time.time()
     while True:
-        print("While loop start")
+        print("\033[1;36m" + "While loop start" + "\033[0m")
         visionController.captureFrame()
         balls = singleton.Singleton.balls
         robot = singleton.Singleton.robot
@@ -187,6 +189,7 @@ def main():
         #     robotController.createCommandTank(-20, -20, 360)
         ball = chooseBall(balls)
         waypoints = waypoint.waypoints(ball)
+        visionOutputView.showImage()
         print("List af wawypoints: " + str(waypoints)   )
         print("waypoint x: " + str(waypoints[0].x))
         numberOfBalls = numberOfBallsLeft()
@@ -228,8 +231,9 @@ def main():
                 run_time = end - start
                 min_run = math.floor(run_time/60)
                 sec_run = run_time % 60
-                print("Time: " + str(min_run) + "min" + str(sec_run) + "sec")
+                print("\033[1;33m" + "Time: " + str(min_run) + "min" + str(sec_run) + "sec")
                 print("\n\n\nRobot is Done!!!\n\n\n")
+                print("\033[0m")
                 while True:
                     #Play sound to mark it is done
                     robotController.createCommandSound()

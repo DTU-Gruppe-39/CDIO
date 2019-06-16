@@ -17,7 +17,6 @@ sideSafePoint = track.pixelConversion * 15
 tempBall = Ball
 waypoint_list = []
 
-# Should use the center of the robot instead of the yellow square. So it can lineup properly
 def waypoints(endPoint):
     # If it is a easy ball outside dangerzone
     if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and \
@@ -92,3 +91,4 @@ def waypoints(endPoint):
         return waypoint_list
     test = point.Point(666, 666)
     waypoint_list.append(test)
+    return waypoint_list
