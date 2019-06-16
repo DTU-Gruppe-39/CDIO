@@ -118,7 +118,15 @@ def getRobot(img):
         tempRobot.centrumY = real2.y
         tempRobot.box = box
 
-        # cv2.imshow("maskPurple", mask1)
+        scale_percent = 30  # percent of original size
+        width = int(mask1.shape[1] * scale_percent / 100)
+        height = int(mask1.shape[0] * scale_percent / 100)
+        dim = (width, height)
+        # resize image
+        resized = cv2.resize(mask1, dim, interpolation=cv2.INTER_AREA)
+
+
+        cv2.imshow("maskPurple", resized)
         # cv2.imshow("maskYellow", mask)
 
    # print("\n")
