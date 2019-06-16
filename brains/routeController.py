@@ -237,8 +237,12 @@ def main():
                     dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
-                        robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-                        setChosenBall(None)
+                        if singleton.Singleton.danger_pos:
+                            robotController.createCommandWall(10, 35)
+                            setChosenBall(None)
+                        else:
+                            robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+                            setChosenBall(None)
                         # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
                     waypoints.pop(0)
         else:
