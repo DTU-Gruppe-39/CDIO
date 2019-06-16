@@ -1,10 +1,13 @@
 import math
 import brains.singleton as singleton
 from model.ball import Ball
+from brains import waypoint
 
 
 def getChosenBall():
-    return singleton.Singleton.chosenBall
+    ball = []
+    ball = waypoint.waypoints(singleton.Singleton.chosenBall)
+    return ball
 
 
 def setChosenBall(ball):

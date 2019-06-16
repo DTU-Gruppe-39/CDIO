@@ -185,13 +185,12 @@ def main():
         # Check if robot point is in rotation danger zone
         # if preventRotation():
         #     robotController.createCommandTank(-20, -20, 360)
-
-        ball = chooseBall(balls)
+        waypoints = chooseBall(balls)
 
         numberOfBalls = numberOfBallsLeft()
 
         if not numberOfBalls == 0 and not zeroBallsLeft:
-            angle = calculateAngle((ball.x, ball.y), robot)
+            angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
             if numberOfBalls == 6 and sixBallsLeft:
                 sixBallsLeft = False
                 goForGoal(robot, numberOfBalls)
@@ -202,18 +201,19 @@ def main():
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
-                elif (distanceToBall(ball, robot) / pix_pr_cm) > distanceCutOffPoint:
+                elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
-                    print("dist to ball: " + str(distanceToBall(ball, robot) / pix_pr_cm))
-                    robotController.drive_forward(distanceToBall(ball, robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
-                elif (distanceToBall(ball, robot) / pix_pr_cm) <= distanceCutOffPoint:
+                    print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
+                    robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
+                elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) <= distanceCutOffPoint:
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
-                    dist = distanceToBall(ball, robot)
+                    dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
                     robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+                    waypoints.pop(0)
                     setChosenBall(None)
                     # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
