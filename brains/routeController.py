@@ -18,7 +18,7 @@ from brains.preventRotation import preventRotation
 
 
 numberOfTries = 0
-maxNumberOfTries = 5
+maxNumberOfTries = 10
 turnSpeed = 20
 forwardSpeed = 80
 slow_forwardSpeed = 30
@@ -61,6 +61,7 @@ def chooseBall(balls):
             if numberOfTries >= maxNumberOfTries:
                 print("\033[1;33m" + "Maximum number of tries reached, picking a new ball" + "\033[0m")
                 numberOfTries = 0
+                singleton.Singleton.way_points.clear()
                 setChosenBall(balls[0])
                 return getChosenBall()
             else:
@@ -188,8 +189,10 @@ def main():
         # if preventRotation():
         #     robotController.createCommandTank(-20, -20, 360)
         ball = chooseBall(balls)
+        waypoint.waypoints(ball)
+        waypoints = singleton.Singleton.way_points
         if len(waypoints) == 0:
-            waypoints = waypoint.waypoints(ball)
+            waypoint.waypoints(ball)
             visionOutputView.showImage()
             print("List af wawypoints: " + str(singleton.Singleton.way_points)   )
             print("waypoint x: " + str(waypoints[0].x))
@@ -213,18 +216,17 @@ def main():
                     # print("Foran drive")
                     print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
                     robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
-                    waypoints.pop(0)
+                    # waypoints.pop(0)
                 elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) <= distanceCutOffPoint:
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
                     dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
-                    # waypoints.pop(0)
                     if len(waypoints) == 1:
                         robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-                        waypoints.pop(0)
                         setChosenBall(None)
                         # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+                    waypoints.pop(0)
         else:
             #no balls left
             if zeroBallsLeft:
