@@ -5,13 +5,16 @@ from brains import waypoint
 
 
 def getChosenBall():
-    ball = []
+    return singleton.Singleton.chosenBall
+
+
+def getWaypoints():
+    way_points = []
     if singleton.Singleton.chosenBall is not None:
-        ball = waypoint.waypoints(singleton.Singleton.chosenBall)
-        return ball
+        way_points = waypoint.waypoints(singleton.Singleton.chosenBall)
+        return way_points
     else:
         return None
-
 
 def setChosenBall(ball):
     singleton.Singleton.chosenBall = ball

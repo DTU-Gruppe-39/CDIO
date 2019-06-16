@@ -185,8 +185,8 @@ def main():
         # Check if robot point is in rotation danger zone
         # if preventRotation():
         #     robotController.createCommandTank(-20, -20, 360)
-        waypoints = chooseBall(balls)
-
+        ball = chooseBall(balls)
+        waypoints = waypoint.waypoints(ball)
         numberOfBalls = numberOfBallsLeft()
 
         if not numberOfBalls == 0 and not zeroBallsLeft:
