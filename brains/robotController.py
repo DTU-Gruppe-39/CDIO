@@ -44,6 +44,14 @@ def createCommandAttack(speed, tank_degrees, front_degrees):
     }
     return networking.sendCommand(message)
 
+def createCommandWall(speed, tank_degrees):
+    message = {
+        "type": "wall",
+        "speed": speed,
+        "tank_degrees": tank_degrees
+    }
+    return networking.sendCommand(message)
+
 
 def createCommandDeliver():
     message = {

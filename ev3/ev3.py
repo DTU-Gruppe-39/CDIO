@@ -104,6 +104,12 @@ def cmdHandler2(cmd):
             back.on_for_degrees(-10, 90)
             time.sleep(1)
             front.on_for_degrees(20, 180)
+        if cmd['type'] == "wall":
+            front.on_for_degrees(-20, 90)
+            tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
+            front.on_for_degrees(20, 90)
+            tank_drive.on_for_degrees(-cmd['speed'], -cmd['speed'], cmd['tank_degrees'])
+            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav')
         if cmd['type'] == "w":
             tank_drive.on(30, 30)
         if cmd['type'] == "a":
