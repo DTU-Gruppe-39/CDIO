@@ -90,3 +90,5 @@ def waypoints(endPoint):
         waypoint_list.append(last_waypoint)
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
         return waypoint_list
+    test = point.Point(666, 666)
+    waypoint_list.append(test)

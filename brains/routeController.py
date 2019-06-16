@@ -187,6 +187,8 @@ def main():
         #     robotController.createCommandTank(-20, -20, 360)
         ball = chooseBall(balls)
         waypoints = waypoint.waypoints(ball)
+        print("List af wawypoints: " + str(waypoints)   )
+        print("waypoint x: " + str(waypoints[0].x))
         numberOfBalls = numberOfBallsLeft()
 
         if not numberOfBalls == 0 and not zeroBallsLeft:
