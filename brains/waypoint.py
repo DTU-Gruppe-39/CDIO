@@ -20,16 +20,16 @@ def waypoints(endPoint):
     sideSafePoint = round(track.pixelConversion * 32)
     waypoint_list = []
     # If it is a easy ball outside dangerzone
-    if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
-    and endPoint.y < track.topLeftCorner.y - track.pixelConversion * 5:
-        print("Ball is an easy ball")
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.way_points = waypoint_list
-        singleton.Singleton.danger_pos = False
-        return
+    # if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
+    # and endPoint.y < track.topLeftCorner.y - track.pixelConversion * 5:
+    #     print("Ball is an easy ball")
+    #     waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+    #     singleton.Singleton.way_points = waypoint_list
+    #     singleton.Singleton.danger_pos = False
+    #     return
 
     # If ball is in top-left corner
-    elif endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
+    if endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
         last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
         print("Ball is in top left corner")
         waypoint_list.append(last_waypoint)
