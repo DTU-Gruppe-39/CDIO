@@ -207,11 +207,13 @@ def main():
                     # print("Foran drive")
                     print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
                     robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
+                    waypoints.pop(0)
                 elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) <= distanceCutOffPoint:
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
                     dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
+                    # waypoints.pop(0)
                     robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
                     waypoints.pop(0)
                     setChosenBall(None)
