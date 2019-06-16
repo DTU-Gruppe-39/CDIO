@@ -237,7 +237,7 @@ def main():
                     dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
-                        if singleton.Singleton.danger_pos:
+                        if singleton.Singleton.is_dangerous:
                             robotController.createCommandWall(10, 35)
                             setChosenBall(None)
                         else:
