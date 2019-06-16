@@ -6,10 +6,10 @@ from model import point
 
 def waypoints(endPoint):
     track = singleton.Singleton.track
-    danger = track.pixelConversion * 15
-    cornerSafePointX = track.pixelConversion * 15
-    cornerSafePointY = track.pixelConversion * 30
-    sideSafePoint = track.pixelConversion * 15
+    danger = round(track.pixelConversion * 15)
+    cornerSafePointX = round(track.pixelConversion * 15)
+    cornerSafePointY = round(track.pixelConversion * 30)
+    sideSafePoint = round(track.pixelConversion * 15)
     waypoint_list = []
     # If it is a easy ball outside dangerzone
     if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
