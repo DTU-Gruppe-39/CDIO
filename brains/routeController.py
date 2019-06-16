@@ -240,6 +240,7 @@ def main():
                         if singleton.Singleton.is_dangerous:
                             robotController.createCommandWall(10, 35)
                             setChosenBall(None)
+                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         else:
                             robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
                             setChosenBall(None)
