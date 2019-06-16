@@ -20,9 +20,10 @@ from brains.preventRotation import preventRotation
 numberOfTries = 0
 maxNumberOfTries = 5
 turnSpeed = 20
-forwardSpeed = 30
+forwardSpeed = 80
+slow_forwardSpeed = 30
 attackSpeed = 10
-distanceCutOffPoint = 20
+distanceCutOffPoint = 30
 frontArmDegrees = 360
 pix_pr_cm = None
 zeroBallsLeft = False
@@ -53,6 +54,7 @@ def chooseBall(balls):
         return None
     else:
         if getChosenBall() is None:
+            numberOfTries = 0
             setChosenBall(findBestBall(balls))
             return getChosenBall()
         else:
@@ -69,9 +71,9 @@ def distanceToBall(ball, robot):
     return calc_pix_dist(robot.blSquareX, robot.blSquareY, ball.x, ball.y)
 
 
-def distanceToWaypoint(point, robot):
+def distanceToWaypoint(point, robotpos):
     print("Calculate distance in pix")
-    return calc_pix_dist(robot.blSquareX, robot.blSquareY, point[0], point[1])
+    return calc_pix_dist(robotpos[0], robotpos[1], point[0], point[1])
 
 
 def numberOfBallsLeft():
@@ -99,6 +101,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
     print("\n\nDriving to goal")
     completed = False
     aligned = False
+    numberOfTriesToAlign = 0
     # robotController.turn(360, True, 40)
     # robotController.createCommandDeliver()
     #False for left goal
@@ -118,9 +121,17 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
                 print("Unexpected extra ball, ABORTING go for goal")
                 moreBallsThanExpected()
                 break
+            numberOfTriesToAlign = numberOfTriesToAlign + 1
+            if numberOfTriesToAlign > 5:
+                # bak robotten, og prøv at align igen
+                # Tjek evt hvilken vej den peger, så man kan køre væk fra målet
+                robotController.createCommandTank(-20, -20, 360)
+                numberOfTriesToAlign = 0
         else:
             # Drive forward to waypoint/ball
-            robotController.drive_forward(robot.centrumX, robot.centrumY, goalCord[0], goalCord[1], pix_pr_cm, forwardSpeed)
+            numberOfTriesToAlign = 0
+            dist = distanceToWaypoint(goalCord, [robot.centrumX, robot.centrumY])
+            robotController.drive_forward(dist, pix_pr_cm, forwardSpeed)
             while not aligned:
                 visionController.captureFrame()
                 # balls = singleton.Singleton.balls
@@ -138,6 +149,11 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
                     break
                 if angle >= 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
+                    numberOfTriesToAlign = numberOfTriesToAlign + 1
+                    if numberOfTriesToAlign > 5:
+                        #bak robotten, og prøv at align igen
+                        robotController.createCommandTank(-20, -20, 360)
+                        numberOfTriesToAlign = 0
                 else:
                     moreBallsThanExpected()
                     robotController.createCommandTank(20, 20, 360)
@@ -186,20 +202,20 @@ def main():
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
-                # elif distanceToWaypoint() > 5:
-                elif distanceToBall(ball, robot) > distanceCutOffPoint:
+                elif (distanceToBall(ball, robot) / pix_pr_cm) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
-                    robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
+                    print("dist to ball: " + str(distanceToBall(ball, robot) / pix_pr_cm))
+                    robotController.drive_forward(distanceToBall(ball, robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
+                elif (distanceToBall(ball, robot) / pix_pr_cm) <= distanceCutOffPoint:
+                    # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
+                    # print("degrees" + str(degrees))
+                    dist = distanceToBall(ball, robot)
+                    robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
                     robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
                     setChosenBall(None)
-                    # print("efter drive")
-                elif distanceToBall(ball, robot) <= distanceCutOffPoint:
-                    degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
-                    print("degrees" + str(degrees))
-                    print("BLIVER DET HER BRUGT???")
-                    robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+                    # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
         else:
             #no balls left
             if zeroBallsLeft:
