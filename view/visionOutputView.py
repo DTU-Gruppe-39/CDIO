@@ -86,4 +86,12 @@ def showImage():
     #
     # cv2.line(img, (x_val, 0), (x_val, y_val1), (0,0,255), 2)
 
-    cv2.imshow("images", img)
+    scale_percent = 30  # percent of original size
+    width = int(img.shape[1] * scale_percent / 100)
+    height = int(img.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    # resize image
+    resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
+
+
+    cv2.imshow("images", resized)
