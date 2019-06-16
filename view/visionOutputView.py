@@ -29,6 +29,14 @@ def showImage():
         cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),
                  (singleton.Singleton.chosenBall.x, singleton.Singleton.chosenBall.y), (0,0,255), 2)
 
+    if len(singleton.Singleton.way_points) != 0:
+        for wp in singleton.Singleton.way_points:
+            cv2.circle(img, (wp.x, wp.y), 3, (0, 0, 255), 3)
+
+        cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),
+                 (singleton.Singleton.way_points[0].x, singleton.Singleton.way_points[0].y), (0, 255, 0), thickness=3, lineType=8)
+
+
     if track.bottomLeftCorner.x is not None:
         # Draw bottom line, 180 cm
         cv2.line(img, bottomLineA, bottomLineB, (0, 255, 0), thickness=3, lineType=8)
@@ -86,4 +94,12 @@ def showImage():
     #
     # cv2.line(img, (x_val, 0), (x_val, y_val1), (0,0,255), 2)
 
-    cv2.imshow("images", img)
+    scale_percent = 30  # percent of original size
+    width = int(img.shape[1] * scale_percent / 100)
+    height = int(img.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    # resize image
+    resized = cv2.resize(img, dim, interpolation=cv2.INTER_AREA)
+
+
+    cv2.imshow("images", resized)
