@@ -12,7 +12,7 @@ def showImage():
     track = singleton.Singleton.track
     balls = singleton.Singleton.balls
     robot = singleton.Singleton.robot
-    danger = track.pixelConversion * 25
+    danger = round(track.pixelConversion * 25)
 
     #--Draw border-lines--#
     # Convert corners tuples:
