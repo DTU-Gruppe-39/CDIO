@@ -44,14 +44,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
             print("Ball is in top left corner")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -79,14 +79,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y - cornerSafePointY))
             print("Ball is in bottom left corner")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -113,14 +113,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y + cornerSafePointY))
             print("Ball is in top right corner")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -147,14 +147,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y - cornerSafePointY))
             print("Ball is in bottom right corner")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -181,14 +181,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x + sideSafePoint), round(endPoint.y))
             print("Ball is close to left side")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -215,14 +215,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x - sideSafePoint), round(endPoint.y))
             print("Ball is close to right side")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -249,14 +249,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
             print("Ball is close to bottom side")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -283,14 +283,14 @@ def waypoints(endPoint):
             last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
             print("Ball is close to top side")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
@@ -314,14 +314,14 @@ def waypoints(endPoint):
         else:
             print("Ball is an easy ball")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
                     if minDist == 0:
                         minDist = dist
                     elif dist < minDist:
                         minDist = dist
                         closestToBall_index = i
-                for i in safe_points:
+                for i in range(len(safe_points)):
                     dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                     index_and_dist = (dist2, i)
                     safe_point_dist_to_robot.append(index_and_dist)
