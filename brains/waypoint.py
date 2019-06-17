@@ -312,6 +312,32 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             return
         print("Ball is an easy ball")
+        if lines.areLineTouchingObstacleSquare(direct_path_line):
+            for i in safe_points:
+                dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
+                if minDist == 0:
+                    minDist = dist
+                elif dist < minDist:
+                    minDist = dist
+                    closestToBall_index = i
+            for i in safe_points:
+                dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
+                index_and_dist = (dist2, i)
+                safe_point_dist_to_robot.append(index_and_dist)
+                safe_point_dist_to_robot.sort()
+            for i in range(2):
+                if i == 0:
+                    safe_point_index1 = safe_point_dist_to_robot[i][1]
+                    dist3 = calc_pix_dist(safe_points[safe_point_index1].x, safe_points[safe_point_index1].y,
+                                          safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
+                if i == 1:
+                    safe_point_index = safe_point_dist_to_robot[i][1]
+                    dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y,
+                                          safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
+                    if dist3 < dist4:
+                        first_waypoint = safe_points[safe_point_index1]
+            waypoint_list.append(first_waypoint)
+            waypoint_list.append(safe_points[closestToBall_index])
         waypoint_list.append(point.Point(endPoint.x, endPoint.y))
         singleton.Singleton.way_points = waypoint_list
         singleton.Singleton.is_dangerous = False
