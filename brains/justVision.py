@@ -18,7 +18,7 @@ from view import visionOutputView
 while True:
     # obstacle = obstacle.Obstacle
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     # cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/VideoOfRobot_2.mov')
     # cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2.mov')
 
@@ -39,13 +39,13 @@ while True:
     # point = getPointFromTwoLines([robot.centrumX, robot.centrumY], [robot.blSquareX, robot.blSquareY],
     #                      [track.topLeftCorner.x, track.topLeftCorner.y], [track.topRightCorner.x, track.topRightCorner.y])
 
-    point = getPointFromTwoLines((robot.centrumX, robot.centrumY),
-                                 (obstacle.x, obstacle.y),
-                                 (track.topLeftCorner.x, track.topLeftCorner.y),
-                                 (track.bottomRightCorner.x, track.bottomRightCorner.y))
+    # point = getPointFromTwoLines((robot.centrumX, robot.centrumY),
+    #                              (obstacle.x, obstacle.y),
+    #                              (track.topLeftCorner.x, track.topLeftCorner.y),
+    #                              (track.bottomRightCorner.x, track.bottomRightCorner.y))
 
 
-    print("Intersection: " + str(point.x) + ", " + str(point.y))
+    # print("Intersection: " + str(point.x) + ", " + str(point.y))
 
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
 
@@ -60,7 +60,7 @@ while True:
 
     # cv2.imshow("images", np.hstack([img]))
 
-    # visionOutputView.showImage(img, singleton.Singleton.track, singleton.Singleton.balls, singleton.Singleton.robot)
+    visionOutputView.showImage()
 
     # if cv2.waitKey(1) & 0xFF == ord('q'):
     #     break

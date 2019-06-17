@@ -26,7 +26,6 @@ def waypoints(endPoint):
     robot_center = (robot.centrumX, robot.centrumY)
     obstacle = singleton.Singleton.obstacle
     waypoint_list = []
-    direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
     safe_points = singleton.Singleton.safe_points
     safe_point_dist_to_robot = []
     # If it is a easy ball outside dangerzone
@@ -39,6 +38,7 @@ def waypoints(endPoint):
     #     return
 
     if endPoint is not None:
+        direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
         # If ball is in top-left corner
         if endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
             last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
@@ -364,7 +364,7 @@ def waypoints(endPoint):
                             first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
-                
+
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
             singleton.Singleton.is_dangerous = False

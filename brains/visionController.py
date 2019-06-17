@@ -21,7 +21,7 @@ def captureFrame():
     # obstacle = obstacle.Obstacle
     robot = None
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     # cap = cv2.VideoCapture('/Users/thomasmattsson/Google Drev/DTU/DTU - Studiegruppe/4. Semester/CDIO Lego/Test_Images/VideoOfRobot_2.mov')
     # cap = cv2.VideoCapture('/home/soren/Downloads/VideoOfRobot_2.mov')
 
@@ -33,7 +33,7 @@ def captureFrame():
     singleton.Singleton.balls = getBalls(copy.deepcopy(img))
     singleton.Singleton.robot = getRobot(copy.deepcopy(img))
     singleton.Singleton.track = getTrack(copy.deepcopy(img))
-    # singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
+    singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
     
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
     print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))

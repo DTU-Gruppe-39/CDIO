@@ -16,7 +16,7 @@ def showImage():
 
     obstacle = singleton.Singleton.obstacle
     safePoints = singleton.Singleton.safe_points
-    danger = round(track.pixelConversion * 25)
+    danger = round(track.pixelConversion * 15)
 
     #--Draw border-lines--#
     # Convert corners tuples:
@@ -89,7 +89,7 @@ def showImage():
 
 
     # Draw obstacle
-    if obstacle is not None:
+    if obstacle.center_x is not None:
         cv2.circle(img, (obstacle.center_x, obstacle.center_y), 4, 255, -1)
 
         count = 0

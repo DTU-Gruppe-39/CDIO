@@ -30,7 +30,7 @@ def areLinesTouching(l1, l2):
     line1 = l1
     line2 = l2
 
-    bool = line1.touches(line2)
+    bool = line1.intersects(line2)
 
     return bool
 
