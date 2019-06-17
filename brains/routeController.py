@@ -125,10 +125,10 @@ def goForGoal(expectedNumberOfBallsLeft):
                 moreBallsThanExpected()
                 break
             numberOfTriesToAlign = numberOfTriesToAlign + 1
-            if numberOfTriesToAlign > 5:
+            if numberOfTriesToAlign >= 3:
                 # bak robotten, og prøv at align igen
                 # Tjek evt hvilken vej den peger, så man kan køre væk fra målet
-                robotController.createCommandTank(-20, -20, 360)
+                robotController.createCommandTank(-20, -20, 720)
                 numberOfTriesToAlign = 0
         else:
             # Drive forward to waypoint/ball
@@ -150,7 +150,7 @@ def goForGoal(expectedNumberOfBallsLeft):
                     print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                     moreBallsThanExpected()
                     break
-                if angle >= 5:
+                if angle >= 3:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTriesToAlign = numberOfTriesToAlign + 1
                     if numberOfTriesToAlign > 5:
@@ -159,9 +159,9 @@ def goForGoal(expectedNumberOfBallsLeft):
                         numberOfTriesToAlign = 0
                 else:
                     moreBallsThanExpected()
-                    robotController.createCommandTank(20, 20, 390)
+                    robotController.createCommandTank(20, 20, 590)
                     robotController.createCommandDeliver()
-                    robotController.createCommandTank(-20, -20, 360)
+                    robotController.createCommandTank(-20, -20, 400)
                     aligned = True
                     break
             completed = True
@@ -209,7 +209,7 @@ def main():
                 goForGoal(numberOfBalls)
             else:
                 if len(waypoints) > 1:
-                    if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 10:
+                    if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 15:
                         print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
                         waypoint.pop_waypoint()
                 if not angle < 5:
