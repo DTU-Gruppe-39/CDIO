@@ -98,11 +98,11 @@ def getObstacle(img):
         bottom_safe_point_danger = ((tempTrack.bottomLeftCorner.y - cm25_in_pix) - obstacle_danger_bottom_y) / 2
         singleton.Singleton.safe_points[3] = point.Point(tempObstacle.center_x, obstacle_danger_bottom_y + bottom_safe_point_danger)
 
-            # draw the contour and center of the shape on the image
-            cv2.drawContours(img, [largestContour], -1, (0, 255, 0), 2)
-            cv2.circle(img, (cX, cY), 7, (255, 255, 255), -1)
-            cv2.putText(img, "center", (cX - 20, cY - 20),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+        # draw the contour and center of the shape on the image
+        cv2.drawContours(img, [largestContour], -1, (0, 255, 0), 2)
+        cv2.circle(img, (cX, cY), 7, (255, 255, 255), -1)
+        cv2.putText(img, "center", (cX - 20, cY - 20),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
         cv2.imshow("image", img)
         cv2.imshow("mask", mask)
