@@ -233,7 +233,7 @@ def main():
                         print("MINDRE END 1 WAYPOINT TILBAGE")
                         print("Antal af Waypoints: " + str(len(waypoints)))
                         robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
-                    # waypoints.pop(0)
+                    # waypoint.pop_waypoint()
                 elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) <= distanceCutOffPoint:
                     print("ER UNDER CUTOFFPOINTET")
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
@@ -250,7 +250,7 @@ def main():
                             robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
                             setChosenBall(None)
                         # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
-                    waypoints.pop(0)
+                    waypoint.pop_waypoint()
         else:
             #no balls left
             if zeroBallsLeft:
