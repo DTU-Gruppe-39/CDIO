@@ -145,7 +145,7 @@ def goForGoal(expectedNumberOfBallsLeft):
                 goalCord = (track.bigGoal.x, track.bigGoal.y)
                 # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
                 angle = calculateAngle(goalCord, robot)
-                print ("\nRealvector angle: " + str(angle) + "\n")
+                print("\nRealvector angle: " + str(angle) + "\n")
                 if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                     print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                     moreBallsThanExpected()
@@ -167,6 +167,8 @@ def goForGoal(expectedNumberOfBallsLeft):
             completed = True
             break
     print("Go for goal done\n")
+    singleton.Singleton.way_points.clear()
+    setChosenBall(None)
 
 
 def main():
