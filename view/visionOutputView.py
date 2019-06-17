@@ -13,8 +13,10 @@ def showImage():
     track = singleton.Singleton.track
     balls = singleton.Singleton.balls
     robot = singleton.Singleton.robot
+
     obstacle = singleton.Singleton.obstacle
     safePoints = singleton.Singleton.safe_points
+    danger = track.pixelConversion * 25
 
     #--Draw border-lines--#
     # Convert corners tuples:
@@ -80,10 +82,10 @@ def showImage():
         cv2.drawContours(img, [robot.box], 0, (0, 255, 0), 2)
 
         # danger zone
-        cv2.line(img, (bottomLineA[0] + 40, bottomLineA[1] - 40), (bottomLineB[0] - 40 ,bottomLineB[1] - 40), (0,0,255), 2)
-        cv2.line(img, (topLineA[0] - 40, topLineA[1] + 40), (topLineB[0] + 40, topLineB[1] + 40),(0, 0, 255), 2)
-        cv2.line(img, (rightLineA[0] - 40, rightLineA[1] - 40), (rightLineB[0] - 40, rightLineB[1] + 40),(0, 0, 255), 2)
-        cv2.line(img, (leftLineA[0] + 40, leftLineA[1] - 40), (leftLineB[0] + 40, leftLineB[1] + 40),(0, 0, 255), 2)
+        cv2.line(img, (bottomLineA[0] + danger, bottomLineA[1] - danger), (bottomLineB[0] - danger ,bottomLineB[1] - danger), (0,0,255), 2)
+        cv2.line(img, (topLineA[0] - danger, topLineA[1] + danger), (topLineB[0] + danger, topLineB[1] + danger),(0, 0, 255), 2)
+        cv2.line(img, (rightLineA[0] - danger, rightLineA[1] - danger), (rightLineB[0] - danger, rightLineB[1] + danger),(0, 0, 255), 2)
+        cv2.line(img, (leftLineA[0] + danger, leftLineA[1] - danger), (leftLineB[0] + danger, leftLineB[1] + danger),(0, 0, 255), 2)
 
 
     # Draw obstacle
