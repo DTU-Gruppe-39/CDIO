@@ -102,7 +102,7 @@ def getRobot(img):
 
         # Center of robot
         M = cv2.moments(best_cnt)
-      cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
+        cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
         rect = cv2.minAreaRect(best_cnt)
 
         # Rotating box

@@ -99,7 +99,7 @@ def moreBallsThanExpected():
         zeroBallsLeft = False
 
 
-def goForGoal(robot, expectedNumberOfBallsLeft):
+def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\nDriving to goal")
     completed = False
@@ -203,10 +203,10 @@ def main():
             angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
             if numberOfBalls == 6 and sixBallsLeft:
                 sixBallsLeft = False
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
             elif numberOfBalls == 2 and twoBallsLeft:
                 twoBallsLeft = False
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
             else:
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
@@ -263,7 +263,7 @@ def main():
                     robotController.createCommandSound()
             else:
                 zeroBallsLeft = True
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
 
 
     # visionController.releaseImage()
