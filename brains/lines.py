@@ -23,7 +23,7 @@ def areLinesTouching(l1, l2):
     return bool
 
 
-#------ Old methods ------#
+#------ Old methods that take points instead of lines ------#
 
 # def getPointFromTwoLines(p1, p2, p3, p4):
 #     line1 = LineString([(p1[0], p1[1]), (p2[0],  p2[1])])
