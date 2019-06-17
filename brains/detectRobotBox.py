@@ -100,7 +100,7 @@ def getRobot(img):
         tempRobot.blSquareY = blSquare_corrected.y
 
         # Center of robot
-        if best_cnt != 0:
+        if best_cnt is not None:
             M = cv2.moments(best_cnt)
             cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
             rect = cv2.minAreaRect(best_cnt)

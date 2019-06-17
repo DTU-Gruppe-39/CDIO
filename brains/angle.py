@@ -30,7 +30,7 @@ def getAngle(cenBox, blPoint, cenBall):
     else:
         # ang = 180 - ang
         if ang > 180:
-            ang = 180 - ang
+            ang = ang - 180
     print("Clockwise: " + str(getclockWise()))
 
     if rotation > 0:
