@@ -6,7 +6,7 @@ from brains.detectTrack import getTrack
 from brains.detectBalls import getBalls
 from brains.detectRobotBox import getRobot
 from brains.detectObstacle import getObstacle
-from brains.angle import getPointFromTwoLines
+from brains.intersectingLines import getPointFromTwoLines
 import brains.singleton as singleton
 
 from model import ball
