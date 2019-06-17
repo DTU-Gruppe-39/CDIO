@@ -342,5 +342,6 @@ def waypoints(endPoint):
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
             singleton.Singleton.is_dangerous = False
+            print("Are lines touching: " + str(lines.areLineTouchingObstacleSquare(direct_path_line)))
             return
 
