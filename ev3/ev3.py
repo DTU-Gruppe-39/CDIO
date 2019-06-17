@@ -111,7 +111,7 @@ def cmdHandler2(cmd):
             front.on_for_degrees(-cmd['speed'], cmd['arm_degrees'])
             tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
             front.on_for_degrees(cmd['speed'], cmd['arm_degrees'])
-            tank_drive.on_for_degrees(-cmd['speed'], -cmd['speed'], cmd['tank_degrees'])
+            tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
             sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav')
         if cmd['type'] == "w":
             tank_drive.on(30, 30)
