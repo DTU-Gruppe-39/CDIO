@@ -2,6 +2,7 @@ from model import ball
 import cv2
 import numpy as np
 from brains import correction
+from model import point
 
 tempBall = []
 def getBalls(img):
@@ -25,7 +26,12 @@ def getBalls(img):
             # radius = i[2]
             # cv2.circle(img, center, radius, (255, 0, 255), 3)
             singleBall = ball.Ball(i[0], i[1], i[2])
-            p = correction.ball_cen_correction(singleBall)
+            x_val = np.amax(img, axis=0)
+            y_val = np.amax(img, axis=1)
+            x_val = round(len(x_val) / 2)
+            y_val = round(len(y_val) / 2)
+            camera_center = point.Point(x_val, y_val)
+            p = correction.ball_cen_correction(camera_center, singleBall)
             singleBall.x = p.x
             singleBall.y = p.y
             tempBall.append(singleBall)

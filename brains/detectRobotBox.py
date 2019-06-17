@@ -91,9 +91,9 @@ def getRobot(img):
         y_val = np.amax(img, axis=1)
         x_val = round(len(x_val)/2)
         y_val = round(len(y_val)/2)
-        c_cen = point.Point(x_val, y_val)
+        camera_center = point.Point(x_val, y_val)
         bl = point.Point(cX, cY)
-        blSquare_corrected = point_correction(c_cen, bl)
+        blSquare_corrected = point_correction(camera_center, bl)
         # tempRobot.blSquareX = cX
         # tempRobot.blSquareY = cY
 
@@ -102,15 +102,15 @@ def getRobot(img):
 
         # Center of robot
         M = cv2.moments(best_cnt)
-        cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
+      cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
         rect = cv2.minAreaRect(best_cnt)
 
         # Rotating box
         box = cv2.boxPoints(rect)
         box = np.int0(box)
 
-        r_cen = point.Point(cx, cy)
-        center_corrected = point_correction(c_cen, r_cen)
+        robot_center = point.Point(cx, cy)
+        center_corrected = point_correction(camera_center, robot_center)
 
         # tempRobot.centrumX = cx
         # tempRobot.centrumY = cy
