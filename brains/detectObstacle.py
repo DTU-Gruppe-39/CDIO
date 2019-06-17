@@ -96,19 +96,19 @@ def getObstacle(img):
             # defines half the distance between the danger zone of the track and the obstacle for the left side
             left_safe_point_danger = (obstacle_danger_left_x - (tempTrack.topLeftCorner.x + cm25_in_pix))/2
             # defines the left_safe_point and puts it in the singleton
-            singleton.Singleton.safe_points[0] = point.Point(obstacle_danger_left_x - left_safe_point_danger, tempObstacle.center_y)
+            singleton.Singleton.safe_points.append(point.Point(obstacle_danger_left_x - left_safe_point_danger, tempObstacle.center_y))
             # defines half the distance between the danger zone of the track and the obstacle for the top side
             top_safe_point_danger = (obstacle_danger_top_y - (tempTrack.topLeftCorner.y + cm25_in_pix))/2
             # defines the top safe point and puts it in the singleton
-            singleton.Singleton.safe_points[1] = point.Point(tempObstacle.center_x, obstacle_danger_top_y - top_safe_point_danger)
+            singleton.Singleton.safe_points.append(point.Point(tempObstacle.center_x, obstacle_danger_top_y - top_safe_point_danger))
             # defines half the distance between the danger zone of the track and the obstacle for the right side
             right_safe_point_danger = ((tempTrack.topRightCorner.x - cm25_in_pix) - obstacle_danger_right_x) / 2
             # defines the right safe point and puts it in the singleton
-            singleton.Singleton.safe_points[2] = point.Point(obstacle_danger_right_x + right_safe_point_danger, tempObstacle.center_y)
+            singleton.Singleton.safe_points.append(point.Point(obstacle_danger_right_x + right_safe_point_danger, tempObstacle.center_y))
             # defines half the distance between the danger zone of the track and the obstacle for the bottom side
             bottom_safe_point_danger = ((tempTrack.bottomLeftCorner.y - cm25_in_pix) - obstacle_danger_bottom_y) / 2
             # defines the bottom safe point and puts it in the singleton
-            singleton.Singleton.safe_points[3] = point.Point(tempObstacle.center_x, obstacle_danger_bottom_y + bottom_safe_point_danger)
+            singleton.Singleton.safe_points.append(point.Point(tempObstacle.center_x, obstacle_danger_bottom_y + bottom_safe_point_danger))
 
             # draw the contour and center of the shape on the image
             cv2.drawContours(img, [largestContour], -1, (0, 255, 0), 2)
