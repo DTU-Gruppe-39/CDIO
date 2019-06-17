@@ -133,8 +133,8 @@ def getRobot(img):
         resized1 = cv2.resize(mask, dim, interpolation=cv2.INTER_AREA)
 
 
-        cv2.imshow("maskPurple", resized)
-        cv2.imshow("maskYellow", resized1)
+        # cv2.imshow("maskPurple", resized)
+        # cv2.imshow("maskYellow", resized1)
 
     # print("\n")
     return tempRobot

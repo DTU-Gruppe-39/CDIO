@@ -1,5 +1,6 @@
 import cv2
 from brains import singleton
+from shapely.geometry import LineString
 import numpy as np
 from model import track
 from model import ball
@@ -12,6 +13,8 @@ def showImage():
     track = singleton.Singleton.track
     balls = singleton.Singleton.balls
     robot = singleton.Singleton.robot
+    obstacle = singleton.Singleton.obstacle
+    safePoints = singleton.Singleton.safe_points
 
     #--Draw border-lines--#
     # Convert corners tuples:
@@ -81,6 +84,34 @@ def showImage():
         cv2.line(img, (topLineA[0] - 40, topLineA[1] + 40), (topLineB[0] + 40, topLineB[1] + 40),(0, 0, 255), 2)
         cv2.line(img, (rightLineA[0] - 40, rightLineA[1] - 40), (rightLineB[0] - 40, rightLineB[1] + 40),(0, 0, 255), 2)
         cv2.line(img, (leftLineA[0] + 40, leftLineA[1] - 40), (leftLineB[0] + 40, leftLineB[1] + 40),(0, 0, 255), 2)
+
+
+    # Draw obstacle
+    if obstacle is not None:
+        cv2.circle(img, (obstacle.center_x, obstacle.center_y), 4, 255, -1)
+
+        count = 0
+        index = 0
+        for sp in safePoints:
+            if count == 0:
+                x = obstacle.bottom_line
+            elif count == 1:
+                x = obstacle.top_line
+            elif count == 2:
+                x = obstacle.left_line
+            elif count == 3:
+                x = obstacle.right_line
+
+            # Draw safepoints
+            cv2.circle(img, (int(sp.x) ,int(sp.y)), 4, (255, 255, 255), -1)
+
+            # Draw dangerzone lines
+            a = (int(list(x.coords)[index][0]), int(list(x.coords)[index][1]))
+            index += 1
+            b = (int(list(x.coords)[index][0]), int(list(x.coords)[index][1]))
+            index -= 1
+            cv2.line(img, a, b, (255, 255, 255), 2)
+            count += 1
 
         # robot to ball line
         # cv2.line(img, (robot.x, robot.y), (ball.x, ball.y), (0, 0, 255), 1)
