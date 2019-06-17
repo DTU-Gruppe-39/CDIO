@@ -15,22 +15,19 @@ def getRobot(img):
     # Capture frame-by-frame
     tempRobot = robot.Robot
 
-
     blurred = cv2.GaussianBlur(img, (5, 5), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     boundaries = [
         ([27, 54, 20], [32, 255, 255])
     ]
+
     boundaries1 = [
         # Dag kørsel:
         ([120, 100, 20], [170, 255, 255])
 
         #Nat kørsel:
         # ([140, 40, 10], [190, 255, 255])
-        #hsv
-        #([105, 5, 100], [210, 90, 255])
-
     ]
 
     # roed: ([17, 15, 100], [50, 56, 200])
@@ -47,7 +44,6 @@ def getRobot(img):
         # find the colors within the specified boundaries and apply
         mask = cv2.inRange(hsv, lower, upper)
 
-
     for (lower, upper) in boundaries1:
         # create NumPy arrays from the boundaries
         lower1 = np.array(lower, dtype="uint8")
@@ -55,12 +51,13 @@ def getRobot(img):
 
         mask1 = cv2.inRange(hsv, lower1, upper1)
 
-        tempRobot = robot.Robot
+        # tempRobot = robot.Robot
 
         # Finding the biggest contour to find robot
         contours, _ = cv2.findContours(mask1, 1, 1)
         max_area = 0
         best_cnt = 0
+
         for cnt in contours:
             area = cv2.contourArea(cnt)
             if area > max_area:
@@ -87,6 +84,8 @@ def getRobot(img):
             cX, cY = 0, 0
             #
             # # draw the contour and center of the shape on the image
+
+        # Pixel correction
         x_val = np.amax(img, axis=0)
         y_val = np.amax(img, axis=1)
         x_val = round(len(x_val)/2)
@@ -101,22 +100,23 @@ def getRobot(img):
         tempRobot.blSquareY = blSquare_corrected.y
 
         # Center of robot
-        M = cv2.moments(best_cnt)
-        cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
-        rect = cv2.minAreaRect(best_cnt)
+        if best_cnt != 0:
+            M = cv2.moments(best_cnt)
+            cx, cy = round(M['m10'] / M['m00']), int(M['m01'] / M['m00'])
+            rect = cv2.minAreaRect(best_cnt)
 
-        # Rotating box
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
+            # Rotating box
+            box = cv2.boxPoints(rect)
+            box = np.int0(box)
 
-        robot_center = point.Point(cx, cy)
-        center_corrected = point_correction(camera_center, robot_center)
+            robot_center = point.Point(cx, cy)
+            center_corrected = point_correction(camera_center, robot_center)
 
-        # tempRobot.centrumX = cx
-        # tempRobot.centrumY = cy
-        tempRobot.centrumX = center_corrected.x
-        tempRobot.centrumY = center_corrected.y
-        tempRobot.box = box
+            # tempRobot.centrumX = cx
+            # tempRobot.centrumY = cy
+            tempRobot.centrumX = center_corrected.x
+            tempRobot.centrumY = center_corrected.y
+            tempRobot.box = box
 
         scale_percent = 30  # percent of original size
         width = int(mask1.shape[1] * scale_percent / 100)
@@ -136,5 +136,5 @@ def getRobot(img):
         cv2.imshow("maskPurple", resized)
         cv2.imshow("maskYellow", resized1)
 
-   # print("\n")
+    # print("\n")
     return tempRobot
