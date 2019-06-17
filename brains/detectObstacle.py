@@ -108,7 +108,7 @@ def getObstacle(img):
             cv2.putText(img, "center", (cX - 20, cY - 20),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
-        cv2.imshow("image", img)
-        cv2.imshow("mask", mask)
+        # cv2.imshow("image", img)
+        # cv2.imshow("mask", mask)
 
     return tempObstacle
