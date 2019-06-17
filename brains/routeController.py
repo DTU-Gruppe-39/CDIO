@@ -159,7 +159,7 @@ def goForGoal(robot, expectedNumberOfBallsLeft):
                         numberOfTriesToAlign = 0
                 else:
                     moreBallsThanExpected()
-                    robotController.createCommandTank(20, 20, 360)
+                    robotController.createCommandTank(20, 20, 390)
                     robotController.createCommandDeliver()
                     robotController.createCommandTank(-20, -20, 360)
                     aligned = True
@@ -235,10 +235,11 @@ def main():
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
                     dist = distanceToBall(waypoints[0], robot)
-                    robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
+                    robotController.drive_forward(dist - 40, pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
-                            robotController.createCommandWall(10, 35)
+                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.createCommandWall(10, 110, 400)
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         else:
