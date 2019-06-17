@@ -16,7 +16,7 @@ def showImage():
 
     obstacle = singleton.Singleton.obstacle
     safePoints = singleton.Singleton.safe_points
-    danger = track.pixelConversion * 25
+    danger = round(track.pixelConversion * 25)
 
     #--Draw border-lines--#
     # Convert corners tuples:
