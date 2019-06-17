@@ -134,7 +134,7 @@ def goForGoal(expectedNumberOfBallsLeft):
             # Drive forward to waypoint/ball
             numberOfTriesToAlign = 0
             dist = distanceToWaypoint(goalCord, [robot.centrumX, robot.centrumY])
-            robotController.drive_forward(dist, pix_pr_cm, forwardSpeed)
+            robotController.drive_forward(dist, pix_pr_cm, 50)
             while not aligned:
                 visionController.captureFrame()
                 # balls = singleton.Singleton.balls
