@@ -1,5 +1,6 @@
 from shapely.geometry import LineString
 from model.point import Point
+from model import obstacle
 
 
 def getPointFromTwoLines(l1, l2):
@@ -11,6 +12,16 @@ def getPointFromTwoLines(l1, l2):
     intersection = Point(p.x, p.y)
 
     return intersection
+
+
+def areLineTouchingObstacleSquare(line):
+    if areLinesTouching(line, obstacle.right_line) or \
+    areLinesTouching(line, obstacle.left_line) or \
+    areLinesTouching(line, obstacle.top_line) or \
+    areLinesTouching(line, obstacle.bottom_line):
+        return True
+    else:
+        return False
 
 
 def areLinesTouching(l1, l2):
