@@ -151,7 +151,7 @@ def waypoints(endPoint):
             return
 
             # If ball is in bottom-right corner
-        elif endPoint.x > track.bottomRightCorner.x - danger and endPoint.y > track.bottomRightCorner.y + danger:
+        elif endPoint.x > track.bottomRightCorner.x - danger and endPoint.y > track.bottomRightCorner.y - danger:
             last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y - cornerSafePointY))
             print("Ball is in bottom right corner")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
