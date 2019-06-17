@@ -44,11 +44,12 @@ def createCommandAttack(speed, tank_degrees, front_degrees):
     }
     return networking.sendCommand(message)
 
-def createCommandWall(speed, tank_degrees):
+def createCommandWall(speed, arm_degrees,tank_degrees):
     message = {
         "type": "wall",
         "speed": speed,
-        "tank_degrees": tank_degrees
+        "tank_degrees": tank_degrees,
+        "arm_degrees": arm_degrees
     }
     return networking.sendCommand(message)
 
@@ -91,9 +92,8 @@ def drive_forward(pix_dist, pix_pr_cm, speed):
 def turn(angle, clockwise, speed):
     # Turn_speed can be changed to hardcoded values corresponding to the scenario
     degrees = round((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
-    if clockwise :
-      return createCommandTank(speed, -speed, degrees)
-
+    if clockwise:
+        return createCommandTank(speed, -speed, degrees)
     else:
         return createCommandTank(-speed, speed, degrees)
     # Send msg to NetworkCon

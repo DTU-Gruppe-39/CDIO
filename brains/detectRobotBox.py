@@ -125,9 +125,16 @@ def getRobot(img):
         # resize image
         resized = cv2.resize(mask1, dim, interpolation=cv2.INTER_AREA)
 
+        scale_percent = 30  # percent of original size
+        width = int(mask.shape[1] * scale_percent / 100)
+        height = int(mask.shape[0] * scale_percent / 100)
+        dim = (width, height)
+        # resize image
+        resized1 = cv2.resize(mask, dim, interpolation=cv2.INTER_AREA)
+
 
         cv2.imshow("maskPurple", resized)
-        # cv2.imshow("maskYellow", mask)
+        cv2.imshow("maskYellow", resized1)
 
    # print("\n")
     return tempRobot
