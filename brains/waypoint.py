@@ -71,7 +71,7 @@ def waypoints(endPoint):
 
             # If ball is close to left side
         elif endPoint.x < track.bottomLeftCorner.x + danger:
-            last_waypoint = point.Point(round(endPoint.x + sideSafePoint), round(endPoint.y ))
+            last_waypoint = point.Point(round(endPoint.x + sideSafePoint), round(endPoint.y))
             print("Ball is close to left side")
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
