@@ -1,6 +1,7 @@
 import math
 import brains.singleton as singleton
 from model.ball import Ball
+from brains.robotController import calc_pix_dist
 from shapely.geometry import LineString
 from brains import lines
 from model import point
@@ -13,8 +14,8 @@ def pop_waypoint():
 def get_waypoint():
     return singleton.Singleton.way_points
 
-
 def waypoints(endPoint):
+    minDist = 0
     track = singleton.Singleton.track
     danger = round(track.pixelConversion * 25)
     cornerSafePointX = round(track.pixelConversion * 10)
@@ -25,6 +26,7 @@ def waypoints(endPoint):
     obstacle = singleton.Singleton.obstacle
     waypoint_list = []
     direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
+    safe_points = singleton.Singleton.safe_points
     # If it is a easy ball outside dangerzone
     # if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
     # and endPoint.y < track.topLeftCorner.y - track.pixelConversion * 5:
@@ -39,13 +41,28 @@ def waypoints(endPoint):
         if endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
             last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
             print("Ball is in top left corner")
-            # if lines.areLinesTouching(direct_path_line, obstacle.right_line):
-            # 
-            # elif lines.areLinesTouching(direct_path_line, obstacle.left_line):
-            #
-            # elif lines.areLinesTouching(direct_path_line, obstacle.top_line):
-            #
-            # elif lines.areLinesTouching(direct_path_line, obstacle.bottom_line):
+            if lines.areLinesTouching(direct_path_line, obstacle.right_line):
+                for i in len(safe_points):
+                    dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
+                    if minDist == 0:
+                        minDist = dist
+                    elif dist < minDist:
+                        minDist = dist
+                        closestToBall_index = i
+                for i in len(safe_points):
+                    dist = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
+                    if minDist == 0:
+                        minDist = dist
+                    elif dist < minDist:
+                        minDist = dist
+                        closestToBall_index = i
+
+
+            elif lines.areLinesTouching(direct_path_line, obstacle.left_line):
+
+            elif lines.areLinesTouching(direct_path_line, obstacle.top_line):
+
+            elif lines.areLinesTouching(direct_path_line, obstacle.bottom_line):
 
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
