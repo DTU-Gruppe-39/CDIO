@@ -217,7 +217,7 @@ def main():
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
                     if len(waypoints) > 1:
-                        if math.sqrt(pow(robot.centrumX - ball.x, 2) + pow(robot.centrumY - ball.y, 2)) < track.pixelConversion*10:
+                        if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion*10:
                             waypoint.pop_waypoint()
                         print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
                         print("MERE END 1 WAYPOINT TILBAGE")
