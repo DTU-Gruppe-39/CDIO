@@ -6,7 +6,7 @@ from brains.detectTrack import getTrack
 from brains.detectBalls import getBalls
 from brains.detectRobotBox import getRobot
 from brains.detectObstacle import getObstacle
-from brains.intersectingLines import getPointFromTwoLines
+from brains.lines import getPointFromTwoLines
 import brains.singleton as singleton
 
 from model import ball
@@ -43,6 +43,7 @@ while True:
                                  (obstacle.x, obstacle.y),
                                  (track.topLeftCorner.x, track.topLeftCorner.y),
                                  (track.bottomRightCorner.x, track.bottomRightCorner.y))
+
 
     print("Intersection: " + str(point.x) + ", " + str(point.y))
 
