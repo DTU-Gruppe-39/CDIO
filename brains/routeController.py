@@ -208,10 +208,10 @@ def main():
                 twoBallsLeft = False
                 goForGoal(numberOfBalls)
             else:
-                if len(waypoints) > 1:
-                    if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 15:
-                        print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
-                        waypoint.pop_waypoint()
+                # if len(waypoints) > 1:
+                #     if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 15:
+                #         print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
+                #         waypoint.pop_waypoint()
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
