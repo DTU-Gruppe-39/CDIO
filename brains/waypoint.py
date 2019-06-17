@@ -65,6 +65,8 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
 
@@ -100,8 +102,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -134,8 +139,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -168,8 +176,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -202,8 +213,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -236,8 +250,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -270,8 +287,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -304,8 +324,11 @@ def waypoints(endPoint):
                         dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -337,8 +360,11 @@ def waypoints(endPoint):
                                               safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                         if dist3 < dist4:
                             first_waypoint = safe_points[safe_point_index1]
+                        else:
+                            first_waypoint = safe_points[safe_point_index]
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
+                
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
             singleton.Singleton.is_dangerous = False
