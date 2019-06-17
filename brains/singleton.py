@@ -16,6 +16,7 @@ class Singleton:
     obstacle = obstacle.Obstacle
     robot = robot.Robot
     way_points = []
+    safe_points = []
     is_dangerous = False
     clockWise = False
     img = None

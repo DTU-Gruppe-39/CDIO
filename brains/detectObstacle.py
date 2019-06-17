@@ -3,6 +3,8 @@ import math
 import imutils
 import numpy as np
 from model import track
+from model import point
+from shapely.geometry import LineString
 import brains.singleton as singleton
 from model import obstacle
 
@@ -61,8 +63,39 @@ def getObstacle(img):
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
 
-        tempObstacle.x = cX
-        tempObstacle.y = cY
+        tempObstacle.center_x = cX
+        tempObstacle.center_y = cY
+        cm20_in_pix = round(20*tempTrack.pixelConversion)
+        cm25_in_pix = round(25 * tempTrack.pixelConversion)
+
+        top_left_y = cY - cm20_in_pix
+        top_left_x = cX - cm20_in_pix
+        top_right_y = cY - cm20_in_pix
+        top_right_x = cX + cm20_in_pix
+        bottom_left_y = cY + cm20_in_pix
+        bottom_left_x = cX - cm20_in_pix
+        bottom_right_y = cY + cm20_in_pix
+        bottom_right_x = cX + cm20_in_pix
+        tempObstacle.right_line = LineString([(bottom_right_x, bottom_right_y), (top_right_x, top_right_y)])
+        tempObstacle.top_line = LineString([(top_left_x, top_left_y), (top_right_x, top_right_y)])
+        tempObstacle.left_line = LineString([(bottom_left_x, bottom_left_y), (top_left_x, top_left_y)])
+        tempObstacle.bottom_line = LineString([(bottom_left_x, bottom_left_y), (bottom_right_x, bottom_right_y)])
+        obstacle_danger_left_x = tempObstacle.center_x - cm20_in_pix
+        obstacle_danger_top_y = tempObstacle.center_y - cm20_in_pix
+        obstacle_danger_right_x = tempObstacle.center_x + cm20_in_pix
+        obstacle_danger_bottom_y = tempObstacle.center_y + cm20_in_pix
+
+        left_safe_point_danger = (obstacle_danger_left_x - (tempTrack.topLeftCorner.x + cm25_in_pix))/2
+        singleton.Singleton.safe_points[0] = point.Point(obstacle_danger_left_x - left_safe_point_danger, tempObstacle.center_y)
+
+        top_safe_point_danger = (obstacle_danger_top_y - (tempTrack.topLeftCorner.y + cm25_in_pix))/2
+        singleton.Singleton.safe_points[1] = point.Point(tempObstacle.center_x, obstacle_danger_top_y - top_safe_point_danger)
+
+        right_safe_point_danger = ((tempTrack.topRightCorner.x - cm25_in_pix) - obstacle_danger_right_x) / 2
+        singleton.Singleton.safe_points[2] = point.Point(obstacle_danger_right_x + right_safe_point_danger, tempObstacle.center_y)
+
+        bottom_safe_point_danger = ((tempTrack.bottomLeftCorner.y - cm25_in_pix) - obstacle_danger_bottom_y) / 2
+        singleton.Singleton.safe_points[3] = point.Point(tempObstacle.center_x, obstacle_danger_bottom_y + bottom_safe_point_danger)
 
         # draw the contour and center of the shape on the image
         cv2.drawContours(img, [largestContour], -1, (0, 255, 0), 2)

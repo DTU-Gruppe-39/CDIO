@@ -1,6 +1,8 @@
 import math
 import brains.singleton as singleton
 from model.ball import Ball
+from shapely.geometry import LineString
+from brains import lines
 from model import point
 
 
@@ -18,7 +20,11 @@ def waypoints(endPoint):
     cornerSafePointX = round(track.pixelConversion * 20)
     cornerSafePointY = round(track.pixelConversion * 45)
     sideSafePoint = round(track.pixelConversion * 32)
+    robot = singleton.Singleton.robot
+    robot_center = (robot.centrumX, robot.centrumY)
+    obstacle = singleton.Singleton.obstacle
     waypoint_list = []
+    direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
     # If it is a easy ball outside dangerzone
     # if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
     # and endPoint.y < track.topLeftCorner.y - track.pixelConversion * 5:
@@ -33,6 +39,14 @@ def waypoints(endPoint):
         if endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
             last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
             print("Ball is in top left corner")
+            # if lines.areLinesTouching(direct_path_line, obstacle.right_line):
+            # 
+            # elif lines.areLinesTouching(direct_path_line, obstacle.left_line):
+            #
+            # elif lines.areLinesTouching(direct_path_line, obstacle.top_line):
+            #
+            # elif lines.areLinesTouching(direct_path_line, obstacle.bottom_line):
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
