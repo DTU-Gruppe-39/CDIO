@@ -1,6 +1,6 @@
 import math
 from model import point
-cam_height = 162.2
+cam_height = 161.3
 robot_height = 15.5
 ball_height = 4
 cam_robot_scale = cam_height / robot_height

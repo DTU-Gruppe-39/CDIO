@@ -105,6 +105,8 @@ def cmdHandler2(cmd):
             time.sleep(1)
             front.on_for_degrees(20, 180)
         if cmd['type'] == "wall":
+            front.on_for_degrees(10, 45)
+            front.on_for_degrees(-10, 45)
             front.on_for_degrees(-cmd['speed'], cmd['arm_degrees'])
             tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
             front.on_for_degrees(cmd['speed'], cmd['arm_degrees'])

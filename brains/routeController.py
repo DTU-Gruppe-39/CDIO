@@ -208,6 +208,10 @@ def main():
                 twoBallsLeft = False
                 goForGoal(numberOfBalls)
             else:
+                if len(waypoints) > 1:
+                    if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 10:
+                        print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
+                        waypoint.pop_waypoint()
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
@@ -217,8 +221,6 @@ def main():
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
                     if len(waypoints) > 1:
-                        if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion*10:
-                            waypoint.pop_waypoint()
                         print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
                         print("MERE END 1 WAYPOINT TILBAGE")
                         print("Antal af Waypoints: " + str(len(waypoints)))
@@ -241,11 +243,11 @@ def main():
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(10, 110, 400)
+                            robotController.createCommandWall(10, 110, 600)
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         else:
-                            robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
+                            robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
                             setChosenBall(None)
                         # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
                     waypoints.pop(0)
