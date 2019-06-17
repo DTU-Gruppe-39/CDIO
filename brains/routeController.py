@@ -99,7 +99,7 @@ def moreBallsThanExpected():
         zeroBallsLeft = False
 
 
-def goForGoal(robot, expectedNumberOfBallsLeft):
+def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\nDriving to goal")
     completed = False
@@ -203,10 +203,10 @@ def main():
             angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
             if numberOfBalls == 6 and sixBallsLeft:
                 sixBallsLeft = False
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
             elif numberOfBalls == 2 and twoBallsLeft:
                 twoBallsLeft = False
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
             else:
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
@@ -217,6 +217,8 @@ def main():
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
                     if len(waypoints) > 1:
+                        if math.sqrt(pow(robot.centrumX - ball.x, 2) + pow(robot.centrumY - ball.y, 2)) < track.pixelConversion*15:
+                            waypoint.pop_waypoint()
                         print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
                         print("MERE END 1 WAYPOINT TILBAGE")
                         print("Antal af Waypoints: " + str(len(waypoints)))
@@ -263,7 +265,7 @@ def main():
                     robotController.createCommandSound()
             else:
                 zeroBallsLeft = True
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
 
 
     # visionController.releaseImage()

@@ -32,8 +32,10 @@ def getBalls(img):
             y_val = round(len(y_val) / 2)
             camera_center = point.Point(x_val, y_val)
             corrected_ball_center = correction.ball_cen_correction(camera_center, singleBall)
-            singleBall.x = corrected_ball_center.x
-            singleBall.y = corrected_ball_center.y
+            singleBall.x = int(corrected_ball_center.x)
+            singleBall.y = int(corrected_ball_center.y)
+            # print("correctedball_X: " + str(corrected_ball_center.x))
+            # print("correctedball_Y: " + str(corrected_ball_center.y))
             tempBall.append(singleBall)
     else:
         tempBall.clear()
