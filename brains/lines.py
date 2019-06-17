@@ -1,5 +1,6 @@
 from shapely.geometry import LineString
 from model.point import Point
+from brains import singleton
 from model import obstacle
 
 
@@ -15,10 +16,10 @@ def getPointFromTwoLines(l1, l2):
 
 
 def areLineTouchingObstacleSquare(line):
-    if areLinesTouching(line, obstacle.right_line) or \
-    areLinesTouching(line, obstacle.left_line) or \
-    areLinesTouching(line, obstacle.top_line) or \
-    areLinesTouching(line, obstacle.bottom_line):
+    if areLinesTouching(line, singleton.Singleton.obstacle.right_line) or \
+    areLinesTouching(line, singleton.Singleton.obstacle.left_line) or \
+    areLinesTouching(line, singleton.Singleton.obstacle.top_line) or \
+    areLinesTouching(line, singleton.Singleton.obstacle.bottom_line):
         return True
     else:
         return False
