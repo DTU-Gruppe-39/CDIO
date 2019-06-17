@@ -14,7 +14,6 @@ def getPointFromTwoLines(p1, p2, p3, p4):
 
 
 def areLinesTouching(p1, p2, p3, p4):
-    bool = False
 
     line1 = LineString([(p1[0], p1[1]), (p2[0], p2[1])])
     line2 = LineString([(p3[0], p3[1]), (p4[0], p4[1])])
