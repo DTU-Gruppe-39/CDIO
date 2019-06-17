@@ -18,7 +18,7 @@ def waypoints(endPoint):
     minDist = 0
     closestToBall_index = 0
     track = singleton.Singleton.track
-    danger = round(track.pixelConversion * 25)
+    danger = round(track.pixelConversion * 15)
     cornerSafePointX = round(track.pixelConversion * 10)
     cornerSafePointY = round(track.pixelConversion * 45)
     sideSafePoint = round(track.pixelConversion * 32)
