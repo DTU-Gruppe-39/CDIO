@@ -249,6 +249,15 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
             return
+        elif singleton.Singleton.is_going_for_goal:
+            print("Is going for goal")
+            avoidance = round(10* track.pixelConversion)
+            avoid_obstacle(endPoint)
+            waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = False
+            singleton.Singleton.is_in_obstacle = False
+            singleton.Singleton.is_going_for_goal = False
         else:
             print("Ball is an easy ball")
             avoid_obstacle(endPoint)

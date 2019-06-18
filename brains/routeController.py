@@ -108,6 +108,7 @@ def moreBallsThanExpected():
 def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\nDriving to goal")
+    singleton.Singleton.is_going_for_goal = True
     completed = False
     aligned = False
     numberOfTriesToAlign = 0
@@ -115,6 +116,7 @@ def goForGoal(expectedNumberOfBallsLeft):
     # robotController.createCommandDeliver()
     #False for left goal
     goalCord = wpGoal.getWpGoal(False)
+    waypoints = waypoint.waypoints(goalCord)
     print("\033[1;32m" + "Goal cord: " + str(goalCord) + "\033[0m")
     while not completed:
         visionController.captureFrame()
@@ -123,7 +125,7 @@ def goForGoal(expectedNumberOfBallsLeft):
         # obstacle = Singleton.obstacle
         track = singleton.Singleton.track
         pix_pr_cm = track.pixelConversion
-        angle = calculateAngle(goalCord, robot)
+        angle = calculateAngle(waypoints[0], robot)
         if angle >= 5:
             robotController.turn(angle, getclockWise(), turnSpeed)
             if numberOfBallsLeft() > expectedNumberOfBallsLeft:
@@ -139,37 +141,39 @@ def goForGoal(expectedNumberOfBallsLeft):
         else:
             # Drive forward to waypoint/ball
             numberOfTriesToAlign = 0
-            dist = distanceToWaypoint(goalCord, [robot.centrumX, robot.centrumY])
+            dist = distanceToWaypoint(waypoints[0], [robot.centrumX, robot.centrumY])
             robotController.drive_forward(dist, pix_pr_cm, 50)
-            while not aligned:
-                visionController.captureFrame()
-                # balls = singleton.Singleton.balls
-                robot = singleton.Singleton.robot
-                # obstacle = Singleton.obstacle
-                track = singleton.Singleton.track
-                pix_pr_cm = track.pixelConversion
-                goalCord = (track.bigGoal.x, track.bigGoal.y)
-                # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
-                angle = calculateAngle(goalCord, robot)
-                print("\nRealvector angle: " + str(angle) + "\n")
-                if numberOfBallsLeft() > expectedNumberOfBallsLeft:
-                    print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
-                    moreBallsThanExpected()
-                    break
-                if angle >= 3:
-                    robotController.turn(angle, getclockWise(), turnSpeed)
-                    numberOfTriesToAlign = numberOfTriesToAlign + 1
-                    # if numberOfTriesToAlign > 5:
-                        #bak robotten, og prøv at align igen
-                        # robotController.createCommandTank(-20, -20, 360)
-                        # numberOfTriesToAlign = 0
-                else:
-                    moreBallsThanExpected()
-                    robotController.createCommandTank(20, 20, 590)
-                    robotController.createCommandDeliver()
-                    robotController.createCommandTank(-20, -20, 400)
-                    aligned = True
-                    break
+            waypoint.pop_waypoint()
+            if len(waypoints) == 0:
+                while not aligned:
+                    visionController.captureFrame()
+                    # balls = singleton.Singleton.balls
+                    robot = singleton.Singleton.robot
+                    # obstacle = Singleton.obstacle
+                    track = singleton.Singleton.track
+                    pix_pr_cm = track.pixelConversion
+                    goalCord = (track.bigGoal.x, track.bigGoal.y)
+                    # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
+                    angle = calculateAngle(goalCord, robot)
+                    print("\nRealvector angle: " + str(angle) + "\n")
+                    if numberOfBallsLeft() > expectedNumberOfBallsLeft:
+                        print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
+                        moreBallsThanExpected()
+                        break
+                    if angle >= 3:
+                        robotController.turn(angle, getclockWise(), turnSpeed)
+                        numberOfTriesToAlign = numberOfTriesToAlign + 1
+                        # if numberOfTriesToAlign > 5:
+                            #bak robotten, og prøv at align igen
+                            # robotController.createCommandTank(-20, -20, 360)
+                            # numberOfTriesToAlign = 0
+                    else:
+                        moreBallsThanExpected()
+                        robotController.createCommandTank(20, 20, 590)
+                        robotController.createCommandDeliver()
+                        robotController.createCommandTank(-20, -20, 400)
+                        aligned = True
+                        break
             completed = True
             break
     print("Go for goal done\n")

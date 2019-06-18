@@ -19,6 +19,7 @@ class Singleton:
     safe_points = []
     is_dangerous = False
     is_in_obstacle = False
+    is_going_for_goal = False
     clockWise = False
     img = None
     isCorner = [False, False, False, False]
