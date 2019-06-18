@@ -103,7 +103,7 @@ def waypoints(endPoint):
     if endPoint is not None:
         direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
         # If the ball is inside the bounding square of the obstacle
-        if obstacle.square_bottom_right_corner.x <= endPoint.x >= obstacle.square_top_left_corner.x and obstacle.square_bottom_right_corner.y <= endPoint.y >= obstacle.square_top_left_corner.y:
+        if obstacle.square_bottom_right_corner.x >= endPoint.x <= obstacle.square_top_left_corner.x and obstacle.square_bottom_right_corner.y >= endPoint.y <= obstacle.square_top_left_corner.y:
             print("Ball is inside the obstacle!")
             projected_point_x = ((endPoint.x - obstacle.center_x) * line_length) + obstacle.center_x
             projected_point_y = ((endPoint.y - obstacle.center_y) * line_length) + obstacle.center_y
@@ -137,103 +137,103 @@ def waypoints(endPoint):
             waypoint_list.append(projected_point)
             waypoint_list.append(endPoint)
 
-    # If ball is in top-left corner
-    if endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
-        last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
-        print("Ball is in top left corner")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
+        # If ball is in top-left corner
+        elif endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
+            last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))
+            print("Ball is in top left corner")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
 
-    # If ball is in bottom-left corner
-    elif endPoint.x < track.bottomLeftCorner.x + danger and endPoint.y > track.bottomLeftCorner.y - danger:
-        last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y - cornerSafePointY))
-        print("Ball is in bottom left corner")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
+        # If ball is in bottom-left corner
+        elif endPoint.x < track.bottomLeftCorner.x + danger and endPoint.y > track.bottomLeftCorner.y - danger:
+            last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y - cornerSafePointY))
+            print("Ball is in bottom left corner")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
 
-    # If ball is in top-right corner
-    elif endPoint.x > track.topRightCorner.x - danger and endPoint.y < track.topRightCorner.y + danger:
-        last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y + cornerSafePointY))
-        print("Ball is in top right corner")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
+        # If ball is in top-right corner
+        elif endPoint.x > track.topRightCorner.x - danger and endPoint.y < track.topRightCorner.y + danger:
+            last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y + cornerSafePointY))
+            print("Ball is in top right corner")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
 
-        # If ball is in bottom-right corner
-    elif endPoint.x > track.bottomRightCorner.x - danger and endPoint.y > track.bottomRightCorner.y - danger:
-        last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y - cornerSafePointY))
-        print("Ball is in bottom right corner")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
+            # If ball is in bottom-right corner
+        elif endPoint.x > track.bottomRightCorner.x - danger and endPoint.y > track.bottomRightCorner.y - danger:
+            last_waypoint = point.Point(round(endPoint.x - cornerSafePointX), round(endPoint.y - cornerSafePointY))
+            print("Ball is in bottom right corner")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
 
-        # If ball is close to left side
-    elif endPoint.x < track.bottomLeftCorner.x + danger:
-        last_waypoint = point.Point(round(endPoint.x + sideSafePoint), round(endPoint.y))
-        print("Ball is close to left side")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
+            # If ball is close to left side
+        elif endPoint.x < track.bottomLeftCorner.x + danger:
+            last_waypoint = point.Point(round(endPoint.x + sideSafePoint), round(endPoint.y))
+            print("Ball is close to left side")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
 
-        # If ball is close to right side
-    elif endPoint.x > track.bottomRightCorner.x - danger:
-        last_waypoint = point.Point(round(endPoint.x - sideSafePoint), round(endPoint.y))
-        print("Ball is close to right side")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
+            # If ball is close to right side
+        elif endPoint.x > track.bottomRightCorner.x - danger:
+            last_waypoint = point.Point(round(endPoint.x - sideSafePoint), round(endPoint.y))
+            print("Ball is close to right side")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
 
-        # If ball is close to bottom side
-    elif endPoint.y > track.bottomRightCorner.y - danger:
-        print("Ball is close to bottom side")
-        avoid_obstacle(endPoint)
-        if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
-            if robot.centrumX < endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x - 15), round(endPoint.y - sideSafePoint))
-            elif obstacle.center_x > endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x + 15), round(endPoint.y - sideSafePoint))
+            # If ball is close to bottom side
+        elif endPoint.y > track.bottomRightCorner.y - danger:
+            print("Ball is close to bottom side")
+            avoid_obstacle(endPoint)
+            if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
+                if robot.centrumX < endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x - 15), round(endPoint.y - sideSafePoint))
+                elif obstacle.center_x > endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x + 15), round(endPoint.y - sideSafePoint))
+            else:
+                last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
+
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
+
+            # If ball is close to top side
+        elif endPoint.y < track.topLeftCorner.y + danger:
+            print("Ball is close to top side")
+            avoid_obstacle(endPoint)
+            if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
+                if robot.centrumX < endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x - 15), round(endPoint.y + sideSafePoint))
+                elif robot.centrumX > endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x + 15), round(endPoint.y + sideSafePoint))
+            else:
+                last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
+            waypoint_list.append(last_waypoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = True
+            return
         else:
-            last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
-
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
-
-        # If ball is close to top side
-    elif endPoint.y < track.topLeftCorner.y + danger:
-        print("Ball is close to top side")
-        avoid_obstacle(endPoint)
-        if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
-            if robot.centrumX < endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x - 15), round(endPoint.y + sideSafePoint))
-            elif robot.centrumX > endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x + 15), round(endPoint.y + sideSafePoint))
-        else:
-            last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
-        waypoint_list.append(last_waypoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = True
-        return
-    else:
-        print("Ball is an easy ball")
-        avoid_obstacle(endPoint)
-        waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-        singleton.Singleton.is_dangerous = False
-        print("Are lines touching: " + str(lines.areLineTouchingObstacleSquare(direct_path_line)))
-        return
+            print("Ball is an easy ball")
+            avoid_obstacle(endPoint)
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = False
+            print("Are lines touching: " + str(lines.areLineTouchingObstacleSquare(direct_path_line)))
+            return
 
