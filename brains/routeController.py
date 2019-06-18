@@ -104,6 +104,15 @@ def moreBallsThanExpected():
         zeroBallsLeft = False
 
 
+def checker(angle):
+    if angle is not None:
+        if angle >= 5:
+            return True
+        else:
+            return False
+    else:
+        return True
+
 def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\nDriving to goal")
@@ -118,32 +127,35 @@ def goForGoal(expectedNumberOfBallsLeft):
     waypoints = waypoint.waypoints(goalCord)
     print("\033[1;32m" + "Goal cord: " + str(goalCord) + "\033[0m")
     while not completed:
-        visionController.captureFrame()
-        # balls = singleton.Singleton.balls
-        robot = singleton.Singleton.robot
-        # obstacle = Singleton.obstacle
-        track = singleton.Singleton.track
-        pix_pr_cm = track.pixelConversion
-        angle = calculateAngle(waypoints[0], robot)
+        if len(waypoints) is not 0:
+            visionController.captureFrame()
+            # balls = singleton.Singleton.balls
+            robot = singleton.Singleton.robot
+            # obstacle = Singleton.obstacle
+            track = singleton.Singleton.track
+            pix_pr_cm = track.pixelConversion
+            angle = calculateAngle(waypoints[0], robot)
         if angle >= 5:
-            robotController.turn(angle, getclockWise(), turnSpeed)
-            if numberOfBallsLeft() > expectedNumberOfBallsLeft:
-                print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
-                moreBallsThanExpected()
-                break
-            numberOfTriesToAlign = numberOfTriesToAlign + 1
-            if numberOfTriesToAlign >= 3:
-                # bak robotten, og prøv at align igen
-                # Tjek evt hvilken vej den peger, så man kan køre væk fra målet
-                # robotController.createCommandTank(-20, -20, 720)
-                numberOfTriesToAlign = 0
+            if len(waypoints) is not 0:
+                robotController.turn(angle, getclockWise(), turnSpeed)
+                if numberOfBallsLeft() > expectedNumberOfBallsLeft:
+                    print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
+                    moreBallsThanExpected()
+                    break
+                numberOfTriesToAlign = numberOfTriesToAlign + 1
+                if numberOfTriesToAlign >= 3:
+                    # bak robotten, og prøv at align igen
+                    # Tjek evt hvilken vej den peger, så man kan køre væk fra målet
+                    # robotController.createCommandTank(-20, -20, 720)
+                    numberOfTriesToAlign = 0
         else:
             # Drive forward to waypoint/ball
-            numberOfTriesToAlign = 0
-            dist = distanceToWaypoint(waypoints[0], [robot.centrumX, robot.centrumY])
-            robotController.drive_forward(dist, pix_pr_cm, 50)
-            waypoint.pop_waypoint()
-            if len(waypoints) == 0:
+            if len(waypoints) is not 0:
+                numberOfTriesToAlign = 0
+                dist = distanceToWaypoint(waypoints[0], [robot.centrumX, robot.centrumY])
+                robotController.drive_forward(dist, pix_pr_cm, 50)
+                waypoint.pop_waypoint()
+            if len(waypoints) is 0:
                 while not aligned:
                     visionController.captureFrame()
                     # balls = singleton.Singleton.balls
