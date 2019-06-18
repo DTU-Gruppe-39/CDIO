@@ -29,6 +29,7 @@ def waypoints(endPoint):
     waypoint_list = []
     safe_points = singleton.Singleton.safe_points
     safe_point_dist_to_robot = []
+    obstacleDanger = round(track.pixelConversion * 10)
     # If it is a easy ball outside dangerzone
     # if endPoint.x > track.bottomLeftCorner.x + danger and endPoint.x < track.bottomRightCorner.x - track.pixelConversion * 5 and endPoint.y > track.bottomRightCorner.y + track.pixelConversion * 5 \
     # and endPoint.y < track.topLeftCorner.y - track.pixelConversion * 5:
@@ -292,12 +293,14 @@ def waypoints(endPoint):
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
 
-            if obstacle.center_x < endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x + 5), round(endPoint.y - sideSafePoint))
-            elif obstacle.center_x > endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x - 5), round(endPoint.y - sideSafePoint))
+            if obstacle.center_x - obstacleDanger < endPoint.x < obstacleDanger + obstacleDanger:
+                if obstacle.center_x < endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x + 5), round(endPoint.y - sideSafePoint))
+                elif obstacle.center_x > endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x - 5), round(endPoint.y - sideSafePoint))
             else:
                 last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
+
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -334,11 +337,11 @@ def waypoints(endPoint):
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
 
-
-            if obstacle.center_x < endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x + 5), round(endPoint.y + sideSafePoint))
-            elif obstacle.center_x > endPoint.x:
-                last_waypoint = point.Point(round(obstacle.center_x - 5), round(endPoint.y + sideSafePoint))
+            if obstacle.center_x - obstacleDanger < endPoint.x < obstacleDanger + obstacleDanger:
+                if obstacle.center_x < endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x + 5), round(endPoint.y + sideSafePoint))
+                elif obstacle.center_x > endPoint.x:
+                    last_waypoint = point.Point(round(obstacle.center_x - 5), round(endPoint.y + sideSafePoint))
             else:
                 last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
             waypoint_list.append(last_waypoint)
