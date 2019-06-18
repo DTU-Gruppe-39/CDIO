@@ -105,8 +105,9 @@ def waypoints(endPoint):
         # If the ball is inside the bounding square of the obstacle
         if obstacle.square_bottom_right_corner.x >= endPoint.x >= obstacle.square_top_left_corner.x and obstacle.square_bottom_right_corner.y >= endPoint.y >= obstacle.square_top_left_corner.y:
             print("Ball is inside the obstacle!")
-            projected_point_x = ((endPoint.x - obstacle.center_x) * line_length) + obstacle.center_x
-            projected_point_y = ((endPoint.y - obstacle.center_y) * line_length) + obstacle.center_y
+            scale = calc_pix_dist(obstacle.center_x, obstacle.center_y, endPoint.x, endPoint.y) / line_length
+            projected_point_x = ((endPoint.x - obstacle.center_x) * scale) + obstacle.center_x
+            projected_point_y = ((endPoint.y - obstacle.center_y) * scale) + obstacle.center_y
             projected_point = point.Point(projected_point_x, projected_point_y)
             for i in range(len(safe_points)):
                 dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
