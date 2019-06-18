@@ -22,7 +22,6 @@ class Singleton:
     is_going_for_goal = False
     clockWise = False
     img = None
-    isCorner = [False, False, False, False]
 
     chosenBall = None
 
