@@ -148,6 +148,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
         # If ball is in bottom-left corner
@@ -158,6 +159,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
         # If ball is in top-right corner
@@ -168,6 +170,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
             # If ball is in bottom-right corner
@@ -178,6 +181,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
             # If ball is close to left side
@@ -188,6 +192,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
             # If ball is close to right side
@@ -198,6 +203,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
             # If ball is close to bottom side
@@ -215,6 +221,7 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
 
             # If ball is close to top side
@@ -231,12 +238,14 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
+            singleton.Singleton.is_in_obstacle = False
             return
         else:
             print("Ball is an easy ball")
             avoid_obstacle(endPoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = False
+            singleton.Singleton.is_in_obstacle = False
             print("Are lines touching: " + str(lines.areLineTouchingObstacleSquare(direct_path_line)))
             return
 
