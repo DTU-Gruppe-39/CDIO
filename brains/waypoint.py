@@ -138,6 +138,7 @@ def waypoints(endPoint):
             waypoint_list.append(projected_point)
             waypoint_list.append(endPoint)
             singleton.Singleton.is_in_obstacle = True
+            singleton.Singleton.is_dangerous = False
 
 
         # If ball is in top-left corner
