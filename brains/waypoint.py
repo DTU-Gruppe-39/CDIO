@@ -5,7 +5,7 @@ from brains.robotController import calc_pix_dist
 from shapely.geometry import LineString
 from brains import lines
 from model import point
-from model import Obstacle
+from model import obstacle
 
 
 def pop_waypoint():
@@ -41,6 +41,10 @@ def waypoints(endPoint):
 
     if endPoint is not None:
         direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
+        # If the ball is inside the bounding square of the obstacle
+        if obstacle.square_bottom_right_corner.x <= endPoint.x >= obstacle.square_top_left_corner.x and obstacle.square_bottom_right_corner.y <= endPoint.y >= obstacle.square_top_left_corner.y:
+            print("Ball is inside the obstacle!")
+
         # If ball is in top-left corner
         if endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
             last_waypoint = point.Point(round(endPoint.x + cornerSafePointX), round(endPoint.y + cornerSafePointY))

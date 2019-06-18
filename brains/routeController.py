@@ -261,7 +261,7 @@ def main():
                 run_time = end - start
                 min_run = math.floor(run_time/60)
                 sec_run = run_time % 60
-                print("\033[1;33m" + "Time: " + str(min_run) + "min" + str(sec_run) + "sec")
+                print("\033[1;33m" + "Time: " + str(min_run) + " min " + str(sec_run) + " sec")
                 print("\n\n\nRobot is Done!!!\n\n\n")
                 print("\033[0m")
                 while True:

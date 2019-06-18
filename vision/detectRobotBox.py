@@ -13,12 +13,12 @@ def getRobot(img):
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     boundaries = [
-        ([27, 54, 20], [32, 255, 255])
+        ([27, 15, 20], [35, 255, 255])
     ]
 
     boundaries1 = [
         # Dag kørsel:
-        ([120, 100, 20], [170, 255, 255])
+        ([120, 35, 20], [170, 255, 255])
 
         #Nat kørsel:
         # ([140, 40, 10], [190, 255, 255])
@@ -127,8 +127,8 @@ def getRobot(img):
         resized1 = cv2.resize(mask, dim, interpolation=cv2.INTER_AREA)
 
 
-        # cv2.imshow("maskPurple", resized)
-        # cv2.imshow("maskYellow", resized1)
+        cv2.imshow("maskPurple", resized)
+        cv2.imshow("maskYellow", resized1)
 
     # print("\n")
     return tempRobot
