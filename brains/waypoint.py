@@ -5,6 +5,7 @@ from brains.robotController import calc_pix_dist
 from shapely.geometry import LineString
 from brains import lines
 from model import point
+from model import Obstacle
 
 
 def pop_waypoint():
@@ -19,7 +20,7 @@ def waypoints(endPoint):
     closestToBall_index = 0
     track = singleton.Singleton.track
     danger = round(track.pixelConversion * 15)
-    cornerSafePointX = round(track.pixelConversion * 5)
+    cornerSafePointX = round(track.pixelConversion * 8)
     cornerSafePointY = round(track.pixelConversion * 45)
     sideSafePoint = round(track.pixelConversion * 32)
     robot = singleton.Singleton.robot
@@ -263,7 +264,6 @@ def waypoints(endPoint):
 
             # If ball is close to bottom side
         elif endPoint.y > track.bottomRightCorner.y - danger:
-            last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
             print("Ball is close to bottom side")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
                 for i in range(len(safe_points)):
@@ -292,6 +292,12 @@ def waypoints(endPoint):
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
 
+            if obstacle.center_x < endPoint.x:
+                last_waypoint = point.Point(round(obstacle.center_x + 5), round(endPoint.y - sideSafePoint))
+            elif obstacle.center_x > endPoint.x:
+                last_waypoint = point.Point(round(obstacle.center_x - 5), round(endPoint.y - sideSafePoint))
+            else:
+                last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
@@ -300,7 +306,6 @@ def waypoints(endPoint):
 
             # If ball is close to top side
         elif endPoint.y < track.topLeftCorner.y + danger:
-            last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
             print("Ball is close to top side")
             if lines.areLineTouchingObstacleSquare(direct_path_line):
                 for i in range(len(safe_points)):
@@ -329,6 +334,13 @@ def waypoints(endPoint):
                 waypoint_list.append(first_waypoint)
                 waypoint_list.append(safe_points[closestToBall_index])
 
+
+            if obstacle.center_x < endPoint.x:
+                last_waypoint = point.Point(round(obstacle.center_x + 5), round(endPoint.y + sideSafePoint))
+            elif obstacle.center_x > endPoint.x:
+                last_waypoint = point.Point(round(obstacle.center_x - 5), round(endPoint.y + sideSafePoint))
+            else:
+                last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.way_points = waypoint_list
