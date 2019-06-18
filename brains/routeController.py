@@ -13,8 +13,6 @@ import _thread
 from brains.angle import *
 from view import visionOutputView
 from brains.chooseBall import *
-from brains.preventRotation import preventRotation
-
 
 
 numberOfTries = 0

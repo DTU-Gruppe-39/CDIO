@@ -15,6 +15,7 @@ def pop_waypoint():
 def get_waypoint():
     return singleton.Singleton.way_points
 
+
 def waypoints(endPoint):
     minDist = 0
     closestToBall_index = 0
