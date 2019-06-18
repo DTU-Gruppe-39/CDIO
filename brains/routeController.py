@@ -183,7 +183,6 @@ def main():
     while True:
         print("\033[1;36m" + "While loop start" + "\033[0m")
         singleton.Singleton.is_dangerous = False
-        singleton.Singleton.is_in_obstacle = False
         visionController.captureFrame()
         balls = singleton.Singleton.balls
         robot = singleton.Singleton.robot
@@ -265,9 +264,12 @@ def main():
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         elif singleton.Singleton.is_in_obstacle:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(15, 110, 600)
+                            print("Før cross attack")
+                            robotController.createCommandCrossAttack(15, 110, 15, 600)
+                            print("Cross attack")
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            singleton.Singleton.is_in_obstacle = False
                         else:
                             robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
                             setChosenBall(None)
