@@ -153,10 +153,10 @@ def goForGoal(expectedNumberOfBallsLeft):
                 if angle >= 3:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTriesToAlign = numberOfTriesToAlign + 1
-                    if numberOfTriesToAlign > 5:
+                    # if numberOfTriesToAlign > 5:
                         #bak robotten, og prøv at align igen
-                        robotController.createCommandTank(-20, -20, 360)
-                        numberOfTriesToAlign = 0
+                        # robotController.createCommandTank(-20, -20, 360)
+                        # numberOfTriesToAlign = 0
                 else:
                     moreBallsThanExpected()
                     robotController.createCommandTank(20, 20, 590)
@@ -197,7 +197,7 @@ def main():
             waypoints = singleton.Singleton.way_points
             visionOutputView.showImage()
             if len(singleton.Singleton.way_points) is not 0:
-                print("List af wawypoints: " + str(singleton.Singleton.way_points)   )
+                print("List af wawypoints: " + str(singleton.Singleton.way_points))
                 print("waypoint x: " + str(waypoints[0].x))
         numberOfBalls = numberOfBallsLeft()
 
@@ -210,10 +210,10 @@ def main():
                 twoBallsLeft = False
                 goForGoal(numberOfBalls)
             else:
-                # if len(waypoints) > 1:
-                #     if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 15:
-                #         print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
-                #         waypoint.pop_waypoint()
+                if len(waypoints) > 1:
+                    if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 5:
+                        print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
+                        waypoint.pop_waypoint()
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
@@ -241,11 +241,11 @@ def main():
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
                     dist = distanceToBall(waypoints[0], robot)
-                    robotController.drive_forward(dist - 40, pix_pr_cm, slow_forwardSpeed)
+                    robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(10, 110, 600)
+                            robotController.createCommandWall(15, 110, 600)
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         else:
