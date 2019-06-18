@@ -5,7 +5,7 @@ from brains.robotController import calc_pix_dist
 from shapely.geometry import LineString
 from brains import lines
 from model import point
-from model import Obstacle
+from model import obstacle
 
 
 def pop_waypoint():
