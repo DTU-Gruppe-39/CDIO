@@ -21,7 +21,6 @@ class Singleton:
     is_in_obstacle = False
     clockWise = False
     img = None
-    isCorner = [False, False, False, False]
 
     chosenBall = None
 

@@ -73,7 +73,7 @@ def waypoints(endPoint):
     safe_point_dist_to_robot = []
     obstacleDanger = round(track.pixelConversion * 10)
 
-
+    
     # for i in range(len(safe_points)):
     #     dist = calc_pix_dist(endPoint.x, endPoint.y, safe_points[i].x, safe_points[i].y)
     #     if minDist == 0:
@@ -149,8 +149,6 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
-            singleton.Singleton.isCorner[0] = True
-            singleton.Singleton.clockWise = False
             singleton.Singleton.is_in_obstacle = False
             return
 
@@ -162,8 +160,6 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
-            singleton.Singleton.isCorner[1] = True
-            singleton.Singleton.clockWise = True
             singleton.Singleton.is_in_obstacle = False
             return
 
@@ -175,8 +171,6 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
-            singleton.Singleton.isCorner[2] = True
-            singleton.Singleton.clockWise = True
             singleton.Singleton.is_in_obstacle = False
             return
 
@@ -188,8 +182,6 @@ def waypoints(endPoint):
             waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
-            singleton.Singleton.isCorner[3] = True
-            singleton.Singleton.clockWise = False
             singleton.Singleton.is_in_obstacle = False
             return
 

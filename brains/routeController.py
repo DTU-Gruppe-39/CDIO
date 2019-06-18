@@ -43,7 +43,6 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
     return pix_dist
 
 
-
 def chooseBall(balls):
     global numberOfTries
 
@@ -262,29 +261,24 @@ def main():
                     dist = distanceToBall(waypoints[0], robot)
                     robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
-                        for i, corner in singleton.Singleton.isCorner:
-                            if corner[i] == True:
-                                robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                                robotController.turn(20, singleton.Singleton.clockWise, turnSpeed)
-                                robotController.drive_forward(-10 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                                robotController.turn(20, singleton.Singleton.clockWise, turnSpeed)
-                                robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                                corner[i] = False
-                    elif singleton.Singleton.is_dangerous:
-                        robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                        robotController.createCommandWall(15, 110, 600)
-                        setChosenBall(None)
-                        robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                    elif singleton.Singleton.is_in_obstacle:
-                        robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                        robotController.createCommandWall(15, 110, 600)
-                        setChosenBall(None)
-                        robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                    else:
-                        robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
-                        setChosenBall(None)
-                    # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
-                waypoint.pop_waypoint()
+                        if singleton.Singleton.is_dangerous:
+                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.createCommandWall(15, 110, 600)
+                            setChosenBall(None)
+                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                        elif singleton.Singleton.is_in_obstacle:
+                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            print("Før cross attack")
+                            robotController.createCommandCrossAttack(15, 110, 15, 600)
+                            print("Cross attack")
+                            setChosenBall(None)
+                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            singleton.Singleton.is_in_obstacle = False
+                        else:
+                            robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
+                            setChosenBall(None)
+                        # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+                    waypoint.pop_waypoint()
         else:
             #no balls left
             if zeroBallsLeft:
