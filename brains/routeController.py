@@ -115,7 +115,7 @@ def checker(angle):
 
 def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
-    print("\n\nDriving to goal")
+    print("\n\n\033[1;32m" + "Driving to goal" + "\033[0m")
     singleton.Singleton.is_going_for_goal = True
     completed = False
     aligned = False
@@ -126,7 +126,7 @@ def goForGoal(expectedNumberOfBallsLeft):
     goalCord = wpGoal.getWpGoal(False)
     waypoint.waypoints(goalCord)
     waypoints = singleton.Singleton.way_points
-    print("\033[1;32m" + "Goal cord: " + str(goalCord) + "\033[0m")
+    print("Goal cord: " + str(waypoints))
     while not completed:
         if len(waypoints) is not 0:
             visionController.captureFrame()
@@ -135,7 +135,7 @@ def goForGoal(expectedNumberOfBallsLeft):
             # obstacle = Singleton.obstacle
             track = singleton.Singleton.track
             pix_pr_cm = track.pixelConversion
-            angle = calculateAngle(waypoints[0], robot)
+            angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
         if angle >= 5:
             if len(waypoints) is not 0:
                 robotController.turn(angle, getclockWise(), turnSpeed)
@@ -151,12 +151,12 @@ def goForGoal(expectedNumberOfBallsLeft):
                     numberOfTriesToAlign = 0
         else:
             # Drive forward to waypoint/ball
-            if len(waypoints) is not 0:
+            if len(waypoints) != 0:
                 numberOfTriesToAlign = 0
-                dist = distanceToWaypoint(waypoints[0], [robot.centrumX, robot.centrumY])
+                dist = distanceToWaypoint((waypoints[0].x, waypoints[0].y), [robot.centrumX, robot.centrumY])
                 robotController.drive_forward(dist, pix_pr_cm, 50)
                 waypoint.pop_waypoint()
-            if len(waypoints) is 0:
+            if len(waypoints) == 0:
                 while not aligned:
                     visionController.captureFrame()
                     # balls = singleton.Singleton.balls
