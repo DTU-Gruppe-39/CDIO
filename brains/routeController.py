@@ -92,10 +92,13 @@ def moreBallsThanExpected():
     numberOfBall = numberOfBallsLeft()
     if numberOfBall > 6:
         sixBallsLeft = True
+        twoBallsLeft = True
+        zeroBallsLeft = False
         # print("Unexpected extra ball, ABORTING go for goal")
         # break
     elif numberOfBall > 2:
         twoBallsLeft = True
+        zeroBallsLeft = False
         # print("Unexpected extra ball, ABORTING go for goal")
         # break
     elif numberOfBall > 0:
@@ -172,6 +175,7 @@ def goForGoal(expectedNumberOfBallsLeft):
     print("Go for goal done\n")
     singleton.Singleton.way_points.clear()
     setChosenBall(None)
+    moreBallsThanExpected()
 
 
 def main():
