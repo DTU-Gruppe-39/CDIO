@@ -57,6 +57,10 @@ def chooseBall(balls):
             return getChosenBall()
         else:
             if numberOfTries >= maxNumberOfTries:
+                if numberOfBallsLeft() == 1:
+                    print("\033[1;33m" + "Cant reach last ball, so going for goal to get a better position" + "\033[0m")
+                    goForGoal(0)
+
                 print("\033[1;33m" + "Maximum number of tries reached, picking a new ball" + "\033[0m")
                 numberOfTries = 0
                 singleton.Singleton.way_points.clear()
@@ -126,7 +130,7 @@ def goForGoal(expectedNumberOfBallsLeft):
             if numberOfTriesToAlign >= 3:
                 # bak robotten, og prøv at align igen
                 # Tjek evt hvilken vej den peger, så man kan køre væk fra målet
-                robotController.createCommandTank(-20, -20, 720)
+                # robotController.createCommandTank(-20, -20, 720)
                 numberOfTriesToAlign = 0
         else:
             # Drive forward to waypoint/ball
