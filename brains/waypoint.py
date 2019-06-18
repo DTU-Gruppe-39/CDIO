@@ -103,7 +103,7 @@ def waypoints(endPoint):
     if endPoint is not None:
         direct_path_line = LineString([(robot_center[0], robot_center[1]), (endPoint.x,  endPoint.y)])
         # If the ball is inside the bounding square of the obstacle
-        if obstacle.square_bottom_right_corner.x >= endPoint.x <= obstacle.square_top_left_corner.x and obstacle.square_bottom_right_corner.y >= endPoint.y <= obstacle.square_top_left_corner.y:
+        if obstacle.square_bottom_right_corner.x >= endPoint.x >= obstacle.square_top_left_corner.x and obstacle.square_bottom_right_corner.y >= endPoint.y >= obstacle.square_top_left_corner.y:
             print("Ball is inside the obstacle!")
             projected_point_x = ((endPoint.x - obstacle.center_x) * line_length) + obstacle.center_x
             projected_point_y = ((endPoint.y - obstacle.center_y) * line_length) + obstacle.center_y
