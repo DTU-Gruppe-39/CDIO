@@ -186,7 +186,6 @@ def main():
     start = time.time()
     while True:
         print("\033[1;36m" + "While loop start" + "\033[0m")
-        singleton.Singleton.is_dangerous = False
         visionController.captureFrame()
         balls = singleton.Singleton.balls
         robot = singleton.Singleton.robot

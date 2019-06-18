@@ -13,12 +13,12 @@ def getRobot(img):
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
 
     boundaries = [
-        ([27, 15, 20], [35, 255, 255])
+        ([27, 50, 20], [35, 255, 255])
     ]
 
     boundaries1 = [
         # Dag kørsel:
-        ([120, 35, 20], [170, 255, 255])
+        ([120, 60, 20], [168, 255, 255])
 
         #Nat kørsel:
         # ([140, 40, 10], [190, 255, 255])
