@@ -54,6 +54,17 @@ def createCommandWall(speed, arm_degrees,tank_degrees):
     return networking.sendCommand(message)
 
 
+def createCommandCrossAttack(speed, arm_degrees, cross_arm_degrees, tank_degrees):
+    message = {
+        "type": "cross",
+        "speed": speed,
+        "tank_degrees": tank_degrees,
+        "arm_degrees": arm_degrees,
+        "cross_arm_degrees": cross_arm_degrees
+    }
+    return networking.sendCommand(message)
+
+
 def createCommandDeliver():
     message = {
         "type": "deliver"
