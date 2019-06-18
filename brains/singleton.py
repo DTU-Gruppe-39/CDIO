@@ -18,6 +18,7 @@ class Singleton:
     way_points = []
     safe_points = []
     is_dangerous = False
+    is_in_obstacle = False
     clockWise = False
     img = None
 

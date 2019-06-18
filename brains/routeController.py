@@ -178,6 +178,8 @@ def main():
     start = time.time()
     while True:
         print("\033[1;36m" + "While loop start" + "\033[0m")
+        singleton.Singleton.is_dangerous = False
+        singleton.Singleton.is_in_obstacle = False
         visionController.captureFrame()
         balls = singleton.Singleton.balls
         robot = singleton.Singleton.robot
@@ -221,16 +223,27 @@ def main():
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
                     if len(waypoints) > 1:
-                        print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
-                        print("MERE END 1 WAYPOINT TILBAGE")
-                        print("Antal af Waypoints: " + str(len(waypoints)))
-                        robotController.drive_forward(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]), pix_pr_cm, forwardSpeed)
-                        waypoint.pop_waypoint()
-                        print("POPPER ET WAYPOINT")
-                        print("Antal af Waypoints: " + str(len(waypoints)))
+                        if singleton.Singleton.is_in_obstacle:
+                            print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.blSquareX, robot.blSquareY]) / pix_pr_cm))
+                            print("MERE END 1 WAYPOINT TILBAGE")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                            robotController.drive_forward(
+                                distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.blSquareX, robot.blSquareY]),
+                                pix_pr_cm, forwardSpeed)
+                            waypoint.pop_waypoint()
+                            print("POPPER ET WAYPOINT")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                        else:
+                            print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
+                            print("MERE END 1 WAYPOINT TILBAGE")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                            robotController.drive_forward(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]), pix_pr_cm, forwardSpeed)
+                            waypoint.pop_waypoint()
+                            print("POPPER ET WAYPOINT")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
                     else:
                         print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
-                        print("MINDRE END 1 WAYPOINT TILBAGE")
+                        print("1 WAYPOINT TILBAGE")
                         print("Antal af Waypoints: " + str(len(waypoints)))
                         robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
                     # waypoint.pop_waypoint()
@@ -242,6 +255,11 @@ def main():
                     robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
+                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.createCommandWall(15, 110, 600)
+                            setChosenBall(None)
+                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                        elif singleton.Singleton.is_in_obstacle:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             robotController.createCommandWall(15, 110, 600)
                             setChosenBall(None)
