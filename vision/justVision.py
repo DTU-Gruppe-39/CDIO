@@ -44,7 +44,6 @@ while True:
 
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
 
-    getObstacle(copy.deepcopy(img))
 
     # robot = getRobot(img)
 
