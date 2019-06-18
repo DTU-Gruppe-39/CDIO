@@ -247,11 +247,11 @@ def main():
                     # print("Foran drive")
                     if len(waypoints) > 1:
                         if singleton.Singleton.is_in_obstacle:
-                            print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.blSquareX, robot.blSquareY]) / pix_pr_cm))
+                            print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
                             print("MERE END 1 WAYPOINT TILBAGE")
                             print("Antal af Waypoints: " + str(len(waypoints)))
                             robotController.drive_forward(
-                                distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.blSquareX, robot.blSquareY]),
+                                distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]),
                                 pix_pr_cm, forwardSpeed)
                             waypoint.pop_waypoint()
                             print("POPPER ET WAYPOINT")
