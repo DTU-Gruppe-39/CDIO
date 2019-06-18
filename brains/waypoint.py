@@ -213,9 +213,9 @@ def waypoints(endPoint):
             avoid_obstacle(endPoint)
             if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
                 if robot.centrumX < endPoint.x:
-                    last_waypoint = point.Point(round(obstacle.center_x - 15), round(endPoint.y - sideSafePoint))
+                    last_waypoint = point.Point(round(obstacle.center_x - track.pixelConversion*10), round(endPoint.y - sideSafePoint))
                 elif obstacle.center_x > endPoint.x:
-                    last_waypoint = point.Point(round(obstacle.center_x + 15), round(endPoint.y - sideSafePoint))
+                    last_waypoint = point.Point(round(obstacle.center_x + track.pixelConversion*10), round(endPoint.y - sideSafePoint))
             else:
                 last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
 
@@ -231,9 +231,9 @@ def waypoints(endPoint):
             avoid_obstacle(endPoint)
             if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
                 if robot.centrumX < endPoint.x:
-                    last_waypoint = point.Point(round(obstacle.center_x - 15), round(endPoint.y + sideSafePoint))
+                    last_waypoint = point.Point(round(obstacle.center_x - track.pixelConversion*10), round(endPoint.y + sideSafePoint))
                 elif robot.centrumX > endPoint.x:
-                    last_waypoint = point.Point(round(obstacle.center_x + 15), round(endPoint.y + sideSafePoint))
+                    last_waypoint = point.Point(round(obstacle.center_x + track.pixelConversion*10), round(endPoint.y + sideSafePoint))
             else:
                 last_waypoint = point.Point(round(endPoint.x), round(endPoint.y + sideSafePoint))
             waypoint_list.append(last_waypoint)
