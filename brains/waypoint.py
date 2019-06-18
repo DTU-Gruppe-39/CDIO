@@ -243,7 +243,7 @@ def waypoints(endPoint):
             return
         elif singleton.Singleton.is_going_for_goal:
             print("Is going for goal")
-            avoidance = round(10* track.pixelConversion)
+            avoidance = round(10 * track.pixelConversion)
             avoid_obstacle(endPoint)
             waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
