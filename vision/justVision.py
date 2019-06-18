@@ -1,17 +1,12 @@
-import numpy as np
 import cv2
 import copy
 
-from brains.detectTrack import getTrack
-from brains.detectBalls import getBalls
-from brains.detectRobotBox import getRobot
-from brains.detectObstacle import getObstacle
-from brains.lines import getPointFromTwoLines
+from vision.detectTrack import getTrack
+from vision.detectBalls import getBalls
+from vision.detectRobotBox import getRobot
+from vision.detectObstacle import getObstacle
 import brains.singleton as singleton
 
-from model import ball
-from model import track
-from model import obstacle
 from view import visionOutputView
 
 

@@ -1,14 +1,8 @@
-import time
-
-from brains.detectBalls import getBalls
-import math
 import numpy as np
-import imutils
 import cv2
 from model import robot
 from model import point
 from brains.correction import point_correction
-from imutils import contours
 
 
 def getRobot(img):
