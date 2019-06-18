@@ -124,7 +124,8 @@ def goForGoal(expectedNumberOfBallsLeft):
     # robotController.createCommandDeliver()
     #False for left goal
     goalCord = wpGoal.getWpGoal(False)
-    waypoints = waypoint.waypoints(goalCord)
+    waypoint.waypoints(goalCord)
+    waypoints = singleton.Singleton.way_points
     print("\033[1;32m" + "Goal cord: " + str(goalCord) + "\033[0m")
     while not completed:
         if len(waypoints) is not 0:
