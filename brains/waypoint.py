@@ -49,11 +49,12 @@ def avoid_obstacle(endPoint):
                     dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y,
                                           safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                     if dist3 < dist4:
-                        first_waypoint = safe_points[safe_point_index1]
+                        first_waypoint = point.Point(safe_points[safe_point_index1].x, safe_points[safe_point_index1].y)
                     else:
-                        first_waypoint = safe_points[safe_point_index]
+                        first_waypoint = point.Point(safe_points[safe_point_index].x, safe_points[safe_point_index].y)
             waypoint_list.append(first_waypoint)
-            waypoint_list.append(safe_points[closestToBall_index])
+            second_waypoint = point.Point(safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
+            waypoint_list.append(second_waypoint)
 
 
 def waypoints(endPoint):
@@ -68,6 +69,7 @@ def waypoints(endPoint):
     robot = singleton.Singleton.robot
     robot_center = (robot.centrumX, robot.centrumY)
     obstacle = singleton.Singleton.obstacle
+    singleton.Singleton.way_points.clear()
     waypoint_list = singleton.Singleton.way_points
     safe_points = singleton.Singleton.safe_points
     safe_point_dist_to_robot = []
@@ -129,9 +131,9 @@ def waypoints(endPoint):
                     safe_point_index = safe_point_dist_to_robot[i][1]
                     dist4 = calc_pix_dist(safe_points[safe_point_index].x, safe_points[safe_point_index].y, safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                     if dist3 < dist4:
-                        first_waypoint = safe_points[safe_point_index1]
+                        first_waypoint = point.Point(safe_points[safe_point_index1].x, safe_points[safe_point_index1].y)
                     else:
-                        first_waypoint = safe_points[safe_point_index]
+                        first_waypoint = point.Point(safe_points[safe_point_index].x, safe_points[safe_point_index].y)
 
             waypoint_list.append(first_waypoint)
             waypoint_list.append(safe_points[closestToBall_index])

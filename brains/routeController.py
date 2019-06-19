@@ -142,6 +142,8 @@ def goForGoal(expectedNumberOfBallsLeft):
                 if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                     print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                     moreBallsThanExpected()
+                    singleton.Singleton.way_points.clear()
+                    setChosenBall(None)
                     break
                 numberOfTriesToAlign = numberOfTriesToAlign + 1
                 if numberOfTriesToAlign >= 3:
@@ -171,6 +173,8 @@ def goForGoal(expectedNumberOfBallsLeft):
                     if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                         print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                         moreBallsThanExpected()
+                        singleton.Singleton.way_points.clear()
+                        setChosenBall(None)
                         break
                     if angle >= 3:
                         robotController.turn(angle, getclockWise(), turnSpeed)
@@ -184,11 +188,16 @@ def goForGoal(expectedNumberOfBallsLeft):
                         robotController.createCommandTank(20, 20, 590)
                         robotController.createCommandDeliver()
                         robotController.createCommandTank(-20, -20, 400)
+                        print("\n\n\033[1;32m" + "Balls delivered to goal" + "\033[0m")
                         aligned = True
+                        singleton.Singleton.way_points.clear()
+                        setChosenBall(None)
                         break
-            completed = True
-            break
-    print("Go for goal done\n")
+                completed = True
+                singleton.Singleton.way_points.clear()
+                setChosenBall(None)
+                break
+    print("Go for goal done\n\n")
     singleton.Singleton.way_points.clear()
     setChosenBall(None)
     moreBallsThanExpected()
@@ -213,6 +222,7 @@ def main():
         # Check if robot point is in rotation danger zone
         # if preventRotation():
         #     robotController.createCommandTank(-20, -20, 360)
+        moreBallsThanExpected()
         ball = chooseBall(balls)
 
         if len(singleton.Singleton.way_points) == 0:
@@ -274,21 +284,26 @@ def main():
                     print("ER UNDER CUTOFFPOINTET")
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
-                    dist = distanceToBall(waypoints[0], robot)
-                    robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
+                    if len(waypoints) > 1:
+                        dist = distanceToWaypoint((waypoints[0].x, waypoints[0].y), (robot.centrumX, robot.centrumY))
+                        robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
+                    else:
+                        dist = distanceToBall(waypoints[0], robot)
+                        robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(15, 110, 600)
+                            robotController.createCommandWall(15, 110, 600, 600)
                             setChosenBall(None)
-                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         elif singleton.Singleton.is_in_obstacle:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             print("Før cross attack")
-                            robotController.createCommandCrossAttack(15, 110, 15, 600)
+                            robotController.createCommandCrossAttack(15, 110, 15, 600, 360)
                             print("Cross attack")
+                            robotController.createCommandTank(-slow_forwardSpeed, -slow_forwardSpeed, 360)
                             setChosenBall(None)
-                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             singleton.Singleton.is_in_obstacle = False
                         else:
                             robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)

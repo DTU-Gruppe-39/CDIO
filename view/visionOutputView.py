@@ -35,12 +35,14 @@ def showImage():
                  (singleton.Singleton.chosenBall.x, singleton.Singleton.chosenBall.y), (0,0,255), 2)
 
     if len(singleton.Singleton.way_points) != 0:
-        for wp in singleton.Singleton.way_points:
-            cv2.circle(img, (int(wp.x), int(wp.y)), 3, (255, 255, 255), -1)
-
         cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),
                  (int(singleton.Singleton.way_points[0].x), int(singleton.Singleton.way_points[0].y)), (0, 255, 0), thickness=3, lineType=8)
-
+        count = 0
+        for wp in singleton.Singleton.way_points:
+            cv2.circle(img, (int(wp.x), int(wp.y)), 3, (255, 0, 0), 5)
+            cv2.putText(img, "WP: " + str(count), (int(wp.x), int(wp.y)), cv2.FONT_HERSHEY_SIMPLEX, 1.0,
+                        (255, 255, 255), 2)
+            count +=1
 
     if track.bottomLeftCorner.x is not None:
         # Draw bottom line, 180 cm

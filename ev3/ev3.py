@@ -55,7 +55,7 @@ def cmdHandler(cmd):
             front.on_for_degrees(-cmd['speed'], cmd['arm_degrees'])
             tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
             front.on_for_degrees(cmd['speed'], cmd['arm_degrees'])
-            tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
+            tank_drive.on_for_degrees(-cmd['speed']*2, -cmd['speed']*2, cmd['tank_degrees_reverse'])
             sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav',  play_type=1)
         if cmd['type'] == "cross":
             front.on_for_degrees(10, 45)
@@ -63,9 +63,9 @@ def cmdHandler(cmd):
             front.on_for_degrees(-cmd['speed'], cmd['arm_degrees'])
             tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
             front.on_for_degrees(cmd['speed'], cmd['cross_arm_degrees']) #close a little
-            tank_drive.on_for_degrees(-cmd['speed'], -cmd['speed'], round(cmd['tank_degrees'] / 10))
+            tank_drive.on_for_degrees(-cmd['speed'], -cmd['speed'], round(cmd['tank_degrees_reverse']))
             front.on_for_degrees(cmd['speed'], cmd['arm_degrees'] - cmd['cross_arm_degrees'])
-            tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
+            # tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
             sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav',  play_type=1)
         if cmd['type'] == "w":
             tank_drive.on(30, 30)
