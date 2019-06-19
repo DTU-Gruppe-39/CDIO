@@ -64,7 +64,8 @@ def chooseBall(balls):
                 print("\033[1;33m" + "Maximum number of tries reached, picking a new ball" + "\033[0m")
                 numberOfTries = 0
                 singleton.Singleton.way_points.clear()
-                setChosenBall(balls[0])
+                balls.remove(getChosenBall())
+                setChosenBall(findBestBall(balls))
                 return getChosenBall()
             else:
                 return getChosenBall()
