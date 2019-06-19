@@ -53,8 +53,10 @@ def avoid_obstacle(endPoint):
                     else:
                         first_waypoint = point.Point(safe_points[safe_point_index].x, safe_points[safe_point_index].y)
             waypoint_list.append(first_waypoint)
-            second_waypoint = point.Point(safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
-            waypoint_list.append(second_waypoint)
+            direct_path_line = LineString([(first_waypoint.x, first_waypoint.y), (endPoint.x, endPoint.y)])
+            if lines.areLineTouchingObstacleSquare(direct_path_line):
+                second_waypoint = point.Point(safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
+                waypoint_list.append(second_waypoint)
 
 
 def waypoints(endPoint):
