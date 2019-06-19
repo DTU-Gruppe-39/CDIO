@@ -104,15 +104,6 @@ def moreBallsThanExpected():
         zeroBallsLeft = False
 
 
-def checker(angle):
-    if angle is not None:
-        if angle >= 5:
-            return True
-        else:
-            return False
-    else:
-        return True
-
 def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
     print("\n\n\033[1;32m" + "Driving to goal" + "\033[0m")
@@ -136,7 +127,7 @@ def goForGoal(expectedNumberOfBallsLeft):
             track = singleton.Singleton.track
             pix_pr_cm = track.pixelConversion
             angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
-        if angle >= 5:
+        if angle >= 4:
             if len(waypoints) is not 0:
                 robotController.turn(angle, getclockWise(), turnSpeed)
                 if numberOfBallsLeft() > expectedNumberOfBallsLeft:
@@ -247,7 +238,7 @@ def main():
                     if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 5:
                         print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
                         waypoint.pop_waypoint()
-                if not angle < 5:
+                if not angle < 4:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
                     print("PRØVER AT TURNE TIL PUNKT")
@@ -296,6 +287,7 @@ def main():
                             robotController.drive_forward(-2 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             robotController.createCommandWall(15, 110, 460, 400)
                             if singleton.Singleton.wallOnLeftCorner:
+                                print("")
                                 robotController.createCommandTank(-50, -30, 900)
                                 singleton.Singleton.wallOnLeftCorner = False
                             if singleton.Singleton.wallOnRightCorner:
@@ -313,7 +305,7 @@ def main():
                             # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             singleton.Singleton.is_in_obstacle = False
                         else:
-                            robotController.createCommandAttack(attackSpeed, 220, frontArmDegrees)
+                            robotController.createCommandAttack(attackSpeed, 240, frontArmDegrees)
                             setChosenBall(None)
                         # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
                     waypoint.pop_waypoint()
