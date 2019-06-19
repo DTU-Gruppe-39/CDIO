@@ -48,8 +48,8 @@ def cmdHandler(cmd):
             time.sleep(2)
             back.on_for_degrees(-10, 90)
             time.sleep(1)
-            front.on_for_degrees(-20, 225)
-            front.on_for_degrees(20, 45)
+            front.on_for_degrees(-20, 270)
+            front.on_for_degrees(20, 90)
         if cmd['type'] == "wall":
             front.on_for_degrees(10, 45)
             front.on_for_degrees(-10, 45)
