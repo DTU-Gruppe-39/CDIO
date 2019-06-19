@@ -313,7 +313,7 @@ def main():
                             # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             singleton.Singleton.is_in_obstacle = False
                         else:
-                            robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
+                            robotController.createCommandAttack(attackSpeed, 220, frontArmDegrees)
                             setChosenBall(None)
                         # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
                     waypoint.pop_waypoint()
