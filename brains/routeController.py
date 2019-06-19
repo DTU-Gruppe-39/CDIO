@@ -295,12 +295,12 @@ def main():
                         if singleton.Singleton.is_dangerous:
                             #TODO might need to be added again
                             robotController.drive_forward(-2 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(15, 110, 600, 400)
+                            robotController.createCommandWall(15, 110, 460, 400)
                             if singleton.Singleton.wallOnLeftCorner:
-                                robotController.createCommandTank(-40, -30, 400)
+                                robotController.createCommandTank(-30, -45, 600)
                                 singleton.Singleton.wallOnLeftCorner = False
                             if singleton.Singleton.wallOnRightCorner:
-                                robotController.createCommandTank(-30, -40, 400)
+                                robotController.createCommandTank(-45, -30, 600)
                                 singleton.Singleton.wallOnRightCorner = False
                             setChosenBall(None)
                             # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
