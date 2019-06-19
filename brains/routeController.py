@@ -284,7 +284,7 @@ def main():
                     # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
                     # print("degrees" + str(degrees))
                     if len(waypoints) > 1:
-                        dist = distanceToWaypoint((waypoints[0].x, waypoints[0].x), (robot.centrumX, robot.centrumY))
+                        dist = distanceToWaypoint((waypoints[0].x, waypoints[0].y), (robot.centrumX, robot.centrumY))
                         robotController.drive_forward(dist, pix_pr_cm, slow_forwardSpeed)
                     else:
                         dist = distanceToBall(waypoints[0], robot)
