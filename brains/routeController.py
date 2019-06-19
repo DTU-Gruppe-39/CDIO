@@ -294,7 +294,7 @@ def main():
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
                             #TODO might need to be added again
-                            # robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.drive_forward(-2 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             robotController.createCommandWall(15, 110, 600, 400)
                             if singleton.Singleton.wallOnLeftCorner:
                                 robotController.createCommandTank(-40, -30, 400)
