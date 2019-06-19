@@ -142,6 +142,8 @@ def goForGoal(expectedNumberOfBallsLeft):
                 if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                     print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                     moreBallsThanExpected()
+                    singleton.Singleton.way_points.clear()
+                    setChosenBall(None)
                     break
                 numberOfTriesToAlign = numberOfTriesToAlign + 1
                 if numberOfTriesToAlign >= 3:
@@ -171,6 +173,8 @@ def goForGoal(expectedNumberOfBallsLeft):
                     if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                         print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                         moreBallsThanExpected()
+                        singleton.Singleton.way_points.clear()
+                        setChosenBall(None)
                         break
                     if angle >= 3:
                         robotController.turn(angle, getclockWise(), turnSpeed)
@@ -186,8 +190,12 @@ def goForGoal(expectedNumberOfBallsLeft):
                         robotController.createCommandTank(-20, -20, 400)
                         print("\n\n\033[1;32m" + "Balls delivered to goal" + "\033[0m")
                         aligned = True
+                        singleton.Singleton.way_points.clear()
+                        setChosenBall(None)
                         break
                 completed = True
+                singleton.Singleton.way_points.clear()
+                setChosenBall(None)
                 break
     print("Go for goal done\n\n")
     singleton.Singleton.way_points.clear()
