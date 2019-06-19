@@ -23,7 +23,7 @@ while True:
     singleton.Singleton.img = copy.deepcopy(img)
 
     singleton.Singleton.balls = getBalls(copy.deepcopy(img))
-    singleton.Singleton.robot = getRobot(copy.deepcopy(img))
+    # singleton.Singleton.robot = getRobot(copy.deepcopy(img))
     singleton.Singleton.track = getTrack(copy.deepcopy(img))
     singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
 
