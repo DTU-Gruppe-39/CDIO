@@ -23,6 +23,8 @@ class Singleton:
     clockWise = False
     img = None
     firstBall = True
+    wallOnLeftCorner = False
+    wallOnRightCorner = False
 
     chosenBall = None
 
