@@ -290,7 +290,7 @@ def main():
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             robotController.createCommandWall(15, 110, 600, 600)
                             setChosenBall(None)
-                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         elif singleton.Singleton.is_in_obstacle:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             print("Før cross attack")
