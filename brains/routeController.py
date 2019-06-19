@@ -288,14 +288,15 @@ def main():
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(15, 110, 600)
+                            robotController.createCommandWall(15, 110, 600, 600)
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         elif singleton.Singleton.is_in_obstacle:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             print("Før cross attack")
-                            robotController.createCommandCrossAttack(15, 110, 15, 600)
+                            robotController.createCommandCrossAttack(15, 110, 15, 600, 90)
                             print("Cross attack")
+                            #TODO tilføj evt bak
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             singleton.Singleton.is_in_obstacle = False
