@@ -287,7 +287,6 @@ def main():
                             robotController.drive_forward(-2 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             robotController.createCommandWall(15, 110, 460, 400)
                             if singleton.Singleton.wallOnLeftCorner:
-                                print("")
                                 robotController.createCommandTank(-50, -30, 900)
                                 singleton.Singleton.wallOnLeftCorner = False
                             if singleton.Singleton.wallOnRightCorner:
