@@ -294,9 +294,9 @@ def main():
                         elif singleton.Singleton.is_in_obstacle:
                             robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             print("Før cross attack")
-                            robotController.createCommandCrossAttack(15, 110, 15, 600, 90)
+                            robotController.createCommandCrossAttack(15, 110, 15, 600, 360)
                             print("Cross attack")
-                            #TODO tilføj evt bak
+                            robotController.createCommandTank(-slow_forwardSpeed, -slow_forwardSpeed, 360)
                             setChosenBall(None)
                             robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             singleton.Singleton.is_in_obstacle = False
