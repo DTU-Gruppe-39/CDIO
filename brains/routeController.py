@@ -297,10 +297,10 @@ def main():
                             robotController.drive_forward(-2 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             robotController.createCommandWall(15, 110, 460, 400)
                             if singleton.Singleton.wallOnLeftCorner:
-                                robotController.createCommandTank(-30, -45, 600)
+                                robotController.createCommandTank(-30, -50, 900)
                                 singleton.Singleton.wallOnLeftCorner = False
                             if singleton.Singleton.wallOnRightCorner:
-                                robotController.createCommandTank(-45, -30, 600)
+                                robotController.createCommandTank(-50, -30, 900)
                                 singleton.Singleton.wallOnRightCorner = False
                             setChosenBall(None)
                             # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
