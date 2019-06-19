@@ -184,11 +184,12 @@ def goForGoal(expectedNumberOfBallsLeft):
                         robotController.createCommandTank(20, 20, 590)
                         robotController.createCommandDeliver()
                         robotController.createCommandTank(-20, -20, 400)
+                        print("\n\n\033[1;32m" + "Balls delivered to goal" + "\033[0m")
                         aligned = True
                         break
-            completed = True
-            break
-    print("Go for goal done\n")
+                completed = True
+                break
+    print("Go for goal done\n\n")
     singleton.Singleton.way_points.clear()
     setChosenBall(None)
     moreBallsThanExpected()
