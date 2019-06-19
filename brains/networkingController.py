@@ -42,7 +42,7 @@ def sendCommand(command):
     try:
         if INIT:
             # tcpclient = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            tcpclient.connect((HOST,PORT))
+            tcpclient.connect((HOST, PORT))
             INIT = False
 
         # tcpclient.
@@ -56,7 +56,8 @@ def sendCommand(command):
         msg = json.loads(data.decode())
 
         printRobotStatus(msg)
-    except KeyboardInterrupt:
+    except Exception as e:
+        print(e)
         print("Exiting..")
         tcpclient.close()
         time.sleep(1)

@@ -6,7 +6,7 @@ wheelCircunference = 3 * math.pi
 wheelBase = 12.5
 
 
-def createCommandTank (left, right, degrees):
+def createCommandTank(left, right, degrees):
     message = {
         "type": "tank_drive",
         "left": left,
@@ -16,7 +16,7 @@ def createCommandTank (left, right, degrees):
     return networking.sendCommand(message)
 
 
-def createCommandFront (speed, degrees):
+def createCommandFront(speed, degrees):
     message = {
         "type": "front",
         "speed": speed,
@@ -25,7 +25,7 @@ def createCommandFront (speed, degrees):
     return networking.sendCommand(message)
 
 
-def createCommandBack (speed, degrees):
+def createCommandBack(speed, degrees):
     message = {
         "type": "back",
         "speed": speed,
@@ -34,7 +34,7 @@ def createCommandBack (speed, degrees):
     return networking.sendCommand(message)
 
 
-def createCommandAttack (speed, tank_degrees, front_degrees):
+def createCommandAttack(speed, tank_degrees, front_degrees):
     message = {
         "type": "attack",
         "left": speed,
@@ -44,10 +44,37 @@ def createCommandAttack (speed, tank_degrees, front_degrees):
     }
     return networking.sendCommand(message)
 
+def createCommandWall(speed, arm_degrees,tank_degrees):
+    message = {
+        "type": "wall",
+        "speed": speed,
+        "tank_degrees": tank_degrees,
+        "arm_degrees": arm_degrees
+    }
+    return networking.sendCommand(message)
 
-def createCommandDeliver ():
+
+def createCommandCrossAttack(speed, arm_degrees, cross_arm_degrees, tank_degrees):
+    message = {
+        "type": "cross",
+        "speed": speed,
+        "tank_degrees": tank_degrees,
+        "arm_degrees": arm_degrees,
+        "cross_arm_degrees": cross_arm_degrees
+    }
+    return networking.sendCommand(message)
+
+
+def createCommandDeliver():
     message = {
         "type": "deliver"
+    }
+    return networking.sendCommand(message)
+
+
+def createCommandSound():
+    message = {
+        "type": "sound"
     }
     return networking.sendCommand(message)
 
@@ -61,13 +88,13 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
 
 def drive_degrees(pix_dist, pix_pr_cm):
     dist = pix_dist / pix_pr_cm
-    drive_deg = math.floor((dist / wheelCircunference) * 360.0)
+    drive_deg = round((dist / wheelCircunference) * 360.0)
     return drive_deg
 
 
-def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
+def drive_forward(pix_dist, pix_pr_cm, speed):
     # Speed can be changed to hardcoded values corresponding to the scenario
-    pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
+    # pix_dist = calc_pix_dist(start_x, start_y, end_x, end_y)
     degrees = drive_degrees(pix_dist-14, pix_pr_cm)
     # Send msg NetworkCon
     return createCommandTank(speed, speed, degrees)
@@ -75,10 +102,9 @@ def drive_forward(start_x, start_y, end_x, end_y, pix_pr_cm, speed):
 
 def turn(angle, clockwise, speed):
     # Turn_speed can be changed to hardcoded values corresponding to the scenario
-    degrees = math.floor((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
-    if clockwise :
-      return createCommandTank(speed, -speed, degrees)
-
+    degrees = round((((wheelBase * math.pi) / 360)*angle / wheelCircunference) * 360.0)
+    if clockwise:
+        return createCommandTank(speed, -speed, degrees)
     else:
         return createCommandTank(-speed, speed, degrees)
     # Send msg to NetworkCon

@@ -11,16 +11,17 @@ import math
 import threading
 import _thread
 from brains.angle import *
-from ev3dev.ev3 import *
+from view import visionOutputView
+from brains.chooseBall import *
 
 
 numberOfTries = 0
-maxNumberOfTries = 5
-chosenBall = None
+maxNumberOfTries = 10
 turnSpeed = 20
-forwardSpeed = 30
+forwardSpeed = 80
+slow_forwardSpeed = 30
 attackSpeed = 10
-distanceCutOffPoint = 20
+distanceCutOffPoint = 30
 frontArmDegrees = 360
 pix_pr_cm = None
 zeroBallsLeft = False
@@ -31,42 +32,7 @@ twoBallsLeft = True
 
 def endingRun():
     print("8 min has passed.\n Ending run.")
-    # _thread.interrupt_main()
-
-# def getAngle(cenBox, blPoint, cenBall):
-#     global clockwise
-#     ang = math.degrees(math.atan2(cenBall[1] - blPoint[1], cenBall[0] - blPoint[0]) - math.atan2(cenBox[1] - blPoint[1], cenBox[0] - blPoint[0]))
-#     rotation = (blPoint[0] - cenBox[0]) * (cenBall[1] - cenBox[1]) - (blPoint[1] - cenBox[1]) * (cenBall[0] - cenBox[0])
-#     if ang < 0 and rotation > 0:
-#         ang = ang + 180
-#         clockwise = True
-#     if ang > 180:
-#         ang = ang - 180
-#         clockwise = True
-#     if rotation < 0:
-#             ang = 180 - ang
-#             clockwise = False
-#             if ang > 180:
-#                 ang = ang - 360
-#                 clockwise = False
-#     return ang
-
-
-# def vector(vector):
-#     return vector / np.linalg.norm(vector)
-#
-#
-# def vectorAngle(v1, v2):
-#     v1_u = vector(v1)
-#     v2_u = vector(v2)
-#     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
-#
-#
-# def realVectorAngle(p1, p2, p3):
-#     v0 = np.array(p1) - np.array(p2)
-#     v1 = np.array(p3) - np.array(p2)
-#     angle = np.math.atan2(np.linalg.det([v0, v1]), np.dot(v0, v1))
-#     return np.degrees(angle)
+    _thread.interrupt_main()
 
 
 def calc_pix_dist(start_x, start_y, end_x, end_y):
@@ -77,31 +43,31 @@ def calc_pix_dist(start_x, start_y, end_x, end_y):
     return pix_dist
 
 
-def chooseBall(balls, robot):
-    global chosenBall, numberOfTries
+def chooseBall(balls):
+    global numberOfTries
 
     print("Choose ball")
     # return ball
     if numberOfBallsLeft() == 0:
         return None
     else:
-        if chosenBall is None:
-            chosenBall = balls[0]
-            return chosenBall
+        if getChosenBall() is None:
+            numberOfTries = 0
+            setChosenBall(findBestBall(balls))
+            return getChosenBall()
         else:
             if numberOfTries >= maxNumberOfTries:
+                if numberOfBallsLeft() == 1:
+                    print("\033[1;33m" + "Cant reach last ball, so going for goal to get a better position" + "\033[0m")
+                    goForGoal(0)
+
+                print("\033[1;33m" + "Maximum number of tries reached, picking a new ball" + "\033[0m")
                 numberOfTries = 0
-                chosenBall = balls[0]
-                return chosenBall
+                singleton.Singleton.way_points.clear()
+                setChosenBall(balls[0])
+                return getChosenBall()
             else:
-                return chosenBall
-
-
-# def calculateAngle(pointCord, robot):
-#     print("Calculate angle")
-#     ang = getAngle((robot.centrumX, robot.centrumY), (robot.blSquareX, robot.blSquareY), (pointCord[0], pointCord[1]))
-#     print("routeCon: angle is " + str(ang))
-#     return ang
+                return getChosenBall()
 
 
 def distanceToBall(ball, robot):
@@ -109,95 +75,143 @@ def distanceToBall(ball, robot):
     return calc_pix_dist(robot.blSquareX, robot.blSquareY, ball.x, ball.y)
 
 
-def distanceToWaypoint(point, robot):
+def distanceToWaypoint(point, robotpos):
     print("Calculate distance in pix")
-    return calc_pix_dist(robot.blSquareX, robot.blSquareY, point[0], point[1])
+    return calc_pix_dist(robotpos[0], robotpos[1], point[0], point[1])
 
 
 def numberOfBallsLeft():
-    print("Number of balls left on track: " + str(len(singleton.Singleton.balls)))
+    print("\033[1m" + "Number of balls left on track: " + "\033[0m" + "\033[1;34m" + str(len(singleton.Singleton.balls)) + "\033[0m")
 
     return len(singleton.Singleton.balls)
 
+
 def moreBallsThanExpected():
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
-    if numberOfBallsLeft() > 6:
+    numberOfBall = numberOfBallsLeft()
+    if numberOfBall > 6:
         sixBallsLeft = True
-        # print("Unexpected extra ball, ABORTING go for goal")
-        # break
-    elif numberOfBallsLeft() > 2:
         twoBallsLeft = True
+        zeroBallsLeft = False
         # print("Unexpected extra ball, ABORTING go for goal")
         # break
-    elif numberOfBallsLeft() > 0:
+    elif numberOfBall > 2:
+        twoBallsLeft = True
+        zeroBallsLeft = False
+        # print("Unexpected extra ball, ABORTING go for goal")
+        # break
+    elif numberOfBall > 0:
         zeroBallsLeft = False
 
 
+def checker(angle):
+    if angle is not None:
+        if angle >= 5:
+            return True
+        else:
+            return False
+    else:
+        return True
 
-def goForGoal(robot, expectedNumberOfBallsLeft):
+def goForGoal(expectedNumberOfBallsLeft):
     global zeroBallsLeft, twoBallsLeft, sixBallsLeft
-    print("\n\nDriving to goal")
+    print("\n\n\033[1;32m" + "Driving to goal" + "\033[0m")
+    singleton.Singleton.is_going_for_goal = True
     completed = False
     aligned = False
+    numberOfTriesToAlign = 0
     # robotController.turn(360, True, 40)
     # robotController.createCommandDeliver()
     #False for left goal
     goalCord = wpGoal.getWpGoal(False)
-    print("Goal cord: " + str(goalCord))
+    waypoint.waypoints(goalCord)
+    waypoints = singleton.Singleton.way_points
+    print("Goal cord: " + str(waypoints))
     while not completed:
-        visionController.captureFrame()
-        # balls = singleton.Singleton.balls
-        robot = singleton.Singleton.robot
-        # obstacle = Singleton.obstacle
-        track = singleton.Singleton.track
-        pix_pr_cm = track.pixelConversion
-        angle = calculateAngle(goalCord, robot)
+        if len(waypoints) is not 0:
+            visionController.captureFrame()
+            # balls = singleton.Singleton.balls
+            robot = singleton.Singleton.robot
+            # obstacle = Singleton.obstacle
+            track = singleton.Singleton.track
+            pix_pr_cm = track.pixelConversion
+            angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
         if angle >= 5:
-            robotController.turn(angle, getclockWise(), turnSpeed)
-            if numberOfBallsLeft() > expectedNumberOfBallsLeft:
-                print("Unexpected extra ball, ABORTING go for goal")
-                moreBallsThanExpected()
-                break
+            if len(waypoints) is not 0:
+                robotController.turn(angle, getclockWise(), turnSpeed)
+                if numberOfBallsLeft() > expectedNumberOfBallsLeft:
+                    print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
+                    moreBallsThanExpected()
+                    singleton.Singleton.way_points.clear()
+                    setChosenBall(None)
+                    break
+                numberOfTriesToAlign = numberOfTriesToAlign + 1
+                if numberOfTriesToAlign >= 3:
+                    # bak robotten, og prøv at align igen
+                    # Tjek evt hvilken vej den peger, så man kan køre væk fra målet
+                    # robotController.createCommandTank(-20, -20, 720)
+                    numberOfTriesToAlign = 0
         else:
             # Drive forward to waypoint/ball
-            robotController.drive_forward(robot.centrumX, robot.centrumY, goalCord[0], goalCord[1], pix_pr_cm, forwardSpeed)
-            while not aligned:
-                visionController.captureFrame()
-                # balls = singleton.Singleton.balls
-                robot = singleton.Singleton.robot
-                # obstacle = Singleton.obstacle
-                track = singleton.Singleton.track
-                pix_pr_cm = track.pixelConversion
-                goalCord = (track.bigGoal.x, track.bigGoal.y)
-                # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
-                angle = calculateAngle(goalCord, robot)
-                print ("\nRealvector angle: " + str(angle) + "\n")
-                if numberOfBallsLeft() > expectedNumberOfBallsLeft:
-                    print("Unexpected extra ball, ABORTING go for goal")
-                    moreBallsThanExpected()
-                    break
-                if angle >= 5:
-                    robotController.turn(angle, getclockWise(), turnSpeed)
-                else:
-                    moreBallsThanExpected()
-                    robotController.createCommandTank(20, 20, 360)
-                    robotController.createCommandDeliver()
-                    robotController.createCommandTank(-20, -20, 360)
-                    aligned = True
-                    break
-            completed = True
-            break
-    print("Go for goal done\n")
+            if len(waypoints) != 0:
+                numberOfTriesToAlign = 0
+                dist = distanceToWaypoint((waypoints[0].x, waypoints[0].y), [robot.centrumX, robot.centrumY])
+                robotController.drive_forward(dist, pix_pr_cm, 50)
+                waypoint.pop_waypoint()
+            if len(waypoints) == 0:
+                while not aligned:
+                    visionController.captureFrame()
+                    # balls = singleton.Singleton.balls
+                    robot = singleton.Singleton.robot
+                    # obstacle = Singleton.obstacle
+                    track = singleton.Singleton.track
+                    pix_pr_cm = track.pixelConversion
+                    goalCord = (track.bigGoal.x, track.bigGoal.y)
+                    # angle = realVectorAngle(goalCord, [robot.centrumX, robot.centrumY], goalCord)
+                    angle = calculateAngle(goalCord, robot)
+                    print("\nRealvector angle: " + str(angle) + "\n")
+                    if numberOfBallsLeft() > expectedNumberOfBallsLeft:
+                        print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
+                        moreBallsThanExpected()
+                        singleton.Singleton.way_points.clear()
+                        setChosenBall(None)
+                        break
+                    if angle >= 3:
+                        robotController.turn(angle, getclockWise(), turnSpeed)
+                        numberOfTriesToAlign = numberOfTriesToAlign + 1
+                        # if numberOfTriesToAlign > 5:
+                            #bak robotten, og prøv at align igen
+                            # robotController.createCommandTank(-20, -20, 360)
+                            # numberOfTriesToAlign = 0
+                    else:
+                        moreBallsThanExpected()
+                        robotController.createCommandTank(20, 20, 590)
+                        robotController.createCommandDeliver()
+                        robotController.createCommandTank(-20, -20, 400)
+                        print("\n\n\033[1;32m" + "Balls delivered to goal" + "\033[0m")
+                        aligned = True
+                        singleton.Singleton.way_points.clear()
+                        setChosenBall(None)
+                        break
+                completed = True
+                singleton.Singleton.way_points.clear()
+                setChosenBall(None)
+                break
+    print("Go for goal done\n\n")
+    singleton.Singleton.way_points.clear()
+    setChosenBall(None)
+    moreBallsThanExpected()
 
 
 def main():
-    global chosenBall, numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
+    global numberOfTries, pix_pr_cm, zeroBallsLeft, twoBallsLeft, sixBallsLeft
     #print("hej")
-    #timer = threading.Timer(480, endingRun())
-    #timer.start()
-    #start = time.time()
+    # 480 seconds is 8 minutes
+    timer = threading.Timer(480.0, endingRun)
+    timer.start()
+    start = time.time()
     while True:
-        print("While loop start")
+        print("\033[1;36m" + "While loop start" + "\033[0m")
         visionController.captureFrame()
         balls = singleton.Singleton.balls
         robot = singleton.Singleton.robot
@@ -205,68 +219,108 @@ def main():
         track = singleton.Singleton.track
         pix_pr_cm = track.pixelConversion
 
+        # Check if robot point is in rotation danger zone
+        # if preventRotation():
+        #     robotController.createCommandTank(-20, -20, 360)
+        ball = chooseBall(balls)
 
-        # fakeBall.x = 1013
-        # fakeBall.y = 570
-        # fakeBall.radius = 0
-        #
-        # fakeBalls = []
-        # fakeBalls.append(fakeBall)
-        #
-        # fakeRobot.blSquareX = 685
-        # fakeRobot.blSquareY = 602
-        # fakeRobot.centrumX = 656
-        # fakeRobot.centrumY = 696
-
-        # pix_pr_cm = 7
-        # robot = fakeRobot
-
-        ball = chooseBall(balls, robot)
-
+        if len(singleton.Singleton.way_points) == 0:
+            waypoint.waypoints(ball)
+            waypoints = singleton.Singleton.way_points
+            visionOutputView.showImage()
+            if len(singleton.Singleton.way_points) is not 0:
+                print("List af wawypoints: " + str(singleton.Singleton.way_points))
+                print("waypoint x: " + str(waypoints[0].x))
         numberOfBalls = numberOfBallsLeft()
 
         if not numberOfBalls == 0 and not zeroBallsLeft:
-            angle = calculateAngle((ball.x, ball.y), robot)
+            angle = calculateAngle((waypoints[0].x, waypoints[0].y), robot)
             if numberOfBalls == 6 and sixBallsLeft:
                 sixBallsLeft = False
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
             elif numberOfBalls == 2 and twoBallsLeft:
                 twoBallsLeft = False
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
             else:
+                if len(waypoints) > 1:
+                    if math.sqrt(pow(robot.centrumX - waypoints[0].x, 2) + pow(robot.centrumY - waypoints[0].y, 2)) < track.pixelConversion * 5:
+                        print("\033[1;33m" + "DIST TO WAYPOINT IS TOO SMALL, DROPPING WAYPOINT" + "\033[0m")
+                        waypoint.pop_waypoint()
                 if not angle < 5:
                     robotController.turn(angle, getclockWise(), turnSpeed)
                     numberOfTries = numberOfTries + 1
-                # elif distanceToWaypoint() > 5:
-                elif distanceToBall(ball, robot) > distanceCutOffPoint:
+                    print("PRØVER AT TURNE TIL PUNKT")
+                elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) > distanceCutOffPoint:
                     #Drive forward to waypoint/ball
                     # robotController.drive_forward(robot.x, robot.y, waypoint.x, waypoint.y, pix_pr_cm, forwardSpeed)
                     # print("Foran drive")
-                    robotController.drive_forward(robot.blSquareX, robot.blSquareY, ball.x, ball.y, pix_pr_cm, forwardSpeed)
-                    robotController.createCommandAttack(attackSpeed, 90, frontArmDegrees)
-                    chosenBall = None
-                    # print("efter drive")
-                elif distanceToBall(ball, robot) <= distanceCutOffPoint:
-                    degrees = robotController.drive_degrees(distanceToBall, pix_pr_cm)
-                    print("degrees" + str(degrees))
-                    print("BLIVER DET HER BRUGT???")
-                    robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+                    if len(waypoints) > 1:
+                        if singleton.Singleton.is_in_obstacle:
+                            print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
+                            print("MERE END 1 WAYPOINT TILBAGE")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                            robotController.drive_forward(
+                                distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]),
+                                pix_pr_cm, forwardSpeed)
+                            waypoint.pop_waypoint()
+                            print("POPPER ET WAYPOINT")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                        else:
+                            print("dist to ball: " + str(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]) / pix_pr_cm))
+                            print("MERE END 1 WAYPOINT TILBAGE")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                            robotController.drive_forward(distanceToWaypoint([waypoints[0].x, waypoints[0].y], [robot.centrumX, robot.centrumY]), pix_pr_cm, forwardSpeed)
+                            waypoint.pop_waypoint()
+                            print("POPPER ET WAYPOINT")
+                            print("Antal af Waypoints: " + str(len(waypoints)))
+                    else:
+                        print("dist to ball: " + str(distanceToBall(waypoints[0], robot) / pix_pr_cm))
+                        print("1 WAYPOINT TILBAGE")
+                        print("Antal af Waypoints: " + str(len(waypoints)))
+                        robotController.drive_forward(distanceToBall(waypoints[0], robot) - distanceCutOffPoint * pix_pr_cm + pix_pr_cm * 10, pix_pr_cm, forwardSpeed)
+                    # waypoint.pop_waypoint()
+                elif (distanceToBall(waypoints[0], robot) / pix_pr_cm) <= distanceCutOffPoint:
+                    print("ER UNDER CUTOFFPOINTET")
+                    # degrees = robotController.drive_degrees(distanceToBall(ball, robot), pix_pr_cm)
+                    # print("degrees" + str(degrees))
+                    dist = distanceToBall(waypoints[0], robot)
+                    robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
+                    if len(waypoints) == 1:
+                        if singleton.Singleton.is_dangerous:
+                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.createCommandWall(15, 110, 600)
+                            setChosenBall(None)
+                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                        elif singleton.Singleton.is_in_obstacle:
+                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            print("Før cross attack")
+                            robotController.createCommandCrossAttack(15, 110, 15, 600)
+                            print("Cross attack")
+                            setChosenBall(None)
+                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            singleton.Singleton.is_in_obstacle = False
+                        else:
+                            robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
+                            setChosenBall(None)
+                        # robotController.createCommandAttack(attackSpeed, degrees, frontArmDegrees)
+                    waypoint.pop_waypoint()
         else:
             #no balls left
             if zeroBallsLeft:
-                # timer.cancel()
-                # end = time.time()
-                # print("Time: " + str(end - start))
+                timer.cancel()
+                end = time.time()
+                run_time = end - start
+                min_run = math.floor(run_time/60)
+                sec_run = run_time % 60
+                print("\033[1;33m" + "Time: " + str(min_run) + " min " + str(sec_run) + " sec")
                 print("\n\n\nRobot is Done!!!\n\n\n")
+                print("\033[0m")
                 while True:
-                    #robotController.turn(1080, getclockWise(), 30)
-                    #Sound.speak(text)
-                    #Sound.play('insert wav file')
-                    #Sound.beep()
-                    Sound.tone([(500, 1000, 400)] * 3)
+                    #Play sound to mark it is done
+                    robotController.createCommandSound()
             else:
                 zeroBallsLeft = True
-                goForGoal(robot, numberOfBalls)
+                goForGoal(numberOfBalls)
 
 
     # visionController.releaseImage()

@@ -7,6 +7,7 @@ from model import obstacle
 from model import point
 from model import track
 from model import robot
+from model import ball
 
 class Singleton:
 
@@ -14,7 +15,15 @@ class Singleton:
     track = track.Track
     obstacle = obstacle.Obstacle
     robot = robot.Robot
+    way_points = []
+    safe_points = []
+    is_dangerous = False
+    is_in_obstacle = False
+    is_going_for_goal = False
     clockWise = False
+    img = None
+
+    chosenBall = None
 
 
     __instance = None
