@@ -64,7 +64,8 @@ def chooseBall(balls):
                 print("\033[1;33m" + "Maximum number of tries reached, picking a new ball" + "\033[0m")
                 numberOfTries = 0
                 singleton.Singleton.way_points.clear()
-                setChosenBall(balls[0])
+                balls.remove(getChosenBall())
+                setChosenBall(findBestBall(balls))
                 return getChosenBall()
             else:
                 return getChosenBall()
@@ -292,8 +293,15 @@ def main():
                         robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
-                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(15, 110, 600, 600)
+                            #TODO might need to be added again
+                            robotController.drive_forward(-2 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.createCommandWall(15, 110, 460, 400)
+                            if singleton.Singleton.wallOnLeftCorner:
+                                robotController.createCommandTank(-30, -45, 600)
+                                singleton.Singleton.wallOnLeftCorner = False
+                            if singleton.Singleton.wallOnRightCorner:
+                                robotController.createCommandTank(-45, -30, 600)
+                                singleton.Singleton.wallOnRightCorner = False
                             setChosenBall(None)
                             # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         elif singleton.Singleton.is_in_obstacle:
