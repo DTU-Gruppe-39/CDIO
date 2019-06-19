@@ -85,17 +85,17 @@ def findBestBall(balls):
      #       tempBall.y = chosen_ball.y
      #       return tempBall
 
-        elif ball_dist[0][1] < track.pixelConversion * 15:
-            for ball in balls:
-                if ball[ball][1] < track.pixelConversion * 15:
-                    chosen_ball = ball_dist[ball + 1][1]
+        elif ball_dist[0][0] < track.pixelConversion * 15:
+            for i in range(len(ball_dist)):
+                if ball_dist[i][0] > track.pixelConversion * 15:
+                    chosen_ball = ball_dist[i][1]
                     tempBall.x = chosen_ball.x
                     tempBall.y = chosen_ball.y
                     return tempBall
-                else:
-                    chosen_ball = ball_dist[0][1]
+            chosen_ball = ball_dist[0][1]
             tempBall.x = chosen_ball.x
             tempBall.y = chosen_ball.y
+            return tempBall
 
         else:
             tempBall.x = chosen_ball.x
