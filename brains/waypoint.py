@@ -155,6 +155,7 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
             singleton.Singleton.wallOnLeftCorner = True
+            singleton.Singleton.wallOnRightCorner = False
             return
 
         # If ball is in bottom-left corner
@@ -167,6 +168,7 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
             singleton.Singleton.wallOnRightCorner = True
+            singleton.Singleton.wallOnLeftCorner = False
             return
 
         # If ball is in top-right corner
@@ -179,6 +181,7 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
             singleton.Singleton.wallOnRightCorner = True
+            singleton.Singleton.wallOnLeftCorner = False
             return
 
             # If ball is in bottom-right corner
@@ -191,6 +194,7 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
             singleton.Singleton.wallOnLeftCorner = True
+            singleton.Singleton.wallOnRightCorner = False
             return
 
             # If ball is close to left side
@@ -202,6 +206,7 @@ def waypoints(endPoint):
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
+
             return
 
             # If ball is close to right side
