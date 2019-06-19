@@ -101,3 +101,65 @@ def findBestBall(balls):
             tempBall.x = chosen_ball.x
             tempBall.y = chosen_ball.y
             return tempBall
+
+
+def findSecondBestBall(balls):
+    robot = singleton.Singleton.robot
+    track = singleton.Singleton.track
+    minDist = 0
+    dist = 0
+    maxNumberOfTries = 5
+    numberOfBallsLeft = len(singleton.Singleton.balls)
+    danger = track.pixelConversion * 5
+    ball_dist = []
+    cornerSafePointX = track.pixelConversion * 3
+    cornerSafePointY = track.pixelConversion * 12
+    sideSafePoint = track.pixelConversion * 7
+    tempBall = Ball
+
+    print("Choose ball")
+    # return ball
+    if numberOfBallsLeft == 0:
+        return None
+    else:
+        for ball in balls:
+            dist = math.sqrt(pow(robot.centrumX - ball.x, 2) + pow(robot.centrumY - ball.y, 2))
+            ball_point = point.Point(ball.x, ball.y)
+            ball_dist.append((dist, ball_point))
+        ball_dist.sort()
+        ball_dist.pop(0)
+        chosen_ball = ball_dist[0][1]
+        tempBall.x = chosen_ball.x
+        tempBall.y = chosen_ball.y
+
+        if is_ball_in_obstacle(chosen_ball):
+            balls_in_obstacle = 0
+            ball_dist.pop(0)
+            for i in range(len(ball_dist)):
+                if is_ball_in_obstacle(ball_dist[i][1]):
+                    ball_dist.pop(i)
+                    balls_in_obstacle += 1
+            if numberOfBallsLeft == balls_in_obstacle:
+                return tempBall
+            else:
+                chosen_ball = ball_dist[0][1]
+                tempBall.x = chosen_ball.x
+                tempBall.y = chosen_ball.y
+                return tempBall
+            
+        elif ball_dist[0][0] < track.pixelConversion * 15:
+            for i in range(len(ball_dist)):
+                if ball_dist[i][0] > track.pixelConversion * 15:
+                    chosen_ball = ball_dist[i][1]
+                    tempBall.x = chosen_ball.x
+                    tempBall.y = chosen_ball.y
+                    return tempBall
+            chosen_ball = ball_dist[0][1]
+            tempBall.x = chosen_ball.x
+            tempBall.y = chosen_ball.y
+            return tempBall
+
+        else:
+            tempBall.x = chosen_ball.x
+            tempBall.y = chosen_ball.y
+            return tempBall
