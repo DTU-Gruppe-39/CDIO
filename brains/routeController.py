@@ -298,7 +298,7 @@ def main():
                             print("Cross attack")
                             robotController.createCommandTank(-slow_forwardSpeed, -slow_forwardSpeed, 360)
                             setChosenBall(None)
-                            robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                             singleton.Singleton.is_in_obstacle = False
                         else:
                             robotController.createCommandAttack(attackSpeed, 200, frontArmDegrees)
