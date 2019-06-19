@@ -43,7 +43,6 @@ def findBestBall(balls):
     cornerSafePointY = track.pixelConversion * 12
     sideSafePoint = track.pixelConversion * 7
     tempBall = Ball
-    firstBall = True
 
     print("Choose ball")
     # return ball
@@ -65,17 +64,17 @@ def findBestBall(balls):
                 tempBall.y = ball.y
         ball_dist.sort()
         chosen_ball = ball_dist[0][1]
-        
+
         if is_ball_in_obstacle(chosen_ball):
             chosen_ball = ball_dist[1][1]
             tempBall.x = chosen_ball.x
             tempBall.y = chosen_ball.y
             return tempBall
-        elif firstBall:
+        elif singleton.Singleton.firstBall:
             chosen_ball = ball_dist[1][1]
             tempBall.x = chosen_ball.x
             tempBall.y = chosen_ball.y
-            firstBall = False
+            singleton.Singleton.firstBall = False
             return tempBall
         else:
             tempBall.x = chosen_ball.x
