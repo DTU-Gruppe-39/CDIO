@@ -66,10 +66,19 @@ def findBestBall(balls):
         chosen_ball = ball_dist[0][1]
 
         if is_ball_in_obstacle(chosen_ball):
-            chosen_ball = ball_dist[1][1]
-            tempBall.x = chosen_ball.x
-            tempBall.y = chosen_ball.y
-            return tempBall
+            balls_in_obstacle = 0
+            ball_dist.pop(0)
+            for i in range(len(ball_dist)):
+                if is_ball_in_obstacle(ball_dist[i][1]):
+                    ball_dist.pop(i)
+                    balls_in_obstacle += 1
+            if numberOfBallsLeft == balls_in_obstacle:
+                return tempBall
+            else:
+                chosen_ball = ball_dist[0][1]
+                tempBall.x = chosen_ball.x
+                tempBall.y = chosen_ball.y
+                return tempBall
         elif singleton.Singleton.firstBall:
             chosen_ball = ball_dist[1][1]
             tempBall.x = chosen_ball.x
