@@ -138,7 +138,10 @@ def waypoints(endPoint):
                         first_waypoint = point.Point(safe_points[safe_point_index].x, safe_points[safe_point_index].y)
 
             waypoint_list.append(first_waypoint)
-            waypoint_list.append(safe_points[closestToBall_index])
+
+            direct_path_line = LineString([(first_waypoint.x, first_waypoint.y), (endPoint.x, endPoint.y)])
+            if lines.areLineTouchingObstacleSquare(direct_path_line):
+                waypoint_list.append(safe_points[closestToBall_index])
             waypoint_list.append(projected_point)
             waypoint_list.append(endPoint)
             singleton.Singleton.is_in_obstacle = True
