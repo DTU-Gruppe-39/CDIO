@@ -17,9 +17,9 @@ from brains.chooseBall import *
 
 numberOfTries = 0
 maxNumberOfTries = 10
-turnSpeed = 20
+turnSpeed = 25
 forwardSpeed = 80
-slow_forwardSpeed = 30
+slow_forwardSpeed = 35
 attackSpeed = 10
 distanceCutOffPoint = 30
 frontArmDegrees = 360
@@ -187,7 +187,7 @@ def goForGoal(expectedNumberOfBallsLeft):
                         moreBallsThanExpected()
                         robotController.createCommandTank(20, 20, 590)
                         robotController.createCommandDeliver()
-                        robotController.createCommandTank(-40, -40, 400)
+                        robotController.createCommandTank(-50, -50, 400)
                         print("\n\n\033[1;32m" + "Balls delivered to goal" + "\033[0m")
                         aligned = True
                         singleton.Singleton.way_points.clear()
