@@ -292,8 +292,15 @@ def main():
                         robotController.drive_forward(round(math.fabs(dist - 40)), pix_pr_cm, slow_forwardSpeed)
                     if len(waypoints) == 1:
                         if singleton.Singleton.is_dangerous:
-                            robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
-                            robotController.createCommandWall(15, 110, 600, 600)
+                            #TODO might need to be added again
+                            # robotController.drive_forward(-5 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
+                            robotController.createCommandWall(15, 110, 600, 400)
+                            if singleton.Singleton.wallOnLeftCorner:
+                                robotController.createCommandTank(-40, -30, 400)
+                                singleton.Singleton.wallOnLeftCorner = False
+                            if singleton.Singleton.wallOnRightCorner:
+                                robotController.createCommandTank(-30, -40, 400)
+                                singleton.Singleton.wallOnRightCorner = False
                             setChosenBall(None)
                             # robotController.drive_forward(-15 * pix_pr_cm, pix_pr_cm, slow_forwardSpeed)
                         elif singleton.Singleton.is_in_obstacle:
