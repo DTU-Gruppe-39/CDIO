@@ -152,9 +152,14 @@ def waypoints(endPoint):
         # Going for goal
         elif singleton.Singleton.is_going_for_goal:
             print("Is going for goal")
-            # avoidance = round(10 * track.pixelConversion)
+            avoidance = round(20 * track.pixelConversion)
             avoid_obstacle(endPoint)
             # waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            if robot.centrumY < obstacle.center_y:
+                waypoint_list.append(point.Point(endPoint.x, endPoint.y - avoidance))
+            elif robot.centrumY > obstacle.center_y:
+                waypoint_list.append(point.Point(endPoint.x, endPoint.y + avoidance))
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = False
             singleton.Singleton.is_in_obstacle = False
