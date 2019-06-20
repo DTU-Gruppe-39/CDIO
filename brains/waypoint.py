@@ -54,7 +54,7 @@ def avoid_obstacle(endPoint):
                         first_waypoint = point.Point(safe_points[safe_point_index].x, safe_points[safe_point_index].y)
             waypoint_list.append(first_waypoint)
             direct_path_line = LineString([(first_waypoint.x, first_waypoint.y), (endPoint.x, endPoint.y)])
-            if lines.areLineTouchingObstacleSquare(direct_path_line):
+            if lines.areLineTouchingObstacleSquare(direct_path_line) and singleton.Singleton.is_going_for_goal == False:
                 second_waypoint = point.Point(safe_points[closestToBall_index].x, safe_points[closestToBall_index].y)
                 waypoint_list.append(second_waypoint)
 
@@ -149,7 +149,17 @@ def waypoints(endPoint):
             waypoint_list.append(endPoint)
             singleton.Singleton.is_in_obstacle = True
             singleton.Singleton.is_dangerous = False
-
+        # Going for goal
+        elif singleton.Singleton.is_going_for_goal:
+            print("Is going for goal")
+            avoidance = round(10 * track.pixelConversion)
+            avoid_obstacle(endPoint)
+            waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
+            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
+            singleton.Singleton.is_dangerous = False
+            singleton.Singleton.is_in_obstacle = False
+            singleton.Singleton.is_going_for_goal = False
+            return
 
         # If ball is in top-left corner
         elif endPoint.x < track.topLeftCorner.x + danger and endPoint.y < track.topLeftCorner.y + danger:
@@ -260,15 +270,6 @@ def waypoints(endPoint):
             singleton.Singleton.is_dangerous = True
             singleton.Singleton.is_in_obstacle = False
             return
-        elif singleton.Singleton.is_going_for_goal:
-            print("Is going for goal")
-            avoidance = round(10 * track.pixelConversion)
-            avoid_obstacle(endPoint)
-            waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
-            waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-            singleton.Singleton.is_dangerous = False
-            singleton.Singleton.is_in_obstacle = False
-            singleton.Singleton.is_going_for_goal = False
         else:
             print("Ball is an easy ball")
             avoid_obstacle(endPoint)
