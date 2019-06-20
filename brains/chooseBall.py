@@ -70,6 +70,7 @@ def findBestBall(balls):
             # ball_dist.pop(0)
             for i in range(len(ball_dist), -1,  -1):
                 print("Hello From iteration i = " + str(i))
+                print(str(ball_dist[i][1]))
                 if is_ball_in_obstacle(ball_dist[i][1]):
                     ball_dist.pop(i)
                     balls_in_obstacle += 1
