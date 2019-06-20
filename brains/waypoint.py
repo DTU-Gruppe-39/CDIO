@@ -126,7 +126,7 @@ def waypoints(endPoint):
                 dist2 = calc_pix_dist(robot.centrumX, robot.centrumY, safe_points[i].x, safe_points[i].y)
                 index_and_dist = (dist2, i)
                 safe_point_dist_to_robot.append(index_and_dist)
-                safe_point_dist_to_robot.sort()
+            safe_point_dist_to_robot.sort()
             for i in range(2):
                 if i == 0:
                     safe_point_index1 = safe_point_dist_to_robot[i][1]
