@@ -152,18 +152,10 @@ def waypoints(endPoint):
         # Going for goal
         elif singleton.Singleton.is_going_for_goal:
             print("Is going for goal")
-            waypoints_list = []
-            avoidance = round(10 * track.pixelConversion)
+            # avoidance = round(10 * track.pixelConversion)
             avoid_obstacle(endPoint)
-            waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
+            # waypoint_list.append(point.Point(endPoint.x - avoidance, endPoint.y))
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
-            for pointer in waypoint_list:
-                wp = (pointer.x, pointer)
-                waypoints_list.append(wp)
-            waypoints_list.sort()
-            waypoint_list.clear()
-            for p in waypoints_list:
-                waypoint_list.append(p[1])
             singleton.Singleton.way_points = waypoint_list
             singleton.Singleton.is_dangerous = False
             singleton.Singleton.is_in_obstacle = False
