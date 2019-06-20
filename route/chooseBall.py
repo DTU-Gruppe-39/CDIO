@@ -1,8 +1,8 @@
 import math
-import brains.singleton as singleton
+import dao.singleton as singleton
 from model.ball import Ball
 from model import point
-from brains import waypoint
+from route import waypoint
 
 
 def getChosenBall():

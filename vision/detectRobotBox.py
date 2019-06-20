@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 from model import robot
 from model import point
-from brains.correction import point_correction
+from utility.correction import point_correction
 
 
 def getRobot(img):

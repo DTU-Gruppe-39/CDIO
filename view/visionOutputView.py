@@ -1,10 +1,5 @@
 import cv2
-from brains import singleton
-from shapely.geometry import LineString
-import numpy as np
-from model import track
-from model import ball
-from model import robot
+from dao import singleton
 
 
 def showImage():
@@ -32,7 +27,7 @@ def showImage():
 
     if singleton.Singleton.chosenBall is not None:
         cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),
-                 (singleton.Singleton.chosenBall.x, singleton.Singleton.chosenBall.y), (0,0,255), 2)
+                 (singleton.Singleton.chosenBall.x, singleton.Singleton.chosenBall.y), (0, 0, 255), 2)
 
     if len(singleton.Singleton.way_points) != 0:
         cv2.line(img, (singleton.Singleton.robot.centrumX, singleton.Singleton.robot.centrumY),

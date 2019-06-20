@@ -5,7 +5,7 @@ from vision.detectTrack import getTrack
 from vision.detectBalls import getBalls
 from vision.detectRobotBox import getRobot
 from vision.detectObstacle import getObstacle
-import brains.singleton as singleton
+import dao.singleton as singleton
 
 from view import visionOutputView
 
@@ -47,7 +47,8 @@ while True:
 
     # robot = getRobot(img)
 
-    print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
+    print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(
+        singleton.Singleton.track.bottomRightCorner.y))
 
 
 

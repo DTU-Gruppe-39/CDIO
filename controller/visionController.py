@@ -5,7 +5,7 @@ from vision.detectTrack import getTrack
 from vision.detectBalls import getBalls
 from vision.detectRobotBox import getRobot
 from vision.detectObstacle import getObstacle
-import brains.singleton as singleton
+import dao.singleton as singleton
 from view import visionOutputView
 
 
@@ -32,7 +32,8 @@ def captureFrame():
     singleton.Singleton.obstacle = getObstacle(copy.deepcopy(img))
     
     print("visionController: PixelConversion is " + str(singleton.Singleton.track.pixelConversion))
-    print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(singleton.Singleton.track.bottomRightCorner.y))
+    print("visionController: BottomRightCoord is " + str(singleton.Singleton.track.bottomRightCorner.x) + " " + str(
+        singleton.Singleton.track.bottomRightCorner.y))
 
     visionOutputView.showImage()
 

@@ -1,7 +1,5 @@
-from shapely.geometry import LineString
 from model.point import Point
-from brains import singleton
-from model import obstacle
+from dao import singleton
 
 
 def getPointFromTwoLines(l1, l2):

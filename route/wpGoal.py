@@ -1,4 +1,4 @@
-import brains.singleton as singleton
+import dao.singleton as singleton
 from model import point
 
 # if True: move to right goal

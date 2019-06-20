@@ -1,7 +1,7 @@
 from model import ball
 import cv2
 import numpy as np
-from brains import correction
+from utility import correction
 from model import point
 
 tempBall = []

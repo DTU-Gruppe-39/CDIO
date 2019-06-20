@@ -6,7 +6,7 @@ import numpy as np
 from model import track
 from model import corner
 from model import point
-from brains.correction import goal_cen_correction
+from utility.correction import goal_cen_correction
 
 # trackHeight = 124
 # trackLength = 169

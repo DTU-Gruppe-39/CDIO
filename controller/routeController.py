@@ -1,18 +1,13 @@
 import time
 
-import brains.singleton as singleton
-import model
-from model import ball, robot
-import numpy as np
-from brains import visionController
-from brains import robotController
-from brains import wpGoal
-import math
+from controller import visionController
+from controller import robotController
+from route import wpGoal
 import threading
 import _thread
-from brains.angle import *
+from utility.angle import *
 from view import visionOutputView
-from brains.chooseBall import *
+from route.chooseBall import *
 
 
 numberOfTries = 0
@@ -81,7 +76,8 @@ def distanceToWaypoint(point, robotpos):
 
 
 def numberOfBallsLeft():
-    print("\033[1m" + "Number of balls left on track: " + "\033[0m" + "\033[1;34m" + str(len(singleton.Singleton.balls)) + "\033[0m")
+    print("\033[1m" + "Number of balls left on track: " + "\033[0m" + "\033[1;34m" + str(len(
+        singleton.Singleton.balls)) + "\033[0m")
 
     return len(singleton.Singleton.balls)
 

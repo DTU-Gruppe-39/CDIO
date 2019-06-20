@@ -1,11 +1,8 @@
-import math
-import brains.singleton as singleton
-from model.ball import Ball
-from brains.robotController import calc_pix_dist
+import dao.singleton as singleton
+from controller.robotController import calc_pix_dist
 from shapely.geometry import LineString
-from brains import lines
+from utility import lines
 from model import point
-from model import obstacle
 
 
 def pop_waypoint():
