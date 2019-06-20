@@ -33,7 +33,7 @@ def cmdHandler(cmd):
             sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav', volume=100, play_type=1)
         if cmd['type'] == "deliver":
             front.on_for_degrees(-20, 180)
-            back.on_for_degrees(10, 90)
+            back.on_for_degrees(10, 180)
             time.sleep(4)
             back.on_for_degrees(-10, 90)
             time.sleep(1)
@@ -46,7 +46,7 @@ def cmdHandler(cmd):
             back.on_for_degrees(-10, 90)
             back.on_for_degrees(10, 90)
             time.sleep(2)
-            back.on_for_degrees(-10, 90)
+            back.on_for_degrees(-10, 180)
             time.sleep(1)
             front.on_for_degrees(-20, 270)
             front.on_for_degrees(20, 90)
