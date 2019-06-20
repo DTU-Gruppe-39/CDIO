@@ -67,7 +67,7 @@ def waypoints(endPoint):
     cornerSafePointX = round(track.pixelConversion * 20)
     cornerSafePointY = round(track.pixelConversion * 45)
     sideSafePoint = round(track.pixelConversion * 32)
-    line_length = round(track.pixelConversion * 22)
+    line_length = round(track.pixelConversion * 23)
     robot = singleton.Singleton.robot
     robot_center = (robot.centrumX, robot.centrumY)
     obstacle = singleton.Singleton.obstacle
