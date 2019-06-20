@@ -17,9 +17,9 @@ from brains.chooseBall import *
 
 numberOfTries = 0
 maxNumberOfTries = 10
-turnSpeed = 25
+turnSpeed = 30
 forwardSpeed = 80
-slow_forwardSpeed = 35
+slow_forwardSpeed = 45
 attackSpeed = 10
 distanceCutOffPoint = 30
 frontArmDegrees = 360
@@ -147,7 +147,7 @@ def goForGoal(expectedNumberOfBallsLeft):
             if len(waypoints) != 0:
                 numberOfTriesToAlign = 0
                 dist = distanceToWaypoint((waypoints[0].x, waypoints[0].y), [robot.centrumX, robot.centrumY])
-                robotController.drive_forward(dist, pix_pr_cm, 50)
+                robotController.drive_forward(dist, pix_pr_cm, 65)
                 waypoint.pop_waypoint()
             if len(waypoints) == 0:
                 while not aligned:
