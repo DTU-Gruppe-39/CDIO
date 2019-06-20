@@ -35,7 +35,7 @@ def sort(points):
 
 def calculateGoals(corner1, corner2):
 
-    goalMidpoint = point.Point(round((corner1.x + corner2.x) / 2), round(((corner1.y + corner2.y) / 2)-4))
+    goalMidpoint = point.Point(round((corner1.x + corner2.x) / 2), round(((corner1.y + corner2.y) / 2)-8))
 
     # goalMidpoint.x = (corner1.x + corner2.x)/2
     # goalMidpoint.y = (corner1.y + corner2.y)/2
