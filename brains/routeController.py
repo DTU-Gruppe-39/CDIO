@@ -117,7 +117,6 @@ def goForGoal(expectedNumberOfBallsLeft):
     goalCord = wpGoal.getWpGoal(False)
     waypoint.waypoints(goalCord)
     waypoints = singleton.Singleton.way_points
-    print("Goal cord: " + str(waypoints))
     while not completed:
         if len(waypoints) is not 0:
             visionController.captureFrame()
