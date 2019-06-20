@@ -176,9 +176,9 @@ def goForGoal(expectedNumberOfBallsLeft):
                             # numberOfTriesToAlign = 0
                     else:
                         moreBallsThanExpected()
-                        robotController.createCommandTank(20, 20, 590)
+                        robotController.createCommandTank(20, 20, 670)
                         robotController.createCommandDeliver()
-                        robotController.createCommandTank(-50, -50, 400)
+                        robotController.createCommandTank(-50, -50, 460)
                         print("\n\n\033[1;32m" + "Balls delivered to goal" + "\033[0m")
                         aligned = True
                         singleton.Singleton.way_points.clear()
