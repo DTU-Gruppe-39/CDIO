@@ -133,6 +133,7 @@ def goForGoal(expectedNumberOfBallsLeft):
                 if numberOfBallsLeft() > expectedNumberOfBallsLeft:
                     print("\033[1;33m" + "Unexpected extra ball, ABORTING go for goal" + "\033[0m")
                     moreBallsThanExpected()
+                    robotController.createCommandTank(20, 20, 200)
                     singleton.Singleton.way_points.clear()
                     setChosenBall(None)
                     break
