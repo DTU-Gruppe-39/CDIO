@@ -35,6 +35,7 @@ def cmdHandler(cmd):
             front.on_for_degrees(-20, 180)
             back.on_for_degrees(10, 180)
             time.sleep(4)
+            # front.on_for_degrees(-45, 360)
             back.on_for_degrees(-10, 90)
             time.sleep(1)
             back.on_for_degrees(10, 90)
