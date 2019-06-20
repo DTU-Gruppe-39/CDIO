@@ -123,6 +123,8 @@ def findSecondBestBall(balls):
     # return ball
     if numberOfBallsLeft == 0:
         return None
+    elif numberOfBallsLeft == 1:
+        return balls[0]
     else:
         for ball in balls:
             dist = math.sqrt(pow(robot.centrumX - ball.x, 2) + pow(robot.centrumY - ball.y, 2))
