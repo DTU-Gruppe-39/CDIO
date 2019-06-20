@@ -248,7 +248,7 @@ def waypoints(endPoint):
             if obstacle.center_x - obstacleDanger < endPoint.x < obstacle.center_x + obstacleDanger:
                 if robot.centrumX < endPoint.x:
                     last_waypoint = point.Point(round(obstacle.center_x - track.pixelConversion*12), round(endPoint.y - sideSafePoint))
-                elif obstacle.center_x > endPoint.x:
+                elif robot.centrumX > endPoint.x:
                     last_waypoint = point.Point(round(obstacle.center_x + track.pixelConversion*12), round(endPoint.y - sideSafePoint))
             else:
                 last_waypoint = point.Point(round(endPoint.x), round(endPoint.y - sideSafePoint))
