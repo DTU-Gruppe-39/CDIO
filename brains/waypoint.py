@@ -163,7 +163,7 @@ def waypoints(endPoint):
                 avoid_obstacle(last_waypoint)
             else:
                 avoid_obstacle(endPoint)
-            
+            waypoint_list.append(last_waypoint)
             waypoint_list.append(point.Point(endPoint.x, endPoint.y))
             singleton.Singleton.is_dangerous = False
             singleton.Singleton.is_in_obstacle = False
