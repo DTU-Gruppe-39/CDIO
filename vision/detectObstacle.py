@@ -6,6 +6,7 @@ from model import track
 from model import point
 from shapely.geometry import LineString
 import brains.singleton as singleton
+from brains.correction import obstacle_cen_correction
 from model import obstacle
 
 
@@ -64,9 +65,20 @@ def getObstacle(img):
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"])
 
+            # Pixel correction
+            x_val = np.amax(img, axis=0)
+            y_val = np.amax(img, axis=1)
+            x_val = round(len(x_val) / 2)
+            y_val = round(len(y_val) / 2)
+            camera_center = point.Point(x_val, y_val)
+            obstacle_cen = point.Point(cX, cY)
+            obstacle_cen_corrected = obstacle_cen_correction(camera_center, obstacle_cen)
+
             # Set the centerpoint of the obstacle
-            tempObstacle.center_x = cX
-            tempObstacle.center_y = cY
+            tempObstacle.center_x = obstacle_cen_corrected.x
+            tempObstacle.center_y = obstacle_cen_corrected.y
+            # tempObstacle.center_x = cX
+            # tempObstacle.center_y = cY
 
             # variables for 20 and 25 in pixels
             cm15_in_pix = round(15 * tempTrack.pixelConversion)

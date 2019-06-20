@@ -30,11 +30,12 @@ def cmdHandler(cmd):
         if cmd['type'] == "attack":
             tank_drive.on_for_degrees(cmd['left'], cmd['right'], cmd['tank_degrees'])
             front.on_for_degrees(20, cmd['front_degrees'])
-            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav',  play_type=1)
+            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav', volume=100, play_type=1)
         if cmd['type'] == "deliver":
             front.on_for_degrees(-20, 180)
-            back.on_for_degrees(10, 90)
+            back.on_for_degrees(10, 180)
             time.sleep(4)
+            # front.on_for_degrees(-45, 360)
             back.on_for_degrees(-10, 90)
             time.sleep(1)
             back.on_for_degrees(10, 90)
@@ -46,27 +47,28 @@ def cmdHandler(cmd):
             back.on_for_degrees(-10, 90)
             back.on_for_degrees(10, 90)
             time.sleep(2)
-            back.on_for_degrees(-10, 90)
+            back.on_for_degrees(-10, 180)
             time.sleep(1)
-            front.on_for_degrees(20, 180)
+            front.on_for_degrees(-20, 270)
+            front.on_for_degrees(20, 90)
         if cmd['type'] == "wall":
             front.on_for_degrees(10, 45)
             front.on_for_degrees(-10, 45)
             front.on_for_degrees(-cmd['speed'], cmd['arm_degrees'])
             tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
             front.on_for_degrees(cmd['speed'], cmd['arm_degrees'])
-            tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
-            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav',  play_type=1)
+            tank_drive.on_for_degrees(-cmd['speed']*2, -cmd['speed']*2, cmd['tank_degrees_reverse'])
+            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav', volume=100, play_type=1)
         if cmd['type'] == "cross":
             front.on_for_degrees(10, 45)
             front.on_for_degrees(-10, 45)
             front.on_for_degrees(-cmd['speed'], cmd['arm_degrees'])
             tank_drive.on_for_degrees(cmd['speed'], cmd['speed'], cmd['tank_degrees'])
             front.on_for_degrees(cmd['speed'], cmd['cross_arm_degrees']) #close a little
-            tank_drive.on_for_degrees(-cmd['speed'], -cmd['speed'], round(cmd['tank_degrees'] / 10))
+            tank_drive.on_for_degrees(-cmd['speed'], -cmd['speed'], round(cmd['tank_degrees_reverse']))
             front.on_for_degrees(cmd['speed'], cmd['arm_degrees'] - cmd['cross_arm_degrees'])
-            tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
-            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav',  play_type=1)
+            # tank_drive.on_for_degrees(-cmd['speed']*3, -cmd['speed']*3, cmd['tank_degrees'])
+            sound.play_file('/home/robot/CDIO/sounds/DJ_Khaled_Another_One_Sound_Effect_HD-E71Dlf4ccXQ.wav', volume=100, play_type=1)
         if cmd['type'] == "w":
             tank_drive.on(30, 30)
         if cmd['type'] == "a":
@@ -79,7 +81,7 @@ def cmdHandler(cmd):
             tank_drive.off()
         if cmd['type'] == "sound":
             # sound.speak(text)
-            sound.play_file('/home/robot/CDIO/sounds/we-are-the-champions-copia.wav')
+            sound.play_file('/home/robot/CDIO/sounds/we-are-the-champions-copia.wav', volume=100, play_type=0)
             #sound.beep().wait()
             # sound.tone([(500, 1000, 400)] * 3)
 

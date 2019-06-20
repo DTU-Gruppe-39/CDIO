@@ -44,21 +44,23 @@ def createCommandAttack(speed, tank_degrees, front_degrees):
     }
     return networking.sendCommand(message)
 
-def createCommandWall(speed, arm_degrees,tank_degrees):
+def createCommandWall(speed, arm_degrees, tank_degrees, tank_degrees_reverse):
     message = {
         "type": "wall",
         "speed": speed,
         "tank_degrees": tank_degrees,
+        "tank_degrees_reverse": tank_degrees_reverse,
         "arm_degrees": arm_degrees
     }
     return networking.sendCommand(message)
 
 
-def createCommandCrossAttack(speed, arm_degrees, cross_arm_degrees, tank_degrees):
+def createCommandCrossAttack(speed, arm_degrees, cross_arm_degrees, tank_degrees, tank_degrees_reverse):
     message = {
         "type": "cross",
         "speed": speed,
         "tank_degrees": tank_degrees,
+        "tank_degrees_reverse": tank_degrees_reverse,
         "arm_degrees": arm_degrees,
         "cross_arm_degrees": cross_arm_degrees
     }

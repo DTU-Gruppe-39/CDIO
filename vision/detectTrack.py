@@ -6,6 +6,7 @@ import numpy as np
 from model import track
 from model import corner
 from model import point
+from brains.correction import goal_cen_correction
 
 # trackHeight = 124
 # trackLength = 169
@@ -34,7 +35,7 @@ def sort(points):
 
 def calculateGoals(corner1, corner2):
 
-    goalMidpoint = point.Point(round((corner1.x + corner2.x) / 2), round(((corner1.y + corner2.y) / 2)-15))
+    goalMidpoint = point.Point(round((corner1.x + corner2.x) / 2), round(((corner1.y + corner2.y) / 2)-8))
 
     # goalMidpoint.x = (corner1.x + corner2.x)/2
     # goalMidpoint.y = (corner1.y + corner2.y)/2
@@ -123,8 +124,20 @@ def getTrack(frame):
         tempTrack.bottomRightCorner = corner.Corner(sortedPoints[3][0], sortedPoints[3][1])
 
         # Calculate goals
-        tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
-        tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
+        # Pixel correction
+        x_val = np.amax(frame, axis=0)
+        y_val = np.amax(frame, axis=1)
+        x_val = round(len(x_val) / 2)
+        y_val = round(len(y_val) / 2)
+        camera_center = point.Point(x_val, y_val)
+        goal_small = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
+        goal_big = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
+        goal_big_corrected = goal_cen_correction(camera_center, goal_big)
+        goal_small_corrected = goal_cen_correction(camera_center, goal_small)
+        tempTrack.smallGoal = goal_small_corrected
+        tempTrack.bigGoal = goal_big_corrected
+        # tempTrack.smallGoal = calculateGoals(tempTrack.topLeftCorner, tempTrack.bottomLeftCorner)
+        # tempTrack.bigGoal = calculateGoals(tempTrack.topRightCorner, tempTrack.bottomRightCorner)
 
         # Calculate pixel/cm conversion
         LenghtX = tempTrack.topRightCorner.x - tempTrack.topLeftCorner.x
