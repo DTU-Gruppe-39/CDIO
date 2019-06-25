@@ -16,7 +16,7 @@ def getBalls(img):
 
     # Mere følsom:
     # circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=500, param2=20, minRadius=1, maxRadius=20)
-    # circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=550, param2=17, minRadius=5, maxRadius=8)
+    # circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, 10, param1=500, param2=15, minRadius=1, maxRadius=20)
     # print(circles)
 
     if circles is not None:
